@@ -1,129 +1,3 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>DivideGastos Pro</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-<style>
-    :root {
-        --bg: #0d0f14; --surface: #161920; --surface2: #1e2230; --border: #2a2f40;
-        --accent: #6c63ff; --accent2: #ff6584; --green: #1de9b6; --red: #ff6584;
-        --text: #e8eaf0; --muted: #7a7f99; --radius: 16px;
-    }
-    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; }
-    
-    .screen { display: none; min-height: 100vh; flex-direction: column; }
-    .screen.active { display: flex; animation: fadeIn 0.2s ease; }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-    header { padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; background: var(--surface); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; height: 70px; }
-    .user-box { display: flex; align-items: center; gap: 12px; }
-    .user-box img { width: 35px; height: 35px; border-radius: 50%; border: 2px solid var(--accent); }
-
-    .container { padding: 20px; max-width: 600px; margin: 0 auto; width: 100%; }
-    .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; margin-bottom: 12px; cursor: pointer; }
-    
-    .tabs-nav { display: flex; background: var(--surface2); padding: 5px; border-radius: 14px; margin-bottom: 20px; gap: 4px; overflow-x: auto; }
-    .tab-btn { flex: 1; padding: 12px; border: none; background: none; color: var(--muted); font-weight: 700; cursor: pointer; border-radius: 10px; font-size: 0.7rem; white-space: nowrap; }
-    .tab-btn.active { background: var(--accent); color: white; }
-
-    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.9); display: none; align-items: flex-end; z-index: 1000; }
-    .modal-overlay.active { display: flex; }
-    .modal { background: var(--surface); width: 100%; border-radius: 24px 24px 0 0; padding: 25px; max-height: 95vh; overflow-y: auto; }
-    
-    input, select { width: 100%; background: var(--surface2); border: 1px solid var(--border); padding: 15px; border-radius: 12px; color: white; margin-bottom: 15px; font-size: 1rem; outline: none; }
-    .btn-main { width: 100%; padding: 18px; border-radius: 14px; border: none; font-weight: 800; cursor: pointer; background: var(--accent); color: white; }
-    .btn-main:disabled { opacity: 0.5; filter: grayscale(1); }
-
-    .fab { position: fixed; bottom: 30px; right: 25px; width: 65px; height: 65px; background: var(--accent); color: white; border-radius: 50%; border: none; font-size: 26px; box-shadow: 0 10px 20px rgba(0,0,0,0.4); z-index: 90; display: flex; align-items: center; justify-content: center; }
-
-    /* Estilos para la lista de participantes en el modal */
-    .part-chip { display: inline-flex; align-items: center; background: var(--surface2); padding: 8px 12px; border-radius: 20px; margin: 0 8px 8px 0; font-size: 0.85rem; border: 1px solid var(--border); }
-    .part-chip i { margin-left: 8px; color: var(--red); cursor: pointer; }
-</style>
-
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
-</head>
-<body>
-
-<div id="screen-loading" style="position:fixed; inset:0; background:var(--bg); z-index:9999; display:flex; justify-content:center; align-items:center;"><div style="width:40px; height:40px; border:4px solid var(--surface2); border-top-color:var(--accent); border-radius:50%; animation:spin 1s linear infinite;"></div></div>
-
-<div id="screen-login" class="screen">
-    <i class="fa-solid fa-people-group fa-4x" style="color:var(--accent); margin-bottom:20px;"></i>
-    <h1 style="font-family:'Syne';">DivideGastos Pro</h1>
-    <p style="color:var(--muted); margin-bottom:30px;">Iniciá sesión para sincronizar tus gastos</p>
-    <button class="btn-main" onclick="login()"><i class="fa-brands fa-google"></i> Entrar con Google</button>
-</div>
-
-<div id="screen-main" class="screen">
-    <header>
-        <div class="user-box">
-            <img id="header-img" src="">
-            <span id="header-name">...</span>
-        </div>
-        <button onclick="logout()" style="background:none; border:none; color:var(--red); font-size:1.2rem;"><i class="fa-solid fa-power-off"></i></button>
-    </header>
-    <div class="container">
-        <h2 style="font-family:'Syne'; margin-bottom:20px;">Mis Eventos</h2>
-        <div id="event-list"></div>
-    </div>
-    <button class="fab" onclick="openModalCreate()"><i class="fa-solid fa-plus"></i></button>
-</div>
-
-<div id="screen-detail" class="screen">
-    <header>
-        <button onclick="showScreen('screen-main')" style="background:none; border:none; color:white;"><i class="fa-solid fa-chevron-left"></i></button>
-        <h3 id="det-title" style="font-family:'Syne';">Evento</h3>
-        <button onclick="shareEvent()" style="background:none; border:none; color:var(--accent);"><i class="fa-solid fa-user-plus"></i></button>
-    </header>
-    <div class="container">
-        <div class="tabs-nav">
-            <button class="tab-btn active" onclick="switchTab('gastos', this)">GASTOS</button>
-            <button class="tab-btn" onclick="switchTab('saldos', this)">SALDOS</button>
-            <button class="tab-btn" onclick="switchTab('pagos', this)">PAGOS</button>
-            <button class="tab-btn" onclick="switchTab('historial', this)">HISTORIAL</button>
-        </div>
-        <div id="tab-area"></div>
-    </div>
-    <button class="fab" onclick="openModal('modal-add-expense')"><i class="fa-solid fa-cart-shopping"></i></button>
-</div>
-
-<div id="modal-new-event" class="modal-overlay" onclick="if(event.target==this)closeModal('modal-new-event')">
-    <div class="modal">
-        <h2 style="margin-bottom:15px;">Nuevo Evento</h2>
-        <input type="text" id="new-name" placeholder="Nombre (ej: Asado Domingo)">
-        
-        <label style="font-size:0.8rem; color:var(--muted)">Participantes:</label>
-        <div id="setup-parts-list" style="margin-top:10px;"></div>
-        
-        <div style="display:flex; gap:10px; margin-bottom:20px;">
-            <input type="text" id="in-part-name" placeholder="Nombre de amigo" style="margin-bottom:0;">
-            <button onclick="addPartToSetup()" style="background:var(--surface2); border:1px solid var(--border); color:var(--accent); padding:0 20px; border-radius:12px; font-weight:bold;">+</button>
-        </div>
-
-        <select id="new-cur"><option value="ARS">ARS</option><option value="USD">USD</option></select>
-        <button id="btn-create" class="btn-main" onclick="dbCreateEvent()">CREAR EVENTO</button>
-    </div>
-</div>
-
-<div id="modal-add-expense" class="modal-overlay" onclick="if(event.target==this)closeModal('modal-add-expense')">
-    <div class="modal">
-        <h2>Cargar Gasto</h2>
-        <input type="text" id="ex-desc" placeholder="¿Qué compraron?">
-        <input type="number" id="ex-amount" placeholder="Monto">
-        <label style="font-size:0.8rem; color:var(--muted)">¿Quién pagó?</label>
-        <select id="ex-payer"></select>
-        <label style="font-size:0.8rem; color:var(--muted)">¿Quiénes consumieron?</label>
-        <div id="ex-list" style="margin-bottom:15px; max-height:150px; overflow-y:auto;"></div>
-        <button class="btn-main" onclick="dbAddExpense()">GUARDAR GASTO</button>
-    </div>
-</div>
-
 <script>
     const firebaseConfig = {
       apiKey: "AIzaSyApUtaEOhMGQFMrHIzaypRX_GLx2cace_A",
@@ -139,11 +13,12 @@
 
     let currentEvent = null;
     let activeTab = 'gastos';
-    let tempParticipants = []; // Para el modal de creación
+    let tempParticipants = [];
 
     function showScreen(id) {
         document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-        document.getElementById(id).classList.add('active');
+        const target = document.getElementById(id);
+        if(target) target.classList.add('active');
         document.getElementById('screen-loading').style.display = 'none';
     }
 
@@ -157,19 +32,23 @@
         } else { showScreen('screen-login'); }
     });
 
-    async function login() { await auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()); }
+    async function login() { 
+        try { await auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()); } 
+        catch(e) { alert("Error al ingresar: Permití los popups en tu navegador."); }
+    }
+    
     function logout() { auth.signOut().then(() => window.location.href = window.location.origin + window.location.pathname); }
 
     function openModalCreate() {
-        tempParticipants = [{id: auth.currentUser.uid, name: auth.currentUser.displayName, photo: auth.currentUser.photoURL}];
+        tempParticipants = [{id: auth.currentUser.uid, name: auth.currentUser.displayName, photo: auth.currentUser.photoURL, isRealUser: true}];
         renderSetupParts();
         openModal('modal-new-event');
     }
 
     function addPartToSetup() {
         const input = document.getElementById('in-part-name');
-        if(!input.value) return;
-        tempParticipants.push({id: 'temp_' + Date.now(), name: input.value, photo: null});
+        if(!input.value.trim()) return;
+        tempParticipants.push({id: 'temp_' + Date.now() + Math.random(), name: input.value.trim(), photo: null, isRealUser: false});
         input.value = '';
         renderSetupParts();
     }
@@ -187,3 +66,151 @@
             </span>
         `).join('');
     }
+
+    function loadEvents() {
+        // Esta es la parte clave: Filtramos por tu UID de Google
+        db.collection('events').where('participantsIds', 'array-contains', auth.currentUser.uid)
+        .onSnapshot(snap => {
+            const list = document.getElementById('event-list');
+            if(snap.empty) {
+                list.innerHTML = `<div style="text-align:center; padding:50px; color:var(--muted);"><i class="fa-solid fa-folder-open fa-3x"></i><p style="margin-top:15px;">No tenés eventos.<br>Tocá el + para empezar.</p></div>`;
+                return;
+            }
+            list.innerHTML = snap.docs.map(doc => `
+                <div class="card" onclick="openEvent('${doc.id}')">
+                    <b style="color:white;">${doc.data().name}</b><br>
+                    <small style="color:var(--accent); font-weight:bold;">${doc.data().currency}</small> • 
+                    <small style="color:var(--muted)">${doc.data().participants.length} personas</small>
+                </div>
+            `).join('');
+        }, err => {
+            console.error("Error cargando eventos:", err);
+        });
+    }
+
+    async function dbCreateEvent() {
+        const name = document.getElementById('new-name').value;
+        const btn = document.getElementById('btn-create');
+        if(!name || btn.disabled) return;
+        btn.disabled = true;
+        
+        try {
+            // Guardamos el evento asegurando que TU uid esté en participantsIds
+            const doc = await db.collection('events').add({
+                name: name, 
+                currency: document.getElementById('new-cur').value,
+                participantsIds: tempParticipants.map(p => p.id).concat([auth.currentUser.uid]), // Refuerzo de ID
+                participants: tempParticipants,
+                expenses: [],
+                logs: [{u: auth.currentUser.displayName, a: "creó el evento", d: Date.now()}],
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+            closeModal('modal-new-event');
+            document.getElementById('new-name').value = '';
+            openEvent(doc.id);
+        } catch(e) { alert("Error al guardar: " + e.message); }
+        finally { btn.disabled = false; }
+    }
+
+    function openEvent(id) {
+        db.collection('events').doc(id).onSnapshot(doc => {
+            if(!doc.exists) return;
+            currentEvent = {id: doc.id, ...doc.data()};
+            document.getElementById('det-title').innerText = currentEvent.name;
+            renderExpenseForm();
+            renderTab();
+            showScreen('screen-detail');
+        });
+    }
+
+    function renderExpenseForm() {
+        document.getElementById('ex-payer').innerHTML = currentEvent.participants.map(p => `<option value="${p.id}">${p.name}</option>`).join('');
+        document.getElementById('ex-list').innerHTML = currentEvent.participants.map(p => `
+            <label style="display:flex; align-items:center; gap:10px; padding:12px; background:var(--surface2); border-radius:10px; margin-bottom:8px; cursor:pointer;">
+                <input type="checkbox" value="${p.id}" checked class="ex-check"> 
+                <span style="font-size:0.9rem;">${p.name}</span>
+            </label>
+        `).join('');
+    }
+
+    async function dbAddExpense() {
+        const desc = document.getElementById('ex-desc').value;
+        const amount = parseFloat(document.getElementById('ex-amount').value);
+        const payerId = document.getElementById('ex-payer').value;
+        const included = Array.from(document.querySelectorAll('.ex-check:checked')).map(c => c.value);
+        if(!desc || isNaN(amount) || !included.length) return alert("Completá todos los datos del gasto");
+
+        const expense = { 
+            id: Date.now(), desc, amount, payerId, includedIds: included, 
+            payerName: currentEvent.participants.find(p => p.id === payerId).name, 
+            date: Date.now() 
+        };
+
+        await db.collection('events').doc(currentEvent.id).update({
+            expenses: firebase.firestore.FieldValue.arrayUnion(expense),
+            logs: firebase.firestore.FieldValue.arrayUnion({u: auth.currentUser.displayName, a: `sumó ${desc} ($${amount})`, d: Date.now()})
+        });
+        
+        document.getElementById('ex-desc').value = '';
+        document.getElementById('ex-amount').value = '';
+        closeModal('modal-add-expense');
+    }
+
+    function switchTab(t, btn) {
+        activeTab = t;
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        renderTab();
+    }
+
+    function renderTab() {
+        const area = document.getElementById('tab-area');
+        if(activeTab === 'gastos') {
+            area.innerHTML = currentEvent.expenses.length ? currentEvent.expenses.map(e => `
+                <div class="card" style="display:flex; justify-content:space-between; align-items:center; border-left: 4px solid var(--green);">
+                    <div><b>${e.desc}</b><br><small style="color:var(--muted)">Pagó: ${e.payerName}</small></div>
+                    <div style="color:var(--green); font-weight:800;">$${e.amount}</div>
+                </div>
+            `).join('') : '<p style="text-align:center; color:var(--muted); padding:40px;">No hay gastos cargados todavía.</p>';
+        } else if(activeTab === 'historial') {
+            area.innerHTML = currentEvent.logs.slice().reverse().map(l => `
+                <div style="padding:12px 0; border-bottom:1px solid var(--border); font-size:0.85rem;">
+                    <b style="color:var(--accent)">${l.u}</b> ${l.a}<br>
+                    <small style="color:var(--muted)">${new Date(l.d).toLocaleString()}</small>
+                </div>
+            `).join('');
+        } else {
+            area.innerHTML = `<div style="text-align:center; padding:40px; color:var(--muted)">La pestaña <b>${activeTab.toUpperCase()}</b> estará lista en la próxima actualización.</div>`;
+        }
+    }
+
+    function shareEvent() {
+        const url = window.location.origin + window.location.pathname + "?join=" + currentEvent.id;
+        if(navigator.share) navigator.share({title: currentEvent.name, url});
+        else prompt("Copiá este link para invitar amigos:", url);
+    }
+
+    async function joinEvent(id) {
+        const ref = db.collection('events').doc(id);
+        const doc = await ref.get();
+        if(doc.exists) {
+            const data = doc.data();
+            if(!data.participantsIds.includes(auth.currentUser.uid)) {
+                await ref.update({
+                    participantsIds: firebase.firestore.FieldValue.arrayUnion(auth.currentUser.uid),
+                    participants: firebase.firestore.FieldValue.arrayUnion({
+                        id: auth.currentUser.uid, 
+                        name: auth.currentUser.displayName, 
+                        photo: auth.currentUser.photoURL
+                    }),
+                    logs: firebase.firestore.FieldValue.arrayUnion({u: auth.currentUser.displayName, a: "se unió vía link", d: Date.now()})
+                });
+            }
+            window.history.replaceState({}, '', window.location.pathname);
+            openEvent(id);
+        }
+    }
+
+    function openModal(id) { document.getElementById(id).classList.add('active'); }
+    function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+</script>
