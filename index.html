@@ -66,164 +66,6 @@
   .btn-google:hover { border-color: #4285f4; box-shadow: 0 4px 16px rgba(66,133,244,0.2); }
   .btn-google:active { transform: scale(0.97); }
   .btn-google img { width: 22px; height: 22px; }
-  .firebase-note { text-align: center; font-size: .75rem; color: var(--text-muted); margin-top: 16px; line-height: 1.5; }
-  .firebase-note a { color: var(--primary); text-decoration: none; }
-
-  /* ══ USER BAR ══ */
-  .user-bar { display: flex; align-items: center; gap: 10px; padding: 10px 16px; background: var(--primary-light); border-bottom: 1px solid var(--border); }
-  .user-avatar { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary); }
-  .user-avatar-placeholder { width: 32px; height: 32px; border-radius: 50%; background: var(--primary); color: #fff; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
-  .user-name { flex: 1; font-size: .85rem; font-weight: 700; color: var(--primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .user-sync { font-size: .72rem; color: var(--text-muted); }
-  .btn-signout { background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: .8rem; padding: 4px 8px; border-radius: 6px; display: flex; align-items: center; gap: 4px; }
-  .btn-signout:hover { color: var(--danger); }
-
-  /* ══ TOP BAR ══ */
-  .top-bar { background: var(--card); padding: 14px 20px 12px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 10px rgba(0,0,0,0.06); position: sticky; top: 0; z-index: 50; }
-  .top-bar-title { font-size: 1.2rem; font-weight: 800; color: var(--text); }
-  .top-bar-title span { color: var(--primary); }
-  .top-bar-actions { display: flex; gap: 10px; }
-  .icon-btn { width: 40px; height: 40px; border-radius: 50%; border: none; background: var(--primary-light); color: var(--primary); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1rem; transition: background var(--transition); }
-  .icon-btn:active { background: var(--primary); color: #fff; }
-
-  /* ══ HISTORY ══ */
-  #screen-history { background: var(--bg); }
-  .history-list { flex: 1; padding: 16px 14px; overflow-y: auto; }
-  .history-empty { text-align: center; padding: 60px 20px; color: var(--text-muted); }
-  .history-empty i { font-size: 3.5rem; color: var(--border); margin-bottom: 16px; display: block; }
-  .event-card { background: var(--card); border-radius: var(--radius); padding: 16px 18px; margin-bottom: 12px; box-shadow: var(--shadow-card); display: flex; align-items: center; gap: 14px; cursor: pointer; transition: transform var(--transition); position: relative; overflow: hidden; }
-  .event-card:active { transform: scale(0.98); }
-  .event-card-icon { width: 48px; height: 48px; border-radius: 14px; background: var(--primary-light); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; flex-shrink: 0; }
-  .event-card-info { flex: 1; min-width: 0; }
-  .event-card-title { font-size: 1rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .event-card-meta { font-size: .78rem; color: var(--text-muted); margin-top: 3px; }
-  .event-card-badge { font-size: .72rem; font-weight: 700; padding: 3px 9px; border-radius: 20px; background: var(--primary-light); color: var(--primary); white-space: nowrap; }
-  .event-card-actions { display: flex; gap: 6px; }
-  .event-card-btn { width: 32px; height: 32px; border-radius: 50%; border: none; background: var(--bg); color: var(--text-muted); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: .85rem; }
-  .event-card-btn:active { background: var(--danger); color: #fff; }
-  .shared-badge { display: inline-flex; align-items: center; gap: 3px; font-size: .68rem; font-weight: 700; padding: 2px 7px; border-radius: 20px; background: #e8f5e9; color: #2e7d32; margin-left: 6px; }
-  .fab { position: fixed; bottom: 88px; right: 20px; width: 58px; height: 58px; border-radius: 50%; background: linear-gradient(135deg,var(--primary),var(--primary-dark)); color: #fff; border: none; font-size: 1.5rem; cursor: pointer; box-shadow: 0 6px 20px rgba(108,99,255,0.4); display: flex; align-items: center; justify-content: center; transition: transform var(--transition); z-index: 40; }
-  .fab:active { transform: scale(0.93) rotate(45deg); }
-  .fab-history { bottom: 24px; }
-
-  /* ══ SETUP ══ */
-  #screen-setup { background: var(--bg); }
-  .setup-body { flex: 1; padding: 16px 14px 100px; overflow-y: auto; }
-  .section-title { font-size: .8rem; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--text-muted); margin-bottom: 10px; }
-  .card { background: var(--card); border-radius: var(--radius); padding: 18px; box-shadow: var(--shadow-card); margin-bottom: 16px; }
-  .input-field { width: 100%; padding: 12px 14px; border: 2px solid var(--border); border-radius: var(--radius-sm); font-size: 1rem; color: var(--text); background: var(--bg); outline: none; transition: border-color var(--transition); font-family: inherit; }
-  .input-field:focus { border-color: var(--primary); }
-  .currency-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-top: 4px; }
-  .currency-btn { padding: 10px 6px; border: 2px solid var(--border); border-radius: var(--radius-sm); background: var(--bg); color: var(--text-muted); font-size: .85rem; font-weight: 600; cursor: pointer; transition: all var(--transition); text-align: center; }
-  .currency-btn.active { border-color: var(--primary); background: var(--primary-light); color: var(--primary); }
-  .members-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
-  .member-item { display: flex; align-items: center; gap: 10px; background: var(--bg); border-radius: var(--radius-sm); padding: 10px 14px; }
-  .member-avatar { width: 34px; height: 34px; border-radius: 50%; color: #fff; display: flex; align-items: center; justify-content: center; font-size: .85rem; font-weight: 700; flex-shrink: 0; }
-  .member-name { flex: 1; font-size: .95rem; font-weight: 600; }
-  .member-remove { background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 1rem; padding: 4px; }
-  .add-member-row { display: flex; gap: 8px; }
-  .add-member-row .input-field { flex: 1; }
-  .btn-icon-add { width: 46px; height: 46px; border-radius: var(--radius-sm); border: none; background: var(--primary); color: #fff; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .bottom-action { position: fixed; bottom: 0; left: 0; right: 0; background: var(--card); padding: 14px 16px 24px; box-shadow: 0 -4px 20px rgba(0,0,0,0.08); z-index: 40; }
-
-  /* ══ DASHBOARD ══ */
-  #screen-dashboard { background: var(--bg); }
-  .dashboard-header { background: linear-gradient(135deg,var(--primary),var(--primary-dark)); padding: 14px 18px 18px; color: #fff; }
-  .dashboard-header-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
-  .dashboard-event-title { font-size: 1.2rem; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: calc(100% - 110px); }
-  .dashboard-header-actions { display: flex; gap: 8px; }
-  .header-icon-btn { background: rgba(255,255,255,0.2); border: none; color: #fff; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: .95rem; }
-  .dashboard-meta { font-size: .78rem; opacity: .8; }
-  .sync-indicator { display: inline-flex; align-items: center; gap: 4px; font-size: .7rem; opacity: .8; margin-left: 8px; }
-  .sync-dot { width: 6px; height: 6px; border-radius: 50%; background: #69f0ae; animation: blink 2s ease infinite; }
-  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
-  .tabs { display: flex; background: var(--card); box-shadow: 0 2px 8px rgba(0,0,0,0.06); position: sticky; top: 0; z-index: 50; }
-  .tab-btn { flex: 1; padding: 13px 4px; border: none; background: none; color: var(--text-muted); font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 3px; border-bottom: 3px solid transparent; transition: all var(--transition); }
-  .tab-btn i { font-size: 1.1rem; }
-  .tab-btn.active { color: var(--primary); border-bottom-color: var(--primary); }
-  .tab-content { display: none; flex: 1; padding: 14px 13px 140px; overflow-y: auto; animation: fadeIn .25s ease; }
-  .tab-content.active { display: block; }
-
-  /* ══ EXPENSE CARDS ══ */
-  .expense-card { background: var(--card); border-radius: var(--radius); padding: 14px 16px; margin-bottom: 10px; box-shadow: var(--shadow-card); display: flex; align-items: flex-start; gap: 12px; }
-  .expense-icon { width: 40px; height: 40px; border-radius: 12px; background: var(--primary-light); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
-  .expense-info { flex: 1; min-width: 0; }
-  .expense-desc { font-size: .95rem; font-weight: 700; }
-  .expense-detail { font-size: .78rem; color: var(--text-muted); margin-top: 2px; }
-  .expense-amount { font-size: 1rem; font-weight: 800; color: var(--primary); white-space: nowrap; }
-  .expense-delete { background: none; border: none; color: var(--text-muted); cursor: pointer; padding: 4px; font-size: .9rem; }
-  .expense-delete:active { color: var(--danger); }
-  .split-tags { display: flex; flex-wrap: wrap; gap: 3px; margin-top: 5px; }
-  .split-tag { font-size: .68rem; padding: 2px 7px; border-radius: 20px; background: var(--primary-light); color: var(--primary); font-weight: 600; }
-
-  /* ══ BALANCE CARDS ══ */
-  .balance-card { background: var(--card); border-radius: var(--radius); padding: 16px 18px; margin-bottom: 10px; box-shadow: var(--shadow-card); display: flex; align-items: center; gap: 12px; }
-  .balance-avatar { width: 44px; height: 44px; border-radius: 50%; color: #fff; display: flex; align-items: center; justify-content: center; font-size: .95rem; font-weight: 700; flex-shrink: 0; }
-  .balance-info { flex: 1; }
-  .balance-name { font-size: .97rem; font-weight: 700; }
-  .balance-detail { font-size: .78rem; color: var(--text-muted); margin-top: 2px; }
-  .balance-bar-wrap { margin-top: 7px; background: var(--border); border-radius: 4px; height: 4px; }
-  .balance-bar { height: 4px; border-radius: 4px; transition: width .5s ease; }
-  .balance-amount { font-size: 1.05rem; font-weight: 800; }
-  .balance-amount.positive { color: var(--success); }
-  .balance-amount.negative { color: var(--danger); }
-  .balance-amount.neutral { color: var(--text-muted); }
-
-  /* ══ PAYMENT CARDS ══ */
-  .payment-card { background: var(--card); border-radius: var(--radius); padding: 16px 18px; margin-bottom: 10px; box-shadow: var(--shadow-card); }
-  .payment-row { display: flex; align-items: center; gap: 10px; }
-  .payment-avatar { width: 36px; height: 36px; border-radius: 50%; color: #fff; display: flex; align-items: center; justify-content: center; font-size: .82rem; font-weight: 700; flex-shrink: 0; }
-  .payment-avatar.debtor { background: var(--danger); }
-  .payment-avatar.creditor { background: var(--success); }
-  .payment-arrow { color: var(--text-muted); font-size: 1rem; flex: 1; text-align: center; }
-  .payment-amount { font-size: 1.08rem; font-weight: 800; color: var(--primary); margin-top: 10px; text-align: center; }
-  .payment-label { font-size: .8rem; color: var(--text-muted); text-align: center; margin-top: 3px; }
-  .all-settled { text-align: center; padding: 50px 20px; color: var(--text-muted); }
-  .all-settled i { font-size: 3rem; color: var(--success); margin-bottom: 14px; display: block; }
-
-  /* ══ MODALS ══ */
-  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 200; align-items: flex-end; justify-content: center; }
-  .modal-overlay.open { display: flex; animation: fadeIn .2s ease; }
-  .modal { background: var(--card); border-radius: 28px 28px 0 0; padding: 22px 18px 34px; width: 100%; max-width: 520px; max-height: 92vh; overflow-y: auto; animation: slideUp .28s cubic-bezier(.4,0,.2,1); }
-  @keyframes slideUp { from { transform: translateY(100%); } to { transform: none; } }
-  .modal-handle { width: 40px; height: 4px; border-radius: 2px; background: var(--border); margin: 0 auto 18px; }
-  .modal-title { font-size: 1.15rem; font-weight: 800; margin-bottom: 18px; }
-  .modal-section { margin-bottom: 16px; }
-  .modal-section label { display: block; font-size: .78rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--text-muted); margin-bottom: 7px; }
-  .payer-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(76px,1fr)); gap: 7px; }
-  .payer-btn { padding: 8px 4px; border: 2px solid var(--border); border-radius: var(--radius-sm); background: var(--bg); cursor: pointer; text-align: center; transition: all var(--transition); }
-  .payer-btn .payer-av { width: 28px; height: 28px; border-radius: 50%; color: #fff; display: flex; align-items: center; justify-content: center; font-size: .72rem; font-weight: 700; margin: 0 auto 4px; }
-  .payer-btn .payer-name { font-size: .72rem; font-weight: 600; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .payer-btn.active { border-color: var(--primary); background: var(--primary-light); }
-  .payer-btn.active .payer-name { color: var(--primary); }
-  .split-grid { display: flex; flex-direction: column; gap: 7px; }
-  .split-item { display: flex; align-items: center; gap: 10px; }
-  .split-check { width: 20px; height: 20px; accent-color: var(--primary); cursor: pointer; }
-  .split-item label { flex: 1; font-size: .9rem; font-weight: 600; cursor: pointer; }
-  .modal-actions { display: flex; gap: 10px; margin-top: 6px; }
-  .btn-secondary { flex: 1; padding: 13px; border: 2px solid var(--border); border-radius: var(--radius-sm); background: none; color: var(--text-muted); font-size: .95rem; font-weight: 700; cursor: pointer; }
-  .btn-primary-sm { flex: 2; padding: 13px; background: linear-gradient(135deg,var(--primary),var(--primary-dark)); color: #fff; border: none; border-radius: var(--radius-sm); font-size: .95rem; font-weight: 700; cursor: pointer; }
-
-  /* ══ SHARE / IMPORT ══ */
-  .share-link-box { background: var(--bg); border-radius: var(--radius-sm); padding: 12px 14px; font-size: .75rem; word-break: break-all; color: var(--text-muted); margin: 12px 0; max-height: 80px; overflow-y: auto; border: 2px solid var(--border); }
-  .summary-text { background: var(--bg); border-radius: var(--radius-sm); padding: 14px; font-size: .85rem; color: var(--text); white-space: pre-wrap; border: 2px solid var(--border); max-height: 200px; overflow-y: auto; margin: 12px 0; }
-  .share-options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 4px; }
-  .share-option-btn { display: flex; align-items: center; gap: 12px; padding: 13px 16px; border-radius: var(--radius-sm); border: 2px solid var(--border); background: var(--bg); cursor: pointer; font-size: .9rem; font-weight: 600; color: var(--text); transition: all var(--transition); }
-  .share-option-btn:active { border-color: var(--primary); background: var(--primary-light); color: var(--primary); }
-  .share-option-btn i { width: 20px; text-align: center; color: var(--primary); }
-
-  /* ══ TOAST ══ */
-  .toast { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%) translateY(20px); background: #2d3142; color: #fff; padding: 11px 20px; border-radius: 30px; font-size: .85rem; font-weight: 600; opacity: 0; transition: all .3s ease; z-index: 300; white-space: nowrap; pointer-events: none; }
-  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-
-  /* ══ PEDIDOSYA ══ */
-  .pedidosya-banner { display: none; position: fixed; bottom: 0; left: 0; right: 0; background: var(--pedidosya); color: #fff; padding: 10px 18px; z-index: 100; align-items: center; justify-content: space-between; box-shadow: 0 -4px 20px rgba(255,0,69,0.25); }
-  .pedidosya-banner.visible { display: flex; }
-  .pedidosya-left { display: flex; align-items: center; gap: 10px; }
-  .pedidosya-left i { font-size: 1.3rem; }
-  .pedidosya-text { font-size: .85rem; font-weight: 700; }
-  .pedidosya-sub { font-size: .7rem; opacity: .85; }
-  .pedidosya-cta { background: rgba(255,255,255,0.2); border: 2px solid rgba(255,255,255,0.5); color: #fff; padding: 6px 12px; border-radius: 20px; font-size: .78rem; font-weight: 800; cursor: pointer; white-space: nowrap; }
 
   /* ══ FIREBASE CONFIG SCREEN ══ */
   #screen-firebase { background: linear-gradient(145deg,#6c63ff,#a78bfa,#ff6584); justify-content: center; align-items: center; padding: 24px; }
@@ -234,1269 +76,190 @@
   .config-field label { display: block; font-size: .75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 5px; }
   .config-field input { width: 100%; padding: 10px 12px; border: 2px solid var(--border); border-radius: 8px; font-size: .85rem; color: var(--text); background: var(--bg); outline: none; font-family: monospace; }
   .config-field input:focus { border-color: var(--primary); }
-  .config-steps { background: var(--bg); border-radius: 10px; padding: 14px; margin-bottom: 18px; font-size: .82rem; color: var(--text-muted); line-height: 1.8; }
-  .config-steps b { color: var(--text); }
-  .config-steps a { color: var(--primary); }
-  .version-badge { display: inline-block; font-size: .68rem; font-weight: 700; background: var(--primary-light); color: var(--primary); padding: 2px 7px; border-radius: 20px; margin-left: 5px; }
-
-  @media (min-width: 480px) {
-    .modal { border-radius: 28px; margin: auto; max-height: 85vh; }
-    .modal-overlay { align-items: center; }
-    .pedidosya-banner { border-radius: 16px 16px 0 0; max-width: 520px; left: 50%; transform: translateX(-50%); }
-  }
 </style>
+
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
 </head>
 <body>
 
-<!-- ══ LOADING ══ -->
-<div id="screen-loading" class="screen active">
-  <div class="loading-logo">
-    <i class="fa-solid fa-receipt"></i>
-    <h1>DivideGastos Pro</h1>
-    <p>Cargando...</p>
-    <div class="spinner"></div>
-  </div>
-</div>
-
-<!-- ══ FIREBASE CONFIG (solo si no está configurado) ══ -->
-<div id="screen-firebase" class="screen">
-  <div class="firebase-card">
-    <div style="text-align:center;margin-bottom:16px">
-      <i class="fa-solid fa-fire" style="font-size:2.2rem;color:#ff6d00"></i>
-    </div>
-    <h2>⚙️ Configurar Firebase</h2>
-    <p>Para usar cuentas de Google necesitás conectar tu propio proyecto Firebase gratuito. Solo se hace una vez.</p>
-    <div class="config-steps">
-      <b>Pasos rápidos:</b><br>
-      1. Ir a <a href="https://console.firebase.google.com" target="_blank">console.firebase.google.com</a><br>
-      2. Crear proyecto → Agregar app Web<br>
-      3. Copiar los datos del SDK aquí abajo<br>
-      4. En Authentication → Habilitar Google<br>
-      5. En Firestore → Crear base de datos
-    </div>
-    <div class="config-field"><label>API Key</label><input id="fb-apiKey" placeholder="AIzaSy..."></div>
-    <div class="config-field"><label>Auth Domain</label><input id="fb-authDomain" placeholder="tu-proyecto.firebaseapp.com"></div>
-    <div class="config-field"><label>Project ID</label><input id="fb-projectId" placeholder="tu-proyecto"></div>
-    <div class="config-field"><label>App ID</label><input id="fb-appId" placeholder="1:123456:web:abc123"></div>
-    <button class="btn-primary" onclick="saveFirebaseConfig()" style="margin-top:8px">
-      <i class="fa-solid fa-plug"></i> Conectar Firebase
-    </button>
-    <p class="firebase-note" style="margin-top:12px">
-      ¿No querés configurar Firebase? 
-      <a href="#" onclick="useLocalMode()">Usar modo local (sin cuentas)</a>
-    </p>
-  </div>
-</div>
-
-<!-- ══ ONBOARDING ══ -->
-<div id="screen-onboarding" class="screen">
-  <div class="onboarding-card">
-    <div class="onboarding-logo"><i class="fa-solid fa-receipt"></i></div>
-    <h1 class="onboarding-title">Divide<span>Gastos</span> Pro</h1>
-    <p class="onboarding-subtitle" id="ob-subtitle">Dividí gastos grupales sin drama.</p>
-
-    <div id="ob-google-section">
-      <button class="btn-google" onclick="signInWithGoogle()">
-        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
-        <span id="ob-google-text">Continuar con Google</span>
-      </button>
-      <div class="divider" id="ob-divider">o</div>
-    </div>
-
-    <div class="form-group">
-      <label id="ob-lang-label">Idioma / Language</label>
-      <select id="ob-lang" onchange="onLangChange()">
-        <option value="">— Seleccionar —</option>
-        <option value="es">🇪🇸 Español</option>
-        <option value="en">🇺🇸 English</option>
-        <option value="pt">🇧🇷 Português</option>
-        <option value="fr">🇫🇷 Français</option>
-        <option value="de">🇩🇪 Deutsch</option>
-        <option value="it">🇮🇹 Italiano</option>
-      </select>
-    </div>
-    <div class="form-group" id="ob-country-group" style="display:none">
-      <label id="ob-country-label">País</label>
-      <select id="ob-country">
-        <option value="">— Seleccionar —</option>
-      </select>
-    </div>
-    <button class="btn-primary" id="ob-btn" onclick="finishOnboarding()" disabled>
-      <i class="fa-solid fa-arrow-right"></i>
-      <span id="ob-btn-text">Continuar sin cuenta</span>
-    </button>
-    <p class="firebase-note">Sin cuenta, los datos solo se guardan en este dispositivo.</p>
-  </div>
-</div>
-
-<!-- ══ HISTORY ══ -->
-<div id="screen-history" class="screen">
-  <div class="top-bar">
-    <div class="top-bar-title">Divide<span>Gastos</span> Pro</div>
-    <div class="top-bar-actions">
-      <button class="icon-btn" onclick="openImportModal()" title="Importar"><i class="fa-solid fa-link"></i></button>
-      <button class="icon-btn" onclick="goOnboarding()" title="Config"><i class="fa-solid fa-globe"></i></button>
-    </div>
-  </div>
-  <div id="user-bar-history" class="user-bar" style="display:none">
-    <div id="ubh-avatar-wrap"></div>
-    <div style="flex:1;min-width:0">
-      <div class="user-name" id="ubh-name"></div>
-      <div class="user-sync" id="ubh-sync"></div>
-    </div>
-    <button class="btn-signout" onclick="signOut()"><i class="fa-solid fa-right-from-bracket"></i> <span id="ubh-signout">Salir</span></button>
-  </div>
-  <div class="history-list" id="history-list"></div>
-  <button class="fab fab-history" onclick="goSetup()"><i class="fa-solid fa-plus"></i></button>
-</div>
-
-<!-- ══ SETUP ══ -->
-<div id="screen-setup" class="screen">
-  <div class="top-bar">
-    <button class="icon-btn" onclick="goHistory()"><i class="fa-solid fa-arrow-left"></i></button>
-    <div class="top-bar-title" id="setup-title-bar">Nuevo Evento</div>
-    <div></div>
-  </div>
-  <div class="setup-body">
-    <div class="card">
-      <div class="section-title" id="setup-lbl-name">Nombre del evento</div>
-      <input type="text" class="input-field" id="setup-event-name" placeholder="Ej: Asado con amigos">
-    </div>
-    <div class="card">
-      <div class="section-title" id="setup-lbl-currency">Moneda</div>
-      <div class="currency-grid" id="currency-grid"></div>
-    </div>
-    <div class="card">
-      <div class="section-title" id="setup-lbl-members">Participantes</div>
-      <div class="members-list" id="members-list"></div>
-      <div class="add-member-row">
-        <input type="text" class="input-field" id="member-input" placeholder="Nombre..." onkeydown="if(event.key==='Enter')addMember()">
-        <button class="btn-icon-add" onclick="addMember()"><i class="fa-solid fa-plus"></i></button>
-      </div>
-    </div>
-  </div>
-  <div class="bottom-action">
-    <button class="btn-primary" onclick="saveEvent()">
-      <i class="fa-solid fa-check"></i> <span id="setup-save-label">Crear Evento</span>
-    </button>
-  </div>
-</div>
-
-<!-- ══ DASHBOARD ══ -->
-<div id="screen-dashboard" class="screen">
-  <div class="dashboard-header">
-    <div class="dashboard-header-top">
-      <button class="header-icon-btn" onclick="goHistory()"><i class="fa-solid fa-arrow-left"></i></button>
-      <div class="dashboard-event-title" id="dash-title">Evento</div>
-      <div class="dashboard-header-actions">
-        <button class="header-icon-btn" onclick="openShareModal()"><i class="fa-solid fa-share-nodes"></i></button>
-        <button class="header-icon-btn" onclick="openSummaryModal()"><i class="fa-solid fa-file-lines"></i></button>
-        <button class="header-icon-btn" onclick="goSetup(state.currentEventId)"><i class="fa-solid fa-pen"></i></button>
-      </div>
-    </div>
-    <div class="dashboard-meta" id="dash-meta"></div>
-  </div>
-  <div class="tabs">
-    <button class="tab-btn active" data-tab="gastos" onclick="switchTab('gastos')">
-      <i class="fa-solid fa-receipt"></i><span id="tab-lbl-gastos">Gastos</span>
-    </button>
-    <button class="tab-btn" data-tab="saldos" onclick="switchTab('saldos')">
-      <i class="fa-solid fa-scale-balanced"></i><span id="tab-lbl-saldos">Saldos</span>
-    </button>
-    <button class="tab-btn" data-tab="pagos" onclick="switchTab('pagos')">
-      <i class="fa-solid fa-money-bill-transfer"></i><span id="tab-lbl-pagos">Pagos</span>
-    </button>
-  </div>
-  <div id="tab-gastos" class="tab-content active">
-    <div id="gastos-list"></div>
-    <div id="gastos-empty" class="history-empty" style="display:none">
+  <div id="screen-loading" class="screen active">
+    <div class="loading-logo">
       <i class="fa-solid fa-receipt"></i>
-      <p id="gastos-empty-msg">Aún no hay gastos.</p>
+      <h1>DivideGastos Pro</h1>
+      <p>Iniciando sesión...</p>
+      <div class="spinner"></div>
     </div>
   </div>
-  <div id="tab-saldos" class="tab-content"><div id="saldos-list"></div></div>
-  <div id="tab-pagos" class="tab-content"><div id="pagos-list"></div></div>
-  <button class="fab" onclick="openExpenseModal()"><i class="fa-solid fa-plus"></i></button>
-</div>
 
-<!-- ══ MODAL: GASTO ══ -->
-<div class="modal-overlay" id="modal-expense">
-  <div class="modal">
-    <div class="modal-handle"></div>
-    <div class="modal-title" id="modal-expense-title">Nuevo Gasto</div>
-    <div class="modal-section">
-      <label id="exp-lbl-desc">Descripción</label>
-      <input type="text" class="input-field" id="exp-desc" placeholder="Ej: Pizza">
-    </div>
-    <div class="modal-section">
-      <label id="exp-lbl-amount">Monto</label>
-      <input type="number" class="input-field" id="exp-amount" placeholder="0.00" min="0" step="0.01">
-    </div>
-    <div class="modal-section">
-      <label id="exp-lbl-payer">¿Quién pagó?</label>
-      <div class="payer-grid" id="payer-grid"></div>
-    </div>
-    <div class="modal-section">
-      <label id="exp-lbl-split">Dividir entre</label>
-      <div class="split-grid" id="split-grid"></div>
-    </div>
-    <div class="modal-actions">
-      <button class="btn-secondary" onclick="closeModal('modal-expense')" id="exp-btn-cancel">Cancelar</button>
-      <button class="btn-primary-sm" onclick="saveExpense()" id="exp-btn-save">Guardar</button>
-    </div>
-  </div>
-</div>
-
-<!-- ══ MODAL: COMPARTIR ══ -->
-<div class="modal-overlay" id="modal-share">
-  <div class="modal">
-    <div class="modal-handle"></div>
-    <div class="modal-title" id="share-modal-title">Compartir Evento</div>
-    <div class="share-options">
-      <button class="share-option-btn" onclick="copyShareLink()">
-        <i class="fa-solid fa-link"></i> <span id="share-opt-link">Copiar link</span>
+  <div id="screen-onboarding" class="screen">
+    <div class="onboarding-card">
+      <div class="onboarding-logo"><i class="fa-solid fa-receipt"></i></div>
+      <h1 class="onboarding-title">DivideGastos <span>Pro</span></h1>
+      <p class="onboarding-subtitle">Gestioná cuentas claras y transparentes con tus grupos.</p>
+      
+      <button class="btn-google" onclick="signInWithGoogle()">
+        <img src="https://www.gstatic.com/images/branding/product/1x/gsa_512dp.png" alt="Google">
+        Continuar con Google
       </button>
-      <button class="share-option-btn" onclick="shareWhatsApp()">
-        <i class="fa-brands fa-whatsapp" style="color:#25d366"></i> <span id="share-opt-wa">Compartir por WhatsApp</span>
-      </button>
-      <button class="share-option-btn" onclick="shareNative()" id="share-native-btn" style="display:none">
-        <i class="fa-solid fa-share-nodes"></i> <span id="share-opt-native">Compartir...</span>
+      
+      <div class="divider">o bien</div>
+      
+      <button class="btn-primary" onclick="showScreen('firebase-config')">
+        <i class="fa-solid fa-gear"></i> Configurar Firebase
       </button>
     </div>
-    <div class="share-link-box" id="share-link-box" style="display:none"></div>
-    <button class="btn-secondary" onclick="closeModal('modal-share')" style="width:100%;margin-top:8px" id="share-btn-close">Cerrar</button>
   </div>
-</div>
 
-<!-- ══ MODAL: RESUMEN ══ -->
-<div class="modal-overlay" id="modal-summary">
-  <div class="modal">
-    <div class="modal-handle"></div>
-    <div class="modal-title" id="summary-modal-title">Resumen</div>
-    <div class="summary-text" id="summary-text"></div>
-    <div class="modal-actions">
-      <button class="btn-secondary" onclick="closeModal('modal-summary')" id="summary-btn-close">Cerrar</button>
-      <button class="btn-primary-sm" onclick="copySummary()" id="summary-btn-copy"><i class="fa-solid fa-copy"></i> Copiar</button>
+  <div id="screen-firebase-config" class="screen" style="justify-content:center; align-items:center; padding: 24px;">
+    <div class="firebase-card">
+      <h2>⚙️ Configurar Firebase</h2>
+      <p>Ingresá tus credenciales para conectar la base de datos.</p>
+      
+      <div class="config-field">
+        <label>API Key</label>
+        <input type="text" id="fb-apiKey" placeholder="AIzaSy...">
+      </div>
+      <div class="config-field">
+        <label>Auth Domain</label>
+        <input type="text" id="fb-authDomain" placeholder="tu-app.firebaseapp.com">
+      </div>
+      <div class="config-field">
+        <label>Project ID</label>
+        <input type="text" id="fb-projectId" placeholder="tu-app-id">
+      </div>
+      
+      <button class="btn-primary" onclick="saveFirebaseConfig()">Guardar y Conectar</button>
+      <button class="btn-google" style="margin-top: 10px;" onclick="showScreen('onboarding')">Volver</button>
     </div>
   </div>
-</div>
 
-<!-- ══ MODAL: IMPORTAR ══ -->
-<div class="modal-overlay" id="modal-import">
-  <div class="modal">
-    <div class="modal-handle"></div>
-    <div class="modal-title" id="import-modal-title">Importar desde Link</div>
-    <div class="modal-section">
-      <label id="import-lbl">Pegá el link aquí</label>
-      <textarea class="input-field" id="import-input" rows="4" style="resize:none;font-size:.83rem" placeholder="https://..."></textarea>
-    </div>
-    <div class="modal-actions">
-      <button class="btn-secondary" onclick="closeModal('modal-import')" id="import-btn-cancel">Cancelar</button>
-      <button class="btn-primary-sm" onclick="importFromLink()" id="import-btn-ok">Importar</button>
-    </div>
-  </div>
-</div>
-
-<!-- ══ BANNER PEDIDOSYA ══ -->
-<div class="pedidosya-banner" id="pedidosya-banner">
-  <div class="pedidosya-left">
-    <i class="fa-solid fa-bag-shopping"></i>
-    <div>
-      <div class="pedidosya-text" id="py-text">¿Hambre después de dividir? 🍕</div>
-      <div class="pedidosya-sub" id="py-sub">Pedí en PedidosYa y llegá primero</div>
-    </div>
-  </div>
-  <button class="pedidosya-cta" onclick="window.open('https://www.pedidosya.com','_blank')" id="py-cta">Pedir</button>
-</div>
-
-<div class="toast" id="toast"></div>
-
-<!-- Firebase SDK -->
-<script type="module">
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
-import { getAuth, GoogleAuthProvider, signInWithPopup, signOut as fbSignOut, onAuthStateChanged }
-  from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
-import { getFirestore, doc, collection, setDoc, getDoc, getDocs, deleteDoc, onSnapshot, query, where, serverTimestamp }
-  from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
-
-// ══════════════════════════════════════════════════════════
-//  FIREBASE INIT
-// ══════════════════════════════════════════════════════════
-let app, auth, db, currentUser = null;
-let unsubscribeEvents = null;
-
-function getFirebaseConfig() {
-  try { return JSON.parse(localStorage.getItem("dg_fb_config") || "null"); } catch(e) { return null; }
-}
-
-function initFirebase(config) {
-  try {
-    app = initializeApp(config);
-    auth = getAuth(app);
-    db = getFirestore(app);
-    window._fbAuth = auth;
-    window._fbDb = db;
-    window._fbReady = true;
-
-    onAuthStateChanged(auth, async user => {
-      currentUser = user;
-      window._currentUser = user;
-      if (user) {
-        state.lang = localStorage.getItem("dg_lang") || state.lang;
-        state.country = localStorage.getItem("dg_country") || state.country;
-        applyI18nGlobal();
-        await subscribeToUserEvents();
-        renderUserBar();
-        // Check URL param
-        const urlParams = new URLSearchParams(location.search);
-        const ep = urlParams.get("event");
-        if (ep) { await handleSharedEventParam(ep); return; }
-        goHistory();
-      } else {
-        if (unsubscribeEvents) { unsubscribeEvents(); unsubscribeEvents = null; }
-        checkInitFlow();
-      }
-    });
-    return true;
-  } catch(e) {
-    console.error("Firebase init error:", e);
-    return false;
-  }
-}
-
-// ── Auth ──
-window.signInWithGoogle = async function() {
-  if (!window._fbReady) { showToast("Firebase no configurado"); return; }
-  try {
-    const provider = new GoogleAuthProvider();
-    await signInWithPopup(auth, provider);
-  } catch(e) {
-    if (e.code !== 'auth/popup-closed-by-user') showToast("Error al iniciar sesión");
-  }
-};
-window.signOut = async function() {
-  if (!window._fbReady) { state.lang="es"; state.country=null; state.events=[]; saveToStorage(); goOnboarding(); return; }
-  if (unsubscribeEvents) { unsubscribeEvents(); unsubscribeEvents = null; }
-  currentUser = null; window._currentUser = null;
-  await fbSignOut(auth);
-  state.events = [];
-  goOnboarding();
-};
-
-// ── Firestore: eventos del usuario ──
-async function subscribeToUserEvents() {
-  if (!db || !currentUser) return;
-  if (unsubscribeEvents) unsubscribeEvents();
-  const q = query(collection(db, "events"), where("ownerUid", "==", currentUser.uid));
-  unsubscribeEvents = onSnapshot(q, snap => {
-    const cloudEvents = [];
-    snap.forEach(d => cloudEvents.push(d.data()));
-    // Merge: cloud is source of truth for owned events
-    state.events = cloudEvents.sort((a,b) => (b.createdAt||0) - (a.createdAt||0));
-    if (document.getElementById("screen-history").classList.contains("active")) renderHistory();
-    if (document.getElementById("screen-dashboard").classList.contains("active")) {
-      const ev = getCurrentEvent();
-      if (ev) { document.getElementById("dash-title").textContent = ev.title; renderCurrentTab(); }
-    }
-  }, err => { console.warn("Snapshot error:", err); });
-}
-
-window._saveEventToCloud = async function(ev) {
-  if (!db || !currentUser) return;
-  try {
-    ev.ownerUid = currentUser.uid;
-    ev.ownerEmail = currentUser.email;
-    ev.ownerName = currentUser.displayName;
-    await setDoc(doc(db, "events", ev.id), ev);
-  } catch(e) { console.warn("Cloud save error:", e); }
-};
-
-window._deleteEventFromCloud = async function(id) {
-  if (!db || !currentUser) return;
-  try { await deleteDoc(doc(db, "events", id)); } catch(e) {}
-};
-
-window._getEventFromCloud = async function(id) {
-  if (!db) return null;
-  try {
-    const snap = await getDoc(doc(db, "events", id));
-    return snap.exists() ? snap.data() : null;
-  } catch(e) { return null; }
-};
-
-// ── Shared event via URL ──
-async function handleSharedEventParam(encoded) {
-  try {
-    const data = JSON.parse(decodeURIComponent(escape(atob(encoded))));
-    if (!data.id || !data.title) throw new Error("invalid");
-    // Try to get fresh copy from cloud
-    let cloudEv = await window._getEventFromCloud(data.id);
-    const ev = cloudEv || data;
-    const existing = state.events.find(e => e.id === ev.id);
-    if (!existing) {
-      // Save a copy to the user's account (shared access)
-      if (db && currentUser) {
-        const sharedCopy = { ...ev, sharedFrom: ev.ownerEmail || "unknown", sharedAt: Date.now(), ownerUid: currentUser.uid, ownerEmail: currentUser.email, ownerName: currentUser.displayName, id: ev.id + "_" + currentUser.uid.slice(0,6) };
-        // Actually: save reference, not duplicate. Let's just store it locally for now and mark as shared
-        const localCopy = { ...ev, isShared: true, originalId: ev.id, sharedFrom: ev.ownerEmail || "desconocido" };
-        state.events.unshift(localCopy);
-        await window._saveEventToCloud(localCopy);
-      } else {
-        state.events.unshift({ ...ev, isShared: true });
-        saveToStorage();
-      }
-      showToast(t("toastImported"));
-    } else if ((ev.version||1) > (existing.version||1)) {
-      if (confirm(t("versionWarning"))) {
-        Object.assign(existing, ev);
-        await window._saveEventToCloud(existing);
-      }
-    }
-    state.currentEventId = existing ? existing.id : (ev.isShared ? ev.id + "_" + (currentUser?.uid?.slice(0,6)||"x") : ev.id);
-    renderDashboard();
-    showScreen("dashboard");
-    history.replaceState({}, "", location.pathname);
-  } catch(e) { console.error(e); goHistory(); }
-}
-
-// ══════════════════════════════════════════════════════════
-//  I18N
-// ══════════════════════════════════════════════════════════
-const I18N = {
-  es: {
-    subtitle:"Dividí gastos grupales sin drama.",langLabel:"Idioma",countryLabel:"País",continueBtn:"Continuar sin cuenta",
-    historyEmpty:"No tenés eventos aún.\n¡Creá el primero!",newEvent:"Nuevo Evento",setupName:"Nombre del evento",
-    setupCurrency:"Moneda",setupMembers:"Participantes",setupSave:"Crear Evento",setupUpdate:"Guardar Cambios",
-    setupTitleEdit:"Editar Evento",tabGastos:"Gastos",tabSaldos:"Saldos",tabPagos:"Pagos",addExpense:"Nuevo Gasto",
-    expDesc:"Descripción",expAmount:"Monto",expPayer:"¿Quién pagó?",expSplit:"Dividir entre",expCancel:"Cancelar",expSave:"Guardar",
-    shareTitle:"Compartir Evento",shareClose:"Cerrar",shareCopy:"Copiar",summaryTitle:"Resumen",summaryClose:"Cerrar",summaryCopy:"Copiar",
-    importTitle:"Importar desde Link",importLabel:"Pegá el link aquí",importCancel:"Cancelar",importOk:"Importar",
-    toastCopied:"¡Link copiado!",toastSummaryCopied:"¡Resumen copiado!",toastEventSaved:"Evento guardado ☁️",
-    toastExpenseSaved:"Gasto guardado",toastExpenseDeleted:"Gasto eliminado",toastEventDeleted:"Evento eliminado",
-    toastImported:"Evento importado a tu cuenta",toastImportError:"Link inválido",toastMemberExists:"Ese nombre ya existe",
-    toastFillAll:"Completá todos los campos",toastMinMembers:"Necesitás al menos 2 participantes",
-    toastSelectPayer:"Seleccioná quién pagó",toastSelectSplit:"Seleccioná al menos un destinatario",
-    toastInvalidAmount:"Ingresá un monto válido",allSettled:"¡Todo saldado! No hay deudas pendientes. 🎉",
-    gastosEmpty:"Aún no hay gastos. ¡Añadí el primero!",paidBy:"Pagó",splitAmong:"Entre",members:"participantes",
-    expenses:"gastos",total:"Total",owes:"le debe",summaryHeader:"💰 Resumen de gastos",summaryPayments:"💸 Pagos sugeridos",
-    summaryFooter:"Generado con DivideGastos Pro",versionWarning:"⚠️ Hay una versión más nueva. ¿Actualizar?",
-    memberPlaceholder:"Nombre...",eventNamePlaceholder:"Ej: Asado con amigos",pyText:"¿Hambre después de dividir? 🍕",
-    pySub:"Pedí en PedidosYa y llegá primero",pyCta:"Pedir",positiveLabel:"A favor",negativeLabel:"A pagar",
-    neutralLabel:"Saldado",pays:"paga",to:"a",deleteConfirm:"¿Eliminar este evento?",deleteExpenseConfirm:"¿Eliminar este gasto?",
-    syncedCloud:"Sincronizado con tu cuenta",localMode:"Modo local (sin cuenta)",sharedFrom:"Compartido por",
-    googleBtn:"Continuar con Google",signOut:"Salir",shareOptLink:"Copiar link",shareOptWa:"Compartir por WhatsApp",
-    shareOptNative:"Compartir...",fbNotConfig:"Firebase no configurado",
-  },
-  en: {
-    subtitle:"Split group expenses without drama.",langLabel:"Language",countryLabel:"Country",continueBtn:"Continue without account",
-    historyEmpty:"No events yet.\nCreate the first one!",newEvent:"New Event",setupName:"Event name",
-    setupCurrency:"Currency",setupMembers:"Participants",setupSave:"Create Event",setupUpdate:"Save Changes",
-    setupTitleEdit:"Edit Event",tabGastos:"Expenses",tabSaldos:"Balances",tabPagos:"Payments",addExpense:"New Expense",
-    expDesc:"Description",expAmount:"Amount",expPayer:"Who paid?",expSplit:"Split among",expCancel:"Cancel",expSave:"Save",
-    shareTitle:"Share Event",shareClose:"Close",shareCopy:"Copy",summaryTitle:"Summary",summaryClose:"Close",summaryCopy:"Copy",
-    importTitle:"Import from Link",importLabel:"Paste the link here",importCancel:"Cancel",importOk:"Import",
-    toastCopied:"Link copied!",toastSummaryCopied:"Summary copied!",toastEventSaved:"Event saved ☁️",
-    toastExpenseSaved:"Expense saved",toastExpenseDeleted:"Expense deleted",toastEventDeleted:"Event deleted",
-    toastImported:"Event imported to your account",toastImportError:"Invalid link",toastMemberExists:"That name already exists",
-    toastFillAll:"Please fill all fields",toastMinMembers:"You need at least 2 participants",
-    toastSelectPayer:"Select who paid",toastSelectSplit:"Select at least one recipient",
-    toastInvalidAmount:"Enter a valid amount",allSettled:"All settled! No pending debts. 🎉",
-    gastosEmpty:"No expenses yet. Add the first one!",paidBy:"Paid by",splitAmong:"Split among",members:"participants",
-    expenses:"expenses",total:"Total",owes:"owes",summaryHeader:"💰 Expense Summary",summaryPayments:"💸 Suggested Payments",
-    summaryFooter:"Generated with DivideGastos Pro",versionWarning:"⚠️ Newer version available. Update?",
-    memberPlaceholder:"Name...",eventNamePlaceholder:"E.g.: Trip to NY",pyText:"Hungry after splitting? 🍕",
-    pySub:"Order on PedidosYa and be first",pyCta:"Order",positiveLabel:"In favor",negativeLabel:"Owes",
-    neutralLabel:"Settled",pays:"pays",to:"to",deleteConfirm:"Delete this event?",deleteExpenseConfirm:"Delete this expense?",
-    syncedCloud:"Synced with your account",localMode:"Local mode (no account)",sharedFrom:"Shared by",
-    googleBtn:"Continue with Google",signOut:"Sign out",shareOptLink:"Copy link",shareOptWa:"Share on WhatsApp",
-    shareOptNative:"Share...",fbNotConfig:"Firebase not configured",
-  },
-  pt: {
-    subtitle:"Divida despesas em grupo sem drama.",langLabel:"Idioma",countryLabel:"País",continueBtn:"Continuar sem conta",
-    historyEmpty:"Sem eventos ainda.\nCrie o primeiro!",newEvent:"Novo Evento",setupName:"Nome do evento",
-    setupCurrency:"Moeda",setupMembers:"Participantes",setupSave:"Criar Evento",setupUpdate:"Salvar Alterações",
-    setupTitleEdit:"Editar Evento",tabGastos:"Despesas",tabSaldos:"Saldos",tabPagos:"Pagamentos",addExpense:"Nova Despesa",
-    expDesc:"Descrição",expAmount:"Valor",expPayer:"Quem pagou?",expSplit:"Dividir entre",expCancel:"Cancelar",expSave:"Salvar",
-    shareTitle:"Compartilhar Evento",shareClose:"Fechar",shareCopy:"Copiar",summaryTitle:"Resumo",summaryClose:"Fechar",summaryCopy:"Copiar",
-    importTitle:"Importar de Link",importLabel:"Cole o link aqui",importCancel:"Cancelar",importOk:"Importar",
-    toastCopied:"Link copiado!",toastSummaryCopied:"Resumo copiado!",toastEventSaved:"Evento salvo ☁️",
-    toastExpenseSaved:"Despesa salva",toastExpenseDeleted:"Despesa removida",toastEventDeleted:"Evento removido",
-    toastImported:"Evento importado para sua conta",toastImportError:"Link inválido",toastMemberExists:"Esse nome já existe",
-    toastFillAll:"Preencha todos os campos",toastMinMembers:"Você precisa de pelo menos 2 participantes",
-    toastSelectPayer:"Selecione quem pagou",toastSelectSplit:"Selecione pelo menos um destinatário",
-    toastInvalidAmount:"Insira um valor válido",allSettled:"Tudo quitado! Sem dívidas pendentes. 🎉",
-    gastosEmpty:"Ainda sem despesas. Adicione a primeira!",paidBy:"Pago por",splitAmong:"Dividido entre",members:"participantes",
-    expenses:"despesas",total:"Total",owes:"deve",summaryHeader:"💰 Resumo de despesas",summaryPayments:"💸 Pagamentos sugeridos",
-    summaryFooter:"Gerado com DivideGastos Pro",versionWarning:"⚠️ Versão mais recente disponível. Atualizar?",
-    memberPlaceholder:"Nome...",eventNamePlaceholder:"Ex: Churrasco com amigos",pyText:"Com fome depois de dividir? 🍕",
-    pySub:"Peça no PedidosYa",pyCta:"Pedir",positiveLabel:"A favor",negativeLabel:"A pagar",
-    neutralLabel:"Quitado",pays:"paga",to:"para",deleteConfirm:"Excluir este evento?",deleteExpenseConfirm:"Excluir esta despesa?",
-    syncedCloud:"Sincronizado com sua conta",localMode:"Modo local (sem conta)",sharedFrom:"Compartilhado por",
-    googleBtn:"Continuar com Google",signOut:"Sair",shareOptLink:"Copiar link",shareOptWa:"Compartilhar no WhatsApp",
-    shareOptNative:"Compartilhar...",fbNotConfig:"Firebase não configurado",
-  }
-};
-
-// ══════════════════════════════════════════════════════════
-//  COUNTRIES / CURRENCIES
-// ══════════════════════════════════════════════════════════
-const COUNTRIES = {
-  es:[
-    {code:"AR",name:"Argentina",currency:"ARS",symbol:"$",flag:"🇦🇷"},
-    {code:"ES",name:"España",currency:"EUR",symbol:"€",flag:"🇪🇸"},
-    {code:"MX",name:"México",currency:"MXN",symbol:"$",flag:"🇲🇽"},
-    {code:"CO",name:"Colombia",currency:"COP",symbol:"$",flag:"🇨🇴"},
-    {code:"CL",name:"Chile",currency:"CLP",symbol:"$",flag:"🇨🇱"},
-    {code:"PE",name:"Perú",currency:"PEN",symbol:"S/",flag:"🇵🇪"},
-    {code:"UY",name:"Uruguay",currency:"UYU",symbol:"$",flag:"🇺🇾"},
-    {code:"PY",name:"Paraguay",currency:"PYG",symbol:"₲",flag:"🇵🇾"},
-  ],
-  en:[
-    {code:"US",name:"United States",currency:"USD",symbol:"$",flag:"🇺🇸"},
-    {code:"GB",name:"United Kingdom",currency:"GBP",symbol:"£",flag:"🇬🇧"},
-    {code:"AU",name:"Australia",currency:"AUD",symbol:"A$",flag:"🇦🇺"},
-    {code:"CA",name:"Canada",currency:"CAD",symbol:"C$",flag:"🇨🇦"},
-    {code:"NZ",name:"New Zealand",currency:"NZD",symbol:"NZ$",flag:"🇳🇿"},
-    {code:"IN",name:"India",currency:"INR",symbol:"₹",flag:"🇮🇳"},
-  ],
-  pt:[
-    {code:"BR",name:"Brasil",currency:"BRL",symbol:"R$",flag:"🇧🇷"},
-    {code:"PT",name:"Portugal",currency:"EUR",symbol:"€",flag:"🇵🇹"},
-  ],
-  fr:[
-    {code:"FR",name:"France",currency:"EUR",symbol:"€",flag:"🇫🇷"},
-    {code:"BE",name:"Belgique",currency:"EUR",symbol:"€",flag:"🇧🇪"},
-    {code:"CH",name:"Suisse",currency:"CHF",symbol:"Fr.",flag:"🇨🇭"},
-  ],
-  de:[
-    {code:"DE",name:"Deutschland",currency:"EUR",symbol:"€",flag:"🇩🇪"},
-    {code:"AT",name:"Österreich",currency:"EUR",symbol:"€",flag:"🇦🇹"},
-  ],
-  it:[
-    {code:"IT",name:"Italia",currency:"EUR",symbol:"€",flag:"🇮🇹"},
-  ]
-};
-const EXTRA_CURRENCIES = [{code:"USD",symbol:"$",label:"USD $"},{code:"EUR",symbol:"€",label:"EUR €"}];
-const EXPENSE_ICONS = ["fa-utensils","fa-car","fa-house","fa-cart-shopping","fa-music","fa-film","fa-plane","fa-gamepad","fa-gift","fa-wine-glass","fa-receipt"];
-
-// ══════════════════════════════════════════════════════════
-//  STATE
-// ══════════════════════════════════════════════════════════
-const state = {
-  lang: "es", country: null, events: [], currentEventId: null,
-  editingEventId: null, setupMembers: [], setupCurrency: null,
-  localMode: false, currentTab: "gastos"
-};
-
-// ══════════════════════════════════════════════════════════
-//  HELPERS
-// ══════════════════════════════════════════════════════════
-function t(k) { return (I18N[state.lang]||I18N.es)[k] || k; }
-function uid() { return Date.now().toString(36)+Math.random().toString(36).slice(2); }
-function fmt(amount) {
-  const ev = getCurrentEvent();
-  const cur = ev ? ev.currency : "USD";
-  try { return new Intl.NumberFormat(state.lang,{style:'currency',currency:cur,minimumFractionDigits:2,maximumFractionDigits:2}).format(amount); }
-  catch(e) { return (ev?ev.currencySymbol:"$")+" "+Number(amount).toFixed(2); }
-}
-function initials(name) { return name.split(" ").map(w=>w[0]).join("").toUpperCase().slice(0,2); }
-function avatarColor(name) {
-  const colors=["#6c63ff","#ff6584","#43c59e","#ffd166","#118ab2","#ef476f","#06d6a0","#f77f00","#a78bfa","#f72585"];
-  let h=0; for(let c of name) h=(h*31+c.charCodeAt(0))%colors.length;
-  return colors[Math.abs(h)];
-}
-function randomIcon() { return EXPENSE_ICONS[Math.floor(Math.random()*EXPENSE_ICONS.length)]; }
-function showToast(msg,d=2400) {
-  const el=document.getElementById("toast");
-  el.textContent=msg; el.classList.add("show");
-  setTimeout(()=>el.classList.remove("show"),d);
-}
-function showScreen(id) {
-  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
-  document.getElementById("screen-"+id).classList.add("active");
-  document.getElementById("pedidosya-banner").classList.toggle("visible",id==="dashboard");
-}
-function closeModal(id) { document.getElementById(id).classList.remove("open"); }
-function openModal(id) { document.getElementById(id).classList.add("open"); }
-function saveToStorage() { localStorage.setItem("dg_state_v3",JSON.stringify({lang:state.lang,country:state.country,events:state.events,localMode:state.localMode})); }
-function loadFromStorage() {
-  try {
-    const raw=localStorage.getItem("dg_state_v3");
-    if(raw){const s=JSON.parse(raw);state.lang=s.lang||"es";state.country=s.country||null;state.events=s.events||[];state.localMode=s.localMode||false;}
-  } catch(e){}
-}
-function getCurrentEvent() { return state.events.find(e=>e.id===state.currentEventId)||null; }
-function isFirebaseReady() { return !!window._fbReady; }
-function isLoggedIn() { return !!window._currentUser; }
-
-// ══════════════════════════════════════════════════════════
-//  INIT FLOW
-// ══════════════════════════════════════════════════════════
-function checkInitFlow() {
-  const fbConfig = getFirebaseConfig();
-  if (!fbConfig) {
-    // No Firebase configured → go to onboarding directly
-    loadFromStorage();
-    applyI18nGlobal();
-    if (state.lang && state.country) {
-      state.localMode = true;
-      goHistory();
-    } else {
-      showScreen("onboarding");
-      document.getElementById("ob-google-section").style.display = "none";
-    }
-    return;
-  }
-  // Firebase configured but user not logged in
-  loadFromStorage();
-  showScreen("onboarding");
-  applyI18nGlobal();
-  if (state.lang && state.country) {
-    document.getElementById("ob-lang").value = state.lang;
-    onLangChange();
-    document.getElementById("ob-country").value = state.country;
-    document.getElementById("ob-btn").disabled = false;
-  }
-}
-
-window.saveFirebaseConfig = function() {
-  const config = {
-    apiKey: document.getElementById("fb-apiKey").value.trim(),
-    authDomain: document.getElementById("fb-authDomain").value.trim(),
-    projectId: document.getElementById("fb-projectId").value.trim(),
-    appId: document.getElementById("fb-appId").value.trim(),
-    storageBucket: document.getElementById("fb-authDomain").value.trim().replace("firebaseapp.com","appspot.com"),
-    messagingSenderId: "000000000000"
-  };
-  if (!config.apiKey || !config.authDomain || !config.projectId || !config.appId) {
-    showToast("Completá todos los campos"); return;
-  }
-  localStorage.setItem("dg_fb_config", JSON.stringify(config));
-  const ok = initFirebase(config);
-  if (!ok) { showToast("Error al conectar Firebase"); }
-};
-
-window.useLocalMode = function() {
-  state.localMode = true;
-  loadFromStorage();
-  applyI18nGlobal();
-  showScreen("onboarding");
-  document.getElementById("ob-google-section").style.display = "none";
-};
-
-// ══════════════════════════════════════════════════════════
-//  ONBOARDING
-// ══════════════════════════════════════════════════════════
-window.onLangChange = function() {
-  const lang = document.getElementById("ob-lang").value;
-  if (!lang) { document.getElementById("ob-country-group").style.display="none"; return; }
-  state.lang = lang;
-  localStorage.setItem("dg_lang", lang);
-  applyI18nOnboarding();
-  const countries = COUNTRIES[lang]||[];
-  const sel = document.getElementById("ob-country");
-  sel.innerHTML = `<option value="">— ${t("countryLabel")} —</option>`;
-  countries.forEach(c=>{ sel.innerHTML+=`<option value="${c.code}">${c.flag} ${c.name}</option>`; });
-  document.getElementById("ob-country-group").style.display = "block";
-  document.getElementById("ob-btn").disabled = true;
-  sel.onchange = () => { document.getElementById("ob-btn").disabled = !sel.value; };
-};
-
-function applyI18nOnboarding() {
-  document.getElementById("ob-subtitle").textContent = t("subtitle");
-  document.getElementById("ob-lang-label").textContent = t("langLabel");
-  document.getElementById("ob-country-label").textContent = t("countryLabel");
-  document.getElementById("ob-btn-text").textContent = t("continueBtn");
-  if (document.getElementById("ob-google-text")) document.getElementById("ob-google-text").textContent = t("googleBtn");
-}
-
-window.finishOnboarding = function() {
-  const lang = document.getElementById("ob-lang").value;
-  const country = document.getElementById("ob-country").value;
-  if (!lang || !country) return;
-  state.lang = lang; state.country = country; state.localMode = true;
-  localStorage.setItem("dg_lang", lang);
-  localStorage.setItem("dg_country", country);
-  saveToStorage();
-  applyI18nGlobal();
-  goHistory();
-};
-
-window.goOnboarding = function() {
-  showScreen("onboarding");
-  document.getElementById("ob-lang").value = state.lang||"";
-  if (state.lang) { onLangChange(); document.getElementById("ob-country").value = state.country||""; document.getElementById("ob-btn").disabled = false; }
-};
-
-// ══════════════════════════════════════════════════════════
-//  GLOBAL I18N
-// ══════════════════════════════════════════════════════════
-function applyI18nGlobal() {
-  const safe = (id, txt) => { const el=document.getElementById(id); if(el) el.textContent=txt; };
-  safe("tab-lbl-gastos", t("tabGastos")); safe("tab-lbl-saldos", t("tabSaldos")); safe("tab-lbl-pagos", t("tabPagos"));
-  safe("setup-lbl-name", t("setupName")); safe("setup-lbl-currency", t("setupCurrency")); safe("setup-lbl-members", t("setupMembers"));
-  safe("exp-lbl-desc", t("expDesc")); safe("exp-lbl-amount", t("expAmount")); safe("exp-lbl-payer", t("expPayer")); safe("exp-lbl-split", t("expSplit"));
-  safe("exp-btn-cancel", t("expCancel")); safe("exp-btn-save", t("expSave"));
-  safe("share-modal-title", t("shareTitle")); safe("share-btn-close", t("shareClose"));
-  safe("summary-modal-title", t("summaryTitle")); safe("summary-btn-close", t("summaryClose")); safe("summary-btn-copy", t("summaryCopy"));
-  safe("import-modal-title", t("importTitle")); safe("import-lbl", t("importLabel")); safe("import-btn-cancel", t("importCancel")); safe("import-btn-ok", t("importOk"));
-  safe("py-text", t("pyText")); safe("py-sub", t("pySub")); safe("py-cta", t("pyCta"));
-  safe("gastos-empty-msg", t("gastosEmpty"));
-  safe("share-opt-link", t("shareOptLink")); safe("share-opt-wa", t("shareOptWa")); safe("share-opt-native", t("shareOptNative"));
-  safe("ubh-signout", t("signOut"));
-  const mi = document.getElementById("member-input"); if(mi) mi.placeholder = t("memberPlaceholder");
-  const en = document.getElementById("setup-event-name"); if(en) en.placeholder = t("eventNamePlaceholder");
-  applyI18nOnboarding();
-}
-
-// ══════════════════════════════════════════════════════════
-//  USER BAR
-// ══════════════════════════════════════════════════════════
-function renderUserBar() {
-  const user = window._currentUser;
-  const bar = document.getElementById("user-bar-history");
-  if (!user) { bar.style.display="none"; return; }
-  bar.style.display = "flex";
-  const wrap = document.getElementById("ubh-avatar-wrap");
-  if (user.photoURL) {
-    wrap.innerHTML = `<img src="${user.photoURL}" class="user-avatar" alt="">`;
-  } else {
-    wrap.innerHTML = `<div class="user-avatar-placeholder">${initials(user.displayName||user.email)}</div>`;
-  }
-  document.getElementById("ubh-name").textContent = user.displayName || user.email;
-  document.getElementById("ubh-sync").innerHTML = `<span class="sync-dot"></span> ${t("syncedCloud")}`;
-}
-
-// ══════════════════════════════════════════════════════════
-//  HISTORY
-// ══════════════════════════════════════════════════════════
-window.goHistory = function() {
-  applyI18nGlobal();
-  renderUserBar();
-  renderHistory();
-  showScreen("history");
-};
-
-function renderHistory() {
-  const list = document.getElementById("history-list");
-  if (!state.events.length) {
-    list.innerHTML = `<div class="history-empty"><i class="fa-solid fa-layer-group"></i><p>${t("historyEmpty").replace("\n","<br>")}</p></div>`;
-    return;
-  }
-  const total_fn = ev => ev.expenses.reduce((a,e)=>a+e.amount,0);
-  list.innerHTML = state.events.map(ev => {
-    const sharedBadge = ev.isShared ? `<span class="shared-badge"><i class="fa-solid fa-share-nodes"></i> ${ev.sharedFrom||t("sharedFrom")}</span>` : "";
-    return `
-    <div class="event-card" onclick="openEvent('${ev.id}')">
-      <div class="event-card-icon"><i class="fa-solid fa-layer-group"></i></div>
-      <div class="event-card-info">
-        <div class="event-card-title">${ev.title} <span class="version-badge">v${ev.version||1}</span>${sharedBadge}</div>
-        <div class="event-card-meta">${ev.members.length} ${t("members")} · ${ev.expenses.length} ${t("expenses")} · ${fmt_ev(total_fn(ev),ev)}</div>
-      </div>
-      <div class="event-card-actions">
-        <button class="event-card-btn" onclick="event.stopPropagation();deleteEvent('${ev.id}')"><i class="fa-solid fa-trash"></i></button>
-      </div>
-    </div>`;
-  }).join("");
-}
-
-function fmt_ev(amount, ev) {
-  try { return new Intl.NumberFormat(state.lang,{style:'currency',currency:ev.currency,minimumFractionDigits:2,maximumFractionDigits:2}).format(amount); }
-  catch(e) { return ev.currencySymbol+" "+Number(amount).toFixed(2); }
-}
-
-window.openEvent = function(id) {
-  state.currentEventId = id;
-  if (!isLoggedIn()) saveToStorage();
-  renderDashboard();
-  showScreen("dashboard");
-};
-
-window.deleteEvent = async function(id) {
-  if (!confirm(t("deleteConfirm"))) return;
-  state.events = state.events.filter(e=>e.id!==id);
-  if (isLoggedIn()) {
-    await window._deleteEventFromCloud(id);
-  } else {
-    saveToStorage();
-  }
-  renderHistory();
-  showToast(t("toastEventDeleted"));
-};
-
-// ══════════════════════════════════════════════════════════
-//  SETUP
-// ══════════════════════════════════════════════════════════
-window.goSetup = function(editId) {
-  state.editingEventId = editId||null;
-  state.setupMembers = [];
-  const ev = editId ? state.events.find(e=>e.id===editId) : null;
-  document.getElementById("setup-title-bar").textContent = ev ? t("setupTitleEdit") : t("newEvent");
-  document.getElementById("setup-save-label").textContent = ev ? t("setupUpdate") : t("setupSave");
-  document.getElementById("setup-event-name").value = ev ? ev.title : "";
-  const countryData = (COUNTRIES[state.lang]||[]).find(c=>c.code===state.country);
-  const currencies = [];
-  if (countryData) currencies.push({code:countryData.currency,symbol:countryData.symbol,label:`${countryData.currency} ${countryData.symbol}`});
-  EXTRA_CURRENCIES.forEach(c=>{ if(!currencies.find(x=>x.code===c.code)) currencies.push(c); });
-  state.setupCurrency = ev ? {code:ev.currency,symbol:ev.currencySymbol} : currencies[0];
-  document.getElementById("currency-grid").innerHTML = currencies.map(c=>
-    `<button class="currency-btn ${state.setupCurrency&&state.setupCurrency.code===c.code?'active':''}" onclick="selectCurrency('${c.code}','${c.symbol}',this)">${c.label}</button>`
-  ).join("");
-  state.setupMembers = ev ? [...ev.members] : [];
-  renderSetupMembers();
-  showScreen("setup");
-};
-
-window.selectCurrency = function(code,symbol,btn) {
-  state.setupCurrency = {code,symbol};
-  document.querySelectorAll(".currency-btn").forEach(b=>b.classList.remove("active"));
-  btn.classList.add("active");
-};
-
-function renderSetupMembers() {
-  document.getElementById("members-list").innerHTML = state.setupMembers.map((m,i)=>`
-    <div class="member-item">
-      <div class="member-avatar" style="background:${avatarColor(m)}">${initials(m)}</div>
-      <span class="member-name">${m}</span>
-      <button class="member-remove" onclick="removeMember(${i})"><i class="fa-solid fa-xmark"></i></button>
-    </div>`).join("");
-}
-
-window.addMember = function() {
-  const inp = document.getElementById("member-input");
-  const name = inp.value.trim();
-  if (!name) return;
-  if (state.setupMembers.map(m=>m.toLowerCase()).includes(name.toLowerCase())) { showToast(t("toastMemberExists")); return; }
-  state.setupMembers.push(name);
-  inp.value = "";
-  renderSetupMembers();
-};
-
-window.removeMember = function(i) { state.setupMembers.splice(i,1); renderSetupMembers(); };
-
-window.saveEvent = async function() {
-  const title = document.getElementById("setup-event-name").value.trim();
-  if (!title) { showToast(t("toastFillAll")); return; }
-  if (state.setupMembers.length < 2) { showToast(t("toastMinMembers")); return; }
-  if (!state.setupCurrency) { showToast(t("toastFillAll")); return; }
-  let ev;
-  if (state.editingEventId) {
-    ev = state.events.find(e=>e.id===state.editingEventId);
-    ev.title=title; ev.currency=state.setupCurrency.code; ev.currencySymbol=state.setupCurrency.symbol;
-    ev.members=[...state.setupMembers]; ev.version=(ev.version||1)+1;
-    state.currentEventId = ev.id;
-  } else {
-    ev = { id:uid(), title, currency:state.setupCurrency.code, currencySymbol:state.setupCurrency.symbol,
-      members:[...state.setupMembers], expenses:[], version:1, createdAt:Date.now() };
-    state.events.unshift(ev);
-    state.currentEventId = ev.id;
-  }
-  if (isLoggedIn()) {
-    await window._saveEventToCloud(ev);
-  } else {
-    saveToStorage();
-  }
-  showToast(t("toastEventSaved"));
-  renderDashboard();
-  showScreen("dashboard");
-};
-
-// ══════════════════════════════════════════════════════════
-//  DASHBOARD
-// ══════════════════════════════════════════════════════════
-function renderDashboard() {
-  const ev = getCurrentEvent(); if (!ev) return;
-  document.getElementById("dash-title").textContent = ev.title;
-  const syncHtml = isLoggedIn() ? `<span class="sync-indicator"><span class="sync-dot"></span>☁️</span>` : "";
-  document.getElementById("dash-meta").innerHTML = `${ev.members.length} ${t("members")} · ${ev.currency} · v${ev.version||1} ${syncHtml}`;
-  applyI18nGlobal();
-  switchTab(state.currentTab||"gastos");
-}
-
-window.switchTab = function(tab) {
-  state.currentTab = tab;
-  document.querySelectorAll(".tab-btn").forEach(b=>b.classList.toggle("active",b.dataset.tab===tab));
-  document.querySelectorAll(".tab-content").forEach(c=>c.classList.remove("active"));
-  document.getElementById("tab-"+tab).classList.add("active");
-  renderCurrentTab();
-};
-
-function renderCurrentTab() {
-  const tab = state.currentTab||"gastos";
-  if (tab==="gastos") renderGastos();
-  if (tab==="saldos") renderSaldos();
-  if (tab==="pagos") renderPagos();
-}
-
-// ── Gastos ──
-function renderGastos() {
-  const ev = getCurrentEvent(); if (!ev) return;
-  const list = document.getElementById("gastos-list");
-  const empty = document.getElementById("gastos-empty");
-  if (!ev.expenses.length) { list.innerHTML=""; empty.style.display="block"; return; }
-  empty.style.display="none";
-  list.innerHTML = ev.expenses.map(exp=>`
-    <div class="expense-card">
-      <div class="expense-icon"><i class="fa-solid ${exp.icon||'fa-receipt'}"></i></div>
-      <div class="expense-info">
-        <div class="expense-desc">${exp.desc}</div>
-        <div class="expense-detail">${t("paidBy")}: <b>${exp.payer}</b></div>
-        <div class="split-tags">${exp.splitAmong.map(m=>`<span class="split-tag">${m}</span>`).join("")}</div>
-      </div>
-      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
-        <div class="expense-amount">${fmt(exp.amount)}</div>
-        <button class="expense-delete" onclick="deleteExpense('${exp.id}')"><i class="fa-solid fa-trash"></i></button>
-      </div>
-    </div>`).join("");
-}
-
-// ── Saldos ──
-function computeBalances() {
-  const ev = getCurrentEvent(); if (!ev) return {};
-  const b = {}; ev.members.forEach(m=>{b[m]=0;});
-  ev.expenses.forEach(exp=>{
-    const share = exp.amount/exp.splitAmong.length;
-    b[exp.payer]=(b[exp.payer]||0)+exp.amount;
-    exp.splitAmong.forEach(m=>{b[m]=(b[m]||0)-share;});
-  });
-  return b;
-}
-
-function renderSaldos() {
-  const ev = getCurrentEvent(); if (!ev) return;
-  const b = computeBalances();
-  const total = ev.expenses.reduce((a,e)=>a+e.amount,0);
-  const maxAbs = Math.max(...Object.values(b).map(Math.abs),0.01);
-  document.getElementById("saldos-list").innerHTML = ev.members.map(m=>{
-    const bal=b[m]||0, isPos=bal>0.005, isNeg=bal<-0.005;
-    const color=isPos?"var(--success)":isNeg?"var(--danger)":"var(--text-muted)";
-    const label=isPos?t("positiveLabel"):isNeg?t("negativeLabel"):t("neutralLabel");
-    const pct=Math.round((Math.abs(bal)/maxAbs)*100);
-    return `
-    <div class="balance-card">
-      <div class="balance-avatar" style="background:${avatarColor(m)}">${initials(m)}</div>
-      <div class="balance-info" style="flex:1">
-        <div class="balance-name">${m}</div>
-        <div class="balance-detail">${label}</div>
-        <div class="balance-bar-wrap"><div class="balance-bar" style="width:${pct}%;background:${color}"></div></div>
-      </div>
-      <div class="balance-amount ${isPos?'positive':isNeg?'negative':'neutral'}">${fmt(Math.abs(bal))}</div>
-    </div>`;
-  }).join("")+`<div class="card" style="text-align:center;color:var(--text-muted);font-size:.86rem;margin-top:6px">${t("total")}: <b style="color:var(--text)">${fmt(total)}</b></div>`;
-}
-
-// ── Pagos (minimización de deudas) ──
-function computePayments() {
-  const b = computeBalances();
-  const cred=[], debt=[];
-  Object.entries(b).forEach(([n,v])=>{ if(v>0.005) cred.push({name:n,amount:v}); else if(v<-0.005) debt.push({name:n,amount:-v}); });
-  cred.sort((a,b)=>b.amount-a.amount); debt.sort((a,b)=>b.amount-a.amount);
-  const payments=[]; let ci=0,di=0;
-  while(ci<cred.length&&di<debt.length){
-    const c=cred[ci],d=debt[di],pay=Math.min(c.amount,d.amount);
-    payments.push({from:d.name,to:c.name,amount:pay});
-    c.amount-=pay; d.amount-=pay;
-    if(c.amount<0.005)ci++; if(d.amount<0.005)di++;
-  }
-  return payments;
-}
-
-function renderPagos() {
-  const payments = computePayments();
-  const list = document.getElementById("pagos-list");
-  if (!payments.length) {
-    list.innerHTML=`<div class="all-settled"><i class="fa-solid fa-circle-check"></i><p>${t("allSettled")}</p></div>`;
-    return;
-  }
-  list.innerHTML = payments.map(p=>`
-    <div class="payment-card">
-      <div class="payment-row">
-        <div class="payment-avatar debtor">${initials(p.from)}</div>
-        <div class="payment-arrow"><i class="fa-solid fa-arrow-right"></i></div>
-        <div class="payment-avatar creditor">${initials(p.to)}</div>
-      </div>
-      <div class="payment-amount">${fmt(p.amount)}</div>
-      <div class="payment-label">${p.from} ${t("pays")} ${t("to")} ${p.to}</div>
-    </div>`).join("");
-}
-
-// ══════════════════════════════════════════════════════════
-//  EXPENSE MODAL
-// ══════════════════════════════════════════════════════════
-window.openExpenseModal = function() {
-  const ev = getCurrentEvent(); if (!ev) return;
-  document.getElementById("modal-expense-title").textContent = t("addExpense");
-  document.getElementById("exp-desc").value = "";
-  document.getElementById("exp-amount").value = "";
-  document.getElementById("payer-grid").innerHTML = ev.members.map(m=>`
-    <button class="payer-btn" onclick="selectPayer(this)">
-      <div class="payer-av" style="background:${avatarColor(m)}">${initials(m)}</div>
-      <div class="payer-name">${m}</div>
-    </button>`).join("");
-  document.getElementById("split-grid").innerHTML = ev.members.map(m=>`
-    <div class="split-item">
-      <input type="checkbox" class="split-check" id="split-${m.replace(/\s/g,'_')}" value="${m}" checked>
-      <label for="split-${m.replace(/\s/g,'_')}">${m}</label>
-    </div>`).join("");
-  openModal("modal-expense");
-};
-
-window.selectPayer = function(btn) {
-  document.querySelectorAll(".payer-btn").forEach(b=>b.classList.remove("active"));
-  btn.classList.add("active");
-};
-
-window.saveExpense = async function() {
-  const desc = document.getElementById("exp-desc").value.trim();
-  const amount = parseFloat(document.getElementById("exp-amount").value);
-  const payerBtn = document.querySelector(".payer-btn.active");
-  const splitChecks = [...document.querySelectorAll(".split-check:checked")].map(c=>c.value);
-  if (!desc||!amount||isNaN(amount)||amount<=0) { showToast(t("toastInvalidAmount")); return; }
-  if (!payerBtn) { showToast(t("toastSelectPayer")); return; }
-  if (!splitChecks.length) { showToast(t("toastSelectSplit")); return; }
-  const payer = payerBtn.querySelector(".payer-name").textContent;
-  const ev = getCurrentEvent();
-  ev.expenses.push({id:uid(),desc,amount,payer,splitAmong:splitChecks,icon:randomIcon(),createdAt:Date.now()});
-  ev.version = (ev.version||1)+1;
-  if (isLoggedIn()) {
-    await window._saveEventToCloud(ev);
-  } else {
-    saveToStorage();
-  }
-  closeModal("modal-expense");
-  showToast(t("toastExpenseSaved"));
-  renderGastos();
-};
-
-window.deleteExpense = async function(id) {
-  if (!confirm(t("deleteExpenseConfirm"))) return;
-  const ev = getCurrentEvent();
-  ev.expenses = ev.expenses.filter(e=>e.id!==id);
-  ev.version = (ev.version||1)+1;
-  if (isLoggedIn()) {
-    await window._saveEventToCloud(ev);
-  } else {
-    saveToStorage();
-  }
-  renderGastos();
-  showToast(t("toastExpenseDeleted"));
-};
-
-// ══════════════════════════════════════════════════════════
-//  SHARE
-// ══════════════════════════════════════════════════════════
-function getShareUrl() {
-  const ev = getCurrentEvent(); if (!ev) return "";
-  const data = JSON.stringify(ev);
-  const encoded = btoa(unescape(encodeURIComponent(data)));
-  return `${location.href.split('?')[0]}?event=${encoded}`;
-}
-
-window.openShareModal = function() {
-  const url = getShareUrl();
-  document.getElementById("share-link-box").textContent = url;
-  document.getElementById("share-link-box").style.display = "block";
-  if (navigator.share) document.getElementById("share-native-btn").style.display = "flex";
-  openModal("modal-share");
-};
-
-window.copyShareLink = function() {
-  const url = getShareUrl();
-  navigator.clipboard.writeText(url).catch(()=>{
-    const ta=document.createElement("textarea");ta.value=url;document.body.appendChild(ta);ta.select();document.execCommand("copy");document.body.removeChild(ta);
-  });
-  showToast(t("toastCopied")); closeModal("modal-share");
-};
-
-window.shareWhatsApp = function() {
-  const ev = getCurrentEvent();
-  const url = getShareUrl();
-  const msg = encodeURIComponent(`${t("shareTitle")}: *${ev.title}*\n${url}`);
-  window.open(`https://wa.me/?text=${msg}`, "_blank");
-  closeModal("modal-share");
-};
-
-window.shareNative = function() {
-  const ev = getCurrentEvent();
-  navigator.share({ title: ev.title, text: t("shareTitle"), url: getShareUrl() }).catch(()=>{});
-  closeModal("modal-share");
-};
-
-// ══════════════════════════════════════════════════════════
-//  SUMMARY
-// ══════════════════════════════════════════════════════════
-window.openSummaryModal = function() {
-  const ev = getCurrentEvent(); if (!ev) return;
-  const payments = computePayments();
-  const total = ev.expenses.reduce((a,e)=>a+e.amount,0);
-  let txt = `${t("summaryHeader")}: ${ev.title}\n${"─".repeat(28)}\n`;
-  ev.expenses.forEach(exp=>{ txt+=`• ${exp.desc}: ${fmt(exp.amount)} (${t("paidBy")}: ${exp.payer})\n`; });
-  txt+=`\n${t("total")}: ${fmt(total)}\n\n${t("summaryPayments")}:\n`;
-  if (payments.length) payments.forEach(p=>{ txt+=`• ${p.from} → ${p.to}: ${fmt(p.amount)}\n`; });
-  else txt+=`✅ ${t("allSettled")}\n`;
-  txt+=`\n${t("summaryFooter")}`;
-  document.getElementById("summary-text").textContent = txt;
-  openModal("modal-summary");
-};
-
-window.copySummary = function() {
-  const text = document.getElementById("summary-text").textContent;
-  navigator.clipboard.writeText(text).catch(()=>{
-    const ta=document.createElement("textarea");ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand("copy");document.body.removeChild(ta);
-  });
-  showToast(t("toastSummaryCopied"));
-};
-
-// ══════════════════════════════════════════════════════════
-//  IMPORT
-// ══════════════════════════════════════════════════════════
-window.openImportModal = function() { document.getElementById("import-input").value=""; openModal("modal-import"); };
-
-window.importFromLink = async function() {
-  const raw = document.getElementById("import-input").value.trim();
-  try {
-    let encoded = raw;
-    if (raw.includes("?event=")) encoded = raw.split("?event=")[1];
-    const data = JSON.parse(decodeURIComponent(escape(atob(encoded))));
-    if (!data.id||!data.title||!data.members) throw new Error("invalid");
-    // Try to get fresh cloud copy
-    let ev = data;
-    if (isLoggedIn()) {
-      const cloud = await window._getEventFromCloud(data.id);
-      if (cloud) ev = cloud;
-    }
-    const existing = state.events.find(e=>e.id===ev.id);
-    if (!existing) {
-      const copy = { ...ev, isShared: true, sharedFrom: ev.ownerEmail||"desconocido" };
-      state.events.unshift(copy);
-      if (isLoggedIn()) await window._saveEventToCloud(copy);
-      else saveToStorage();
-      showToast(t("toastImported"));
-    } else if ((ev.version||1)>(existing.version||1)) {
-      if (confirm(t("versionWarning"))) {
-        Object.assign(existing, ev);
-        if (isLoggedIn()) await window._saveEventToCloud(existing);
-        else saveToStorage();
-        showToast(t("toastImported"));
-      }
-    } else { showToast(t("toastImported")); }
-    renderHistory(); closeModal("modal-import");
-  } catch(e) { showToast(t("toastImportError")); }
-};
-
-// ══════════════════════════════════════════════════════════
-//  CLOSE ON OVERLAY CLICK
-// ══════════════════════════════════════════════════════════
-document.querySelectorAll(".modal-overlay").forEach(o=>{
-  o.addEventListener("click", e=>{ if(e.target===o) o.classList.remove("open"); });
-});
-
-// ══════════════════════════════════════════════════════════
-//  CONFIGURACIÓN DE FIREBASE (TUS DATOS)
-// ══════════════════════════════════════════════════════════
-const fb_config_data = {
-  apiKey: "AIzaSyApUtaEOhMGQFMrHIzaypRX_GLx2cace_A",
-  authDomain: "dividirgastosar.firebaseapp.com",
-  projectId: "dividirgastosar",
-  storageBucket: "dividirgastosar.firebasestorage.app",
-  messagingSenderId: "1073347556736",
-  appId: "1:1073347556736:web:294777f0a4a2d25548bd65",
-  measurementId: "G-2D1WKFMJ1W"
-};
-
-// Forzamos la asignación a nivel global (window) 
-// Esto ignora si arriba dice let auth o const auth
-window.auth = window.auth || null;
-window.db = window.db || null;
-
-
-// ══════════════════════════════════════════════════════════
-//  LÓGICA DE AUTENTICACIÓN
-// ══════════════════════════════════════════════════════════
-
-function initFirebase(config) {
-  try {
-    if (!firebase.apps.length) {
-      firebase.initializeApp(config);
-    }
-    // IMPORTANTE: Sin 'let' ni 'var' acá adelante
-    window.auth = firebase.auth();
-    window.db = firebase.firestore();
-
-    window.auth.onAuthStateChanged(user => {
-      if (user) {
-        state.user = {
-          uid: user.uid,
-          name: user.displayName,
-          email: user.email,
-          photo: user.photoURL
-        };
-        state.localMode = false;
-        loadEventsFromCloud();
-      } else {
-        state.user = null;
-        if (!state.localMode) showScreen("onboarding");
-      }
-    });
-    return true;
-  } catch(e) {
-    console.error("Error Firebase:", e);
-    return false;
-  }
-}
-
-async function signInWithGoogle() {
-  const provider = new firebase.auth.GoogleAuthProvider();
-  try {
-    showScreen("loading");
-    await auth.signInWithPopup(provider);
-    showToast("¡Bienvenido!");
-  } catch (error) {
-    console.error("Error en login:", error);
-    showToast("Error al iniciar sesión");
-    showScreen("onboarding");
-  }
-}
-
-async function loadEventsFromCloud() {
-  if (!state.user || !db) return;
-  try {
-    const snapshot = await db.collection("events")
-      .where("userId", "==", state.user.uid)
-      .get();
+  <script>
+    const state = {
+      user: null,
+      history: []
+    };
     
-    state.history = snapshot.docs.map(doc => doc.data());
-    renderHistory();
-    showScreen("history");
-  } catch (e) {
-    console.error("Error cargando datos:", e);
-  }
-}
+    let db = null;
+    let auth = null;
 
-// ══════════════════════════════════════════════════════════
-//  BOOT (ARRANQUE MODIFICADO)
-// ══════════════════════════════════════════════════════════
-(function boot() {
-  loadFromStorage();
-  
-  // Inicializamos directamente con tu configuración
-  const ok = initFirebase(firebaseConfig);
-  
-  if (ok) {
-    showScreen("loading");
-    // El onAuthStateChanged se encarga de redirigir
-  } else {
-    if (state.lang && state.country) {
-      state.localMode = true;
-      showScreen("history");
-    } else {
-      showScreen("onboarding");
+    function showScreen(screenId) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      const target = document.getElementById(`screen-${screenId}`);
+      if (target) target.classList.add('active');
     }
-  }
-})();
-</script>
+
+    function showToast(message) {
+      console.log("Toast:", message);
+    }
+
+    // ══════════════════════════════════════════════════════════
+    //  FIREBASE & AUTH
+    // ══════════════════════════════════════════════════════════
+    
+    function initFirebase(config) {
+      try {
+        if (!firebase.apps.length) {
+          firebase.initializeApp(config);
+        }
+        db = firebase.firestore();
+        auth = firebase.auth();
+        
+        auth.onAuthStateChanged(user => {
+          if (user) {
+            state.user = user;
+            showToast(`¡Bienvenido ${user.displayName || 'Usuario'}!`);
+            loadEventsFromCloud();
+          } else {
+            state.user = null;
+            showScreen("onboarding");
+          }
+        });
+        return true;
+      } catch(e) {
+        console.error("Error al inicializar Firebase:", e);
+        showScreen("onboarding");
+        return false;
+      }
+    }
+
+    async function signInWithGoogle() {
+      if (!auth) {
+        showToast("Primero debés configurar Firebase");
+        showScreen("firebase-config");
+        return;
+      }
+      const provider = new firebase.auth.GoogleAuthProvider();
+      try {
+        showScreen("loading");
+        await auth.signInWithPopup(provider);
+      } catch (error) {
+        console.error("Error en login:", error);
+        showToast("Error al iniciar sesión");
+        showScreen("onboarding");
+      }
+    }
+
+    async function loadEventsFromCloud() {
+      if (!state.user || !db) return;
+      try {
+        showScreen("loading");
+        const snapshot = await db.collection("events")
+          .where("userId", "==", state.user.uid)
+          .get();
+        
+        state.history = snapshot.docs.map(doc => doc.data());
+        renderHistory();
+        // Cambiar a la pantalla principal después de cargar (por ejemplo, 'history')
+        console.log("Datos cargados:", state.history);
+      } catch (e) {
+        console.error("Error cargando datos:", e);
+        showToast("Error al cargar los datos");
+      }
+    }
+
+    function renderHistory() {
+      // Lógica de renderizado de historial
+      console.log("Renderizando historial...");
+    }
+
+    function saveFirebaseConfig() {
+      const config = {
+        apiKey: document.getElementById('fb-apiKey').value.trim(),
+        authDomain: document.getElementById('fb-authDomain').value.trim(),
+        projectId: document.getElementById('fb-projectId').value.trim()
+      };
+      
+      if (!config.apiKey || !config.authDomain || !config.projectId) {
+        showToast("Por favor, completá todos los campos.");
+        return;
+      }
+      
+      localStorage.setItem('firebaseConfig', JSON.stringify(config));
+      const ok = initFirebase(config);
+      if (ok) {
+        showToast("Configuración guardada con éxito");
+      }
+    }
+
+    function loadFromStorage() {
+      const storedConfig = localStorage.getItem('firebaseConfig');
+      if (storedConfig) {
+        const config = JSON.parse(storedConfig);
+        initFirebase(config);
+      } else {
+        setTimeout(() => showScreen("onboarding"), 1500);
+      }
+    }
+
+    // ══════════════════════════════════════════════════════════
+    //  BOOT (ARRANQUE)
+    // ══════════════════════════════════════════════════════════
+    (function boot() {
+      loadFromStorage();
+    })();
+  </script>
 </body>
 </html>
