@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>DivideGastos Pro | vMaster 2.0</title>
+<title>DivideGastos Pro | vMaster 3.0</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
@@ -28,28 +28,23 @@
     .card:active { transform: scale(0.97); }
     
     .tabs-nav { display: flex; background: var(--surface2); padding: 5px; border-radius: 18px; margin-bottom: 20px; gap: 4px; overflow-x: auto; scrollbar-width: none; }
-    .tabs-nav::-webkit-scrollbar { display: none; }
-    .tab-btn { flex: 1; min-width: 85px; padding: 12px 8px; border: none; background: none; color: var(--muted); font-weight: 700; cursor: pointer; border-radius: 14px; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.5px; }
+    .tab-btn { flex: 1; min-width: 85px; padding: 12px 8px; border: none; background: none; color: var(--muted); font-weight: 700; cursor: pointer; border-radius: 14px; font-size: 0.65rem; text-transform: uppercase; }
     .tab-btn.active { background: var(--accent); color: white; box-shadow: 0 4px 15px rgba(255, 0, 69, 0.3); }
 
     .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.94); display: none; align-items: flex-end; z-index: 1000; padding: 10px; }
     .modal-overlay.active { display: flex; }
-    .modal { background: var(--surface); width: 100%; border-radius: 30px; padding: 25px; max-height: 92vh; overflow-y: auto; border: 1px solid var(--border); box-shadow: 0 -10px 40px rgba(0,0,0,0.5); }
+    .modal { background: var(--surface); width: 100%; border-radius: 30px; padding: 25px; max-height: 92vh; overflow-y: auto; border: 1px solid var(--border); }
     
-    input, select { width: 100%; background: var(--surface2); border: 1px solid var(--border); padding: 18px; border-radius: 16px; color: white; margin-bottom: 18px; font-size: 1rem; outline: none; transition: 0.2s; }
-    input:focus { border-color: var(--accent); background: var(--bg); }
-    
-    .btn-main { width: 100%; padding: 20px; border-radius: 18px; border: none; font-weight: 800; cursor: pointer; background: var(--accent); color: white; font-size: 1rem; text-transform: uppercase; letter-spacing: 1px; }
+    input, select { width: 100%; background: var(--surface2); border: 1px solid var(--border); padding: 18px; border-radius: 16px; color: white; margin-bottom: 18px; font-size: 1rem; outline: none; }
+    .btn-main { width: 100%; padding: 20px; border-radius: 18px; border: none; font-weight: 800; cursor: pointer; background: var(--accent); color: white; font-size: 1rem; text-transform: uppercase; }
 
-    .check-item { display: flex; align-items: center; justify-content: space-between; padding: 16px; background: var(--surface2); border-radius: 16px; margin-bottom: 10px; border: 1px solid transparent; transition: 0.2s; }
-    .check-item.selected { border-color: var(--accent-soft); background: rgba(255, 0, 69, 0.05); }
-    .check-item input[type="checkbox"] { width: 22px; height: 22px; accent-color: var(--accent); margin: 0; }
+    .check-item { display: flex; align-items: center; justify-content: space-between; padding: 16px; background: var(--surface2); border-radius: 16px; margin-bottom: 10px; border: 1px solid transparent; }
+    .check-item input[type="checkbox"] { width: 22px; height: 22px; accent-color: var(--accent); }
 
-    .fab { position: fixed; bottom: 30px; right: 25px; width: 68px; height: 68px; background: var(--accent); color: white; border-radius: 50%; border: none; font-size: 30px; box-shadow: 0 12px 30px rgba(255, 0, 69, 0.4); z-index: 90; display: flex; align-items: center; justify-content: center; transition: 0.3s; }
-    .fab:active { transform: scale(0.85) rotate(90deg); }
+    .fab { position: fixed; bottom: 30px; right: 25px; width: 68px; height: 68px; background: var(--accent); color: white; border-radius: 50%; border: none; font-size: 30px; box-shadow: 0 12px 30px rgba(255, 0, 69, 0.4); z-index: 90; display: flex; align-items: center; justify-content: center; }
 
     #screen-loading { position: fixed; inset: 0; background: var(--bg); z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-    .loader { width: 45px; height: 45px; border: 4px solid var(--surface2); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s cubic-bezier(0.5, 0, 0.5, 1) infinite; }
+    .loader { width: 45px; height: 45px; border: 4px solid var(--surface2); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
 </style>
 
@@ -63,22 +58,19 @@
 
 <div id="screen-login" class="screen">
     <div style="flex:1; display:flex; flex-direction:column; justify-content:center; align-items:center; padding:40px; text-align:center;">
-        <div style="width:110px; height:110px; background:var(--accent); border-radius:35px; display:flex; align-items:center; justify-content:center; margin-bottom:30px; transform: rotate(-6deg); box-shadow: 0 20px 40px rgba(255, 0, 69, 0.4);">
-            <i class="fa-solid fa-coins fa-4x" style="color:white;"></i>
-        </div>
-        <h1 style="font-family:'Syne'; font-size:2.8rem; font-weight:800; line-height:0.9;">Divide<br><span style="color:var(--accent)">PRO</span></h1>
-        <p style="color:var(--muted); margin: 25px 0 45px; font-size:1.1rem;">Gestión de gastos nivel experto.</p>
-        <button class="btn-main" onclick="login()"><i class="fa-brands fa-google" style="margin-right:12px;"></i> Entrar con Google</button>
+        <i class="fa-solid fa-coins fa-5x" style="color:var(--accent); margin-bottom:20px;"></i>
+        <h1 style="font-family:'Syne'; font-size:2.8rem; font-weight:800;">Divide<span style="color:var(--accent)">PRO</span></h1>
+        <button class="btn-main" style="margin-top:40px;" onclick="login()">Entrar con Google</button>
     </div>
 </div>
 
 <div id="screen-main" class="screen">
     <header>
-        <div class="user-box"><img id="header-img" src=""><span id="header-name" style="font-weight:800; font-family:'Syne'; font-size:1.1rem;">Manuel</span></div>
-        <button onclick="logout()" style="background:none; border:none; color:var(--muted); font-size:1.3rem;"><i class="fa-solid fa-right-from-bracket"></i></button>
+        <div class="user-box"><img id="header-img" src=""><span id="header-name" style="font-weight:800; font-family:'Syne';">Manuel</span></div>
+        <button onclick="logout()" style="background:none; border:none; color:var(--muted);"><i class="fa-solid fa-right-from-bracket"></i></button>
     </header>
     <div class="container">
-        <h2 style="font-family:'Syne'; font-size:2rem; margin-bottom:25px; letter-spacing:-1px;">Mis Eventos</h2>
+        <h2 style="font-family:'Syne'; margin-bottom:25px;">Mis Eventos</h2>
         <div id="event-list"></div>
     </div>
     <button class="fab" onclick="openModalCreate()"><i class="fa-solid fa-plus"></i></button>
@@ -86,9 +78,9 @@
 
 <div id="screen-detail" class="screen">
     <header>
-        <button onclick="showScreen('screen-main')" style="background:none; border:none; color:white; font-size:1.4rem;"><i class="fa-solid fa-arrow-left"></i></button>
-        <h3 id="det-title" style="font-family:'Syne'; font-size:1rem; flex:1; text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; padding:0 10px;">Cargando...</h3>
-        <button onclick="shareEvent()" style="background:none; border:none; color:var(--accent); font-size:1.3rem;"><i class="fa-solid fa-user-plus"></i></button>
+        <button onclick="showScreen('screen-main')" style="background:none; border:none; color:white;"><i class="fa-solid fa-arrow-left"></i></button>
+        <h3 id="det-title" style="font-family:'Syne'; flex:1; text-align:center;">Grupo</h3>
+        <button onclick="shareEvent()" style="background:none; border:none; color:var(--accent);"><i class="fa-solid fa-user-plus"></i></button>
     </header>
     <div class="container">
         <div class="tabs-nav">
@@ -104,13 +96,12 @@
 
 <div id="modal-new-event" class="modal-overlay" onclick="if(event.target==this)closeModal('modal-new-event')">
     <div class="modal">
-        <h2 style="font-family:'Syne'; margin-bottom:20px; font-size:1.8rem;">Nuevo Grupo</h2>
-        <input type="text" id="new-name" placeholder="Ej: Viaje Bariloche">
-        <label style="font-size:0.75rem; color:var(--muted); font-weight:800; display:block; margin-bottom:10px;">PARTICIPANTES:</label>
+        <h2 style="font-family:'Syne'; margin-bottom:20px;">Nuevo Grupo</h2>
+        <input type="text" id="new-name" placeholder="Nombre del viaje/evento">
         <div id="setup-parts-list" style="margin-bottom:15px; display:flex; flex-wrap:wrap; gap:8px;"></div>
         <div style="display:flex; gap:10px; margin-bottom:25px;">
-            <input type="text" id="in-part-name" placeholder="Nombre de amigo" onkeypress="if(event.key==='Enter')addPartToSetup()" style="margin-bottom:0;">
-            <button onclick="addPartToSetup()" style="background:var(--accent); border:none; color:white; width:60px; border-radius:16px; font-size:1.2rem;"><i class="fa-solid fa-plus"></i></button>
+            <input type="text" id="in-part-name" placeholder="Amigo + Enter" onkeypress="if(event.key==='Enter')addPartToSetup()" style="margin-bottom:0;">
+            <button onclick="addPartToSetup()" style="background:var(--accent); border:none; color:white; width:60px; border-radius:16px;"><i class="fa-solid fa-plus"></i></button>
         </div>
         <button id="btn-create" class="btn-main" onclick="dbCreateEvent()">Crear Grupo</button>
     </div>
@@ -118,14 +109,12 @@
 
 <div id="modal-add-expense" class="modal-overlay" onclick="if(event.target==this)closeModal('modal-add-expense')">
     <div class="modal">
-        <h2 style="margin-bottom:20px; font-family:'Syne'; font-size:1.8rem;">Cargar Gasto</h2>
-        <input type="text" id="ex-desc" placeholder="¿Qué se compró?">
-        <input type="number" id="ex-amount" placeholder="Monto total ($)">
-        <label style="font-size:0.75rem; color:var(--muted); font-weight:800; display:block; margin-bottom:10px;">QUIÉN PAGÓ:</label>
-        <select id="ex-payer" style="margin-bottom:25px;"></select>
-        <label style="font-size:0.75rem; color:var(--muted); font-weight:800; display:block; margin-bottom:10px;">PARA QUIÉNES:</label>
+        <h2 style="margin-bottom:20px; font-family:'Syne';">Cargar Gasto</h2>
+        <input type="text" id="ex-desc" placeholder="Descripción">
+        <input type="number" id="ex-amount" placeholder="Monto ($)">
+        <select id="ex-payer"></select>
         <div id="ex-list-checks" style="margin-bottom:30px;"></div>
-        <button class="btn-main" onclick="dbAddExpense()">Guardar Gasto</button>
+        <button class="btn-main" id="btn-save-expense" onclick="dbAddExpense()">Guardar Gasto</button>
     </div>
 </div>
 
@@ -138,14 +127,11 @@
       messagingSenderId: "1073347556736",
       appId: "1:1073347556736:web:d98c2c848cf73c7148bd65"
     };
-
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     const db = firebase.firestore();
 
-    let currentEvent = null;
-    let activeTab = 'gastos';
-    let tempParticipants = [];
+    let currentEvent = null, activeTab = 'gastos', tempParticipants = [];
 
     function showScreen(id) {
         document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -162,7 +148,7 @@
         } else { showScreen('screen-login'); }
     });
 
-    async function login() { try { await auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()); } catch(e) { console.error(e); } }
+    async function login() { await auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()); }
     function logout() { auth.signOut().then(() => location.reload()); }
 
     function openModalCreate() {
@@ -181,9 +167,7 @@
 
     function renderSetupParts() {
         document.getElementById('setup-parts-list').innerHTML = tempParticipants.map(p => `
-            <div style="background:var(--accent-soft); color:var(--accent); padding:8px 15px; border-radius:12px; font-size:0.85rem; font-weight:700; display:flex; align-items:center; gap:8px;">
-                ${p.name} ${p.id !== auth.currentUser.uid ? `<i class="fa-solid fa-circle-xmark" onclick="tempParticipants=tempParticipants.filter(x=>x.id!=='${p.id}');renderSetupParts()" style="cursor:pointer; opacity:0.7;"></i>` : ''}
-            </div>
+            <div style="background:var(--accent-soft); color:var(--accent); padding:8px 15px; border-radius:12px; font-weight:700;">${p.name}</div>
         `).join('');
     }
 
@@ -191,45 +175,27 @@
         db.collection('events').where('participantsIds', 'array-contains', auth.currentUser.uid)
         .onSnapshot(snap => {
             const list = document.getElementById('event-list');
-            if(snap.empty) {
-                list.innerHTML = `<div style="text-align:center; padding:50px; opacity:0.3;"><i class="fa-solid fa-folder-open fa-3x"></i><p style="margin-top:15px;">No tenés grupos activos</p></div>`;
-                return;
-            }
-            list.innerHTML = snap.docs.map(doc => `
-                <div class="card" onclick="openEvent('${doc.id}')">
-                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <div>
-                            <h4 style="font-family:'Syne'; font-size:1.2rem; color:white; margin-bottom:4px;">${doc.data().name}</h4>
-                            <p style="font-size:0.7rem; color:var(--muted); font-weight:800; text-transform:uppercase;">${doc.data().participants.length} integrantes</p>
-                        </div>
-                        <i class="fa-solid fa-chevron-right" style="color:var(--accent); opacity:0.5;"></i>
-                    </div>
-                </div>
-            `).join('');
+            list.innerHTML = snap.empty ? '<p style="text-align:center; padding:40px;">No hay grupos.</p>' : 
+            snap.docs.map(doc => `<div class="card" onclick="openEvent('${doc.id}')"><h4 style="font-family:'Syne'; color:white;">${doc.data().name}</h4></div>`).join('');
         });
     }
 
     async function dbCreateEvent() {
         const name = document.getElementById('new-name').value;
-        if(!name) return alert("Ponéle un nombre al grupo");
+        if(!name) return;
         const ids = tempParticipants.map(p => p.id);
-        
+        if(!ids.includes(auth.currentUser.uid)) ids.push(auth.currentUser.uid); // FIX PERSISTENCIA
+
         try {
-            const doc = await db.collection('events').add({
-                name, currency: 'ARS',
-                participantsIds: ids,
-                participants: tempParticipants,
-                expenses: [],
+            await db.collection('events').add({
+                name, participantsIds: ids, participants: tempParticipants, expenses: [],
                 logs: [{u: auth.currentUser.displayName, a: "creó el grupo", d: Date.now()}]
             });
-            closeModal('modal-new-event');
-            openEvent(doc.id);
-        } catch(e) { console.error(e); }
+        } finally { closeModal('modal-new-event'); } // FIX CIERRE FORM
     }
 
     function openEvent(id) {
         db.collection('events').doc(id).onSnapshot(doc => {
-            if(!doc.exists) return;
             currentEvent = {id: doc.id, ...doc.data()};
             document.getElementById('det-title').innerText = currentEvent.name;
             renderExpenseForm();
@@ -241,91 +207,76 @@
     function renderExpenseForm() {
         document.getElementById('ex-payer').innerHTML = currentEvent.participants.map(p => `<option value="${p.id}">${p.name}</option>`).join('');
         document.getElementById('ex-list-checks').innerHTML = currentEvent.participants.map(p => `
-            <div class="check-item" onclick="this.querySelector('input').click()">
-                <span style="font-weight:700; color:var(--text);">${p.name}</span>
-                <input type="checkbox" value="${p.id}" checked onclick="event.stopPropagation(); this.parentElement.classList.toggle('selected', !this.checked)">
-            </div>
+            <div class="check-item"><span style="font-weight:700;">${p.name}</span><input type="checkbox" value="${p.id}" checked class="ex-check"></div>
         `).join('');
     }
 
     async function dbAddExpense() {
-        const desc = document.getElementById('ex-desc').value;
-        const amount = parseFloat(document.getElementById('ex-amount').value);
-        if(!desc || !amount) return alert("Completá descripción y monto");
-        const payerId = document.getElementById('ex-payer').value;
-        const included = Array.from(document.querySelectorAll('.ex-check:checked, .check-item input:checked')).map(c => c.value);
+        const desc = document.getElementById('ex-desc').value, amount = parseFloat(document.getElementById('ex-amount').value);
+        if(!desc || !amount) return;
+        const payerId = document.getElementById('ex-payer').value, included = Array.from(document.querySelectorAll('.ex-check:checked')).map(c => c.value);
 
-        const exp = { id: Date.now(), desc, amount, payerId, includedIds: included, payerName: currentEvent.participants.find(p => p.id === payerId).name, d: Date.now() };
-        
         try {
             await db.collection('events').doc(currentEvent.id).update({
-                expenses: firebase.firestore.FieldValue.arrayUnion(exp),
+                expenses: firebase.firestore.FieldValue.arrayUnion({ id: Date.now(), desc, amount, payerId, includedIds: included, payerName: currentEvent.participants.find(p => p.id === payerId).name, d: Date.now() }),
                 logs: firebase.firestore.FieldValue.arrayUnion({u: auth.currentUser.displayName, a: `gastó $${amount} en ${desc}`, d: Date.now()})
             });
-            closeModal('modal-add-expense');
-        } catch(e) { console.error(e); }
+        } finally { closeModal('modal-add-expense'); } // FIX CIERRE FORM
     }
 
     function switchTab(t, btn) {
         activeTab = t;
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-        
-        // El FAB solo se muestra en Gastos o Transferencias
-        document.getElementById('fab-detail').style.display = (t === 'gastos' || t === 'transfer') ? 'flex' : 'none';
         renderTab();
+    }
+
+    function calculateBalances() {
+        let balances = {};
+        currentEvent.participants.forEach(p => balances[p.id] = 0);
+        currentEvent.expenses.forEach(e => {
+            balances[e.payerId] += e.amount;
+            let share = e.amount / e.includedIds.length;
+            e.includedIds.forEach(id => balances[id] -= share);
+        });
+        return balances;
     }
 
     function renderTab() {
         const area = document.getElementById('tab-area');
         if(activeTab === 'gastos') {
-            area.innerHTML = currentEvent.expenses.length ? currentEvent.expenses.map(e => `
-                <div class="card" style="border-left:5px solid var(--accent); padding:15px;">
-                    <div style="display:flex; justify-content:space-between; align-items:start;">
-                        <div>
-                            <b style="color:white; font-size:1.1rem; display:block; margin-bottom:2px;">${e.desc}</b>
-                            <span style="font-size:0.75rem; color:var(--muted);">Pagó <b>${e.payerName}</b></span>
-                        </div>
-                        <div style="text-align:right;">
-                            <span style="color:var(--accent); font-weight:900; font-size:1.2rem;">$${e.amount}</span>
-                        </div>
-                    </div>
-                </div>
-            `).join('') : '<p style="text-align:center; padding:40px; color:var(--muted); font-size:0.9rem;">No hay gastos cargados.</p>';
+            area.innerHTML = currentEvent.expenses.map(e => `<div class="card" style="border-left:5px solid var(--accent)"><b>${e.desc}</b><br><small>$${e.amount} (Pagó ${e.payerName})</small></div>`).join('');
         } else if(activeTab === 'saldos') {
-            area.innerHTML = `
-                <div style="text-align:center; padding:60px 20px; background:var(--surface); border-radius:30px; border:1px dashed var(--border);">
-                    <i class="fa-solid fa-chart-pie fa-3x" style="color:var(--accent); opacity:0.5; margin-bottom:20px;"></i>
-                    <h3 style="font-family:'Syne'; margin-bottom:10px;">Calculando Saldos...</h3>
-                    <p style="font-size:0.9rem; color:var(--muted);">Estamos procesando quién le debe a quién para optimizar las cuentas.</p>
-                </div>`;
+            const bal = calculateBalances();
+            area.innerHTML = currentEvent.participants.map(p => `
+                <div class="card" style="display:flex; justify-content:space-between;">
+                    <span>${p.name}</span><b style="color:${bal[p.id] >= 0 ? 'var(--green)' : 'var(--red)'}">$${bal[p.id].toFixed(2)}</b>
+                </div>`).join('');
         } else if(activeTab === 'transfer') {
-            area.innerHTML = `
-                <div style="padding:10px;">
-                    <h4 style="font-family:'Syne'; color:var(--muted); margin-bottom:15px; font-size:0.8rem; text-transform:uppercase;">Registrar Pago Directo</h4>
-                    <p style="font-size:0.9rem; color:var(--muted); text-align:center; padding:40px;">Aquí aparecerán los CBU/Alias y registros de transferencias entre amigos.</p>
-                </div>`;
+            const bal = calculateBalances();
+            let deudores = [], acreedores = [];
+            for(let id in bal) { 
+                if(bal[id] < -0.01) deudores.push({id, amt: -bal[id]});
+                if(bal[id] > 0.01) acreedores.push({id, amt: bal[id]});
+            }
+            let trans = [];
+            deudores.forEach(d => {
+                acreedores.forEach(a => {
+                    if(d.amt > 0 && a.amt > 0) {
+                        let move = Math.min(d.amt, a.amt);
+                        trans.push(`<b>${currentEvent.participants.find(p=>p.id===d.id).name}</b> le transfiere $${move.toFixed(2)} a <b>${currentEvent.participants.find(p=>p.id===a.id).name}</b>`);
+                        d.amt -= move; a.amt -= move;
+                    }
+                });
+            });
+            area.innerHTML = trans.map(t => `<div class="card" style="font-size:0.9rem;">${t}</div>`).join('') || '<p style="text-align:center;">Todo saldado!</p>';
         } else {
-            area.innerHTML = currentEvent.logs.slice().reverse().map(l => `
-                <div style="padding:15px; background:var(--surface2); border-radius:12px; margin-bottom:8px; font-size:0.85rem;">
-                    <b style="color:var(--accent)">${l.u}</b> ${l.a}
-                </div>
-            `).join('');
+            area.innerHTML = currentEvent.logs.slice().reverse().map(l => `<div style="padding:10px; border-bottom:1px solid var(--border); font-size:0.8rem;"><b>${l.u}</b> ${l.a}</div>`).join('');
         }
     }
 
-    function shareEvent() {
-        const url = window.location.origin + window.location.pathname + "?join=" + currentEvent.id;
-        if(navigator.share) navigator.share({title: 'Sumate a ' + currentEvent.name, url});
-        else prompt("Copiá este link para invitar amigos:", url);
-    }
-
     function openModal(id) { document.getElementById(id).classList.add('active'); }
-    function closeModal(id) { 
-        document.getElementById(id).classList.remove('active'); 
-        const inputs = document.getElementById(id).querySelectorAll('input');
-        inputs.forEach(i => i.value = '');
-    }
+    function closeModal(id) { document.getElementById(id).classList.remove('active'); }
 </script>
 </body>
 </html>
