@@ -3,15 +3,19 @@
     --danger: #e74c3c;
     --dark: #2c3e50;
     --light: #f4f7f6;
-    --gray: #7f8c8d;
-    --peya-red: #ff0045; /* Color característico de PedidosYa */
+    --peya-red: #ff0045;
 }
 
 body { font-family: 'Segoe UI', sans-serif; background: var(--light); margin: 0; padding-bottom: 100px; color: var(--dark); }
 .hidden { display: none !important; }
 
 header { background: var(--dark); color: white; padding: 25px 20px; text-align: center; position: relative; }
-.header-actions { position: absolute; left: 10px; top: 25px; display: flex; gap: 8px; align-items: center; }
+.header-actions { position: absolute; left: 10px; top: 15px; display: flex; flex-direction: column; gap: 10px; align-items: flex-start; }
+
+.lang-wrapper { display: flex; align-items: center; gap: 5px; background: rgba(255,255,255,0.1); padding: 2px 8px; border-radius: 15px; font-size: 0.8rem; }
+.lang-wrapper select { background: none; border: none; color: white; padding: 2px; margin: 0; width: auto; font-size: 0.75rem; cursor: pointer; }
+.lang-wrapper select option { color: black; }
+
 .icon-btn { background: none; border: none; color: white; font-size: 1.1rem; cursor: pointer; padding: 5px; position: relative; }
 .dot { position: absolute; top: 0; right: 0; width: 10px; height: 10px; background: #f1c40f; border-radius: 50%; border: 2px solid var(--dark); }
 
@@ -19,24 +23,20 @@ header { background: var(--dark); color: white; padding: 25px 20px; text-align: 
 .card { background: white; margin: 15px; padding: 20px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
 
 .tabs { display: flex; background: white; border-bottom: 1px solid #ddd; position: sticky; top: 0; z-index: 10; }
-.tab-btn { flex: 1; padding: 15px; border: none; background: none; font-weight: bold; color: var(--gray); cursor: pointer; }
+.tab-btn { flex: 1; padding: 15px; border: none; background: none; font-weight: bold; color: #7f8c8d; cursor: pointer; }
 .tab-btn.active { color: var(--primary); border-bottom: 3px solid var(--primary); }
 
 input, select { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; box-sizing: border-box; }
 .input-group { display: flex; gap: 5px; }
 .btn-main { background: var(--primary); color: white; border: none; padding: 15px; border-radius: 8px; font-weight: bold; width: 100%; cursor: pointer; }
 .btn-secondary { background: var(--dark); color: white; border: none; padding: 10px; border-radius: 8px; margin-top: 10px; }
-.btn-small { padding: 5px 10px; font-size: 0.75rem; margin: 5px 2px; cursor: pointer; border-radius: 4px; border: 1px solid #ddd; background: #fff; }
 .btn-cancel { background: #ecf0f1; border: none; padding: 15px; border-radius: 8px; flex: 1; cursor: pointer; }
 
-/* FAB ajustado para no tapar el banner */
 .fab { position: fixed; bottom: 85px; right: 20px; width: 60px; height: 60px; background: var(--primary); color: white; border-radius: 50%; border: none; font-size: 2rem; box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 99; }
 
-/* BANNER PUBLICITARIO */
 #ads-container { position: fixed; bottom: 0; left: 0; width: 100%; padding: 10px; background: white; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); box-sizing: border-box; z-index: 100; }
 .ad-banner { display: flex; justify-content: space-between; align-items: center; background: var(--peya-red); color: white; padding: 12px 18px; border-radius: 10px; text-decoration: none; font-size: 0.9rem; }
 .ad-content { display: flex; align-items: center; gap: 10px; }
-.ad-icon { font-size: 0.8rem; opacity: 0.8; }
 
 .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; z-index: 101; }
 .modal-content { background: white; width: 90%; max-width: 450px; padding: 25px; border-radius: 15px; max-height: 85vh; overflow-y: auto; }
@@ -47,7 +47,3 @@ input, select { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #d
 .history-item { padding: 15px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
 .positive { color: var(--primary); font-weight: bold; }
 .negative { color: var(--danger); font-weight: bold; }
-.participant-item { display: flex; align-items: center; padding: 8px; border-bottom: 1px solid #f9f9f9; width: 100%; }
-.participant-item input { width: auto; margin-right: 12px; }
-#friends-list { list-style: none; padding: 0; }
-#friends-list li { background: #f8f9fa; padding: 10px; margin: 5px 0; border-radius: 6px; border-left: 3px solid var(--dark); }
