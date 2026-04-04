@@ -7,48 +7,45 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #0d0f14; --surface: #161920; --surface2: #1e2230; --border: #2a2f40;
-    --accent: #6c63ff; --accent2: #ff6584; --green: #1de9b6; --red: #ff6584;
-    --text: #e8eaf0; --muted: #7a7f99; --radius: 16px;
-  }
-  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); }
-  
-  .screen { display: none; min-height: 100vh; flex-direction: column; animation: fadeIn 0.3s ease; }
-  .screen.active { display: flex; }
-  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    /* Mantenemos exactamente tus variables de diseño del archivo .txt */
+    :root {
+        --bg: #0d0f14; --surface: #161920; --surface2: #1e2230; --border: #2a2f40;
+        --accent: #6c63ff; --accent2: #ff6584; --green: #1de9b6; --red: #ff6584;
+        --text: #e8eaf0; --muted: #7a7f99; --pedidosya: #ff0045; --radius: 16px;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); }
+    
+    /* Estilos de las pantallas */
+    .screen { display: none; min-height: 100vh; flex-direction: column; animation: fadeIn 0.3s ease; }
+    .screen.active { display: flex; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-  /* HEADER */
-  header { padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; background: rgba(22,25,32,0.8); backdrop-filter: blur(10px); sticky: top; z-index: 100; border-bottom: 1px solid var(--border); }
-  .user-badge { display: flex; align-items: center; gap: 8px; background: var(--surface2); padding: 4px 12px 4px 4px; border-radius: 30px; border: 1px solid var(--border); }
-  .user-badge img { width: 26px; height: 26px; border-radius: 50%; }
+    /* Estilos de los Eventos y Tabs (Igual a tu .txt) */
+    .container { padding: 20px; max-width: 600px; margin: 0 auto; width: 100%; }
+    .event-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-bottom: 12px; cursor: pointer; position: relative; }
+    .event-card.shared { border-left: 4px solid var(--accent2); }
+    
+    .tabs-nav { display: flex; background: var(--surface); padding: 5px; border-radius: 12px; margin-bottom: 20px; position: sticky; top: 70px; z-index: 10; }
+    .tab-btn { flex: 1; padding: 10px; border: none; background: none; color: var(--muted); font-weight: 600; cursor: pointer; border-radius: 8px; }
+    .tab-btn.active { background: var(--accent); color: white; }
 
-  /* CONTENIDO */
-  .container { padding: 20px; max-width: 600px; margin: 0 auto; width: 100%; flex: 1; }
-  h2 { font-family: 'Syne'; font-weight: 800; font-size: 1.8rem; margin-bottom: 20px; }
-  
-  .event-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-bottom: 12px; cursor: pointer; transition: 0.2s; position: relative; }
-  .event-card:active { transform: scale(0.98); background: var(--surface2); }
-  .event-card::after { content: '\f054'; font-family: 'Font Awesome 6 Free'; font-weight: 900; position: absolute; right: 20px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 0.8rem; }
+    /* FAB */
+    .fab { position: fixed; bottom: 30px; right: 25px; width: 60px; height: 60px; background: var(--accent); color: white; border-radius: 50%; border: none; font-size: 24px; box-shadow: 0 8px 20px rgba(0,0,0,0.4); z-index: 90; display: flex; align-items: center; justify-content: center; cursor: pointer; }
 
-  /* BOTÓN FLOTANTE */
-  .fab { position: fixed; bottom: 30px; right: 25px; width: 60px; height: 60px; background: var(--accent); color: white; border-radius: 50%; border: none; font-size: 24px; box-shadow: 0 8px 20px rgba(0,0,0,0.4); z-index: 90; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+    /* Modales Estilo .txt */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); display: none; align-items: flex-end; z-index: 1000; }
+    .modal-overlay.active { display: flex; }
+    .modal { background: var(--surface); width: 100%; border-radius: 24px 24px 0 0; padding: 30px 20px; max-height: 90vh; overflow-y: auto; }
+    input, select { width: 100%; background: var(--surface2); border: 1px solid var(--border); padding: 16px; border-radius: 12px; color: white; margin-bottom: 15px; font-size: 1rem; }
+    
+    /* Historial / Log */
+    .log-item { padding: 12px 0; border-bottom: 1px solid var(--border); font-size: 0.85rem; color: var(--muted); }
+    .log-item b { color: var(--accent); }
 
-  /* MODALES */
-  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); display: none; align-items: flex-end; z-index: 1000; }
-  .modal-overlay.active { display: flex; }
-  .modal { background: var(--surface); width: 100%; border-radius: 24px 24px 0 0; padding: 30px 20px; animation: slideUp 0.3s ease; }
-  @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-  
-  input, select { width: 100%; background: var(--surface2); border: 1px solid var(--border); padding: 16px; border-radius: 12px; color: white; margin-bottom: 15px; font-size: 1rem; outline: none; }
-  .btn { width: 100%; padding: 16px; border-radius: 12px; border: none; font-weight: bold; cursor: pointer; font-size: 1rem; }
-  .btn-primary { background: var(--accent); color: white; }
-  
-  /* LOADING */
-  #screen-loading { justify-content: center; align-items: center; position: fixed; inset: 0; z-index: 9999; background: var(--bg); }
-  .spinner { width: 40px; height: 40px; border: 3px solid var(--surface2); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; }
-  @keyframes spin { to { transform: rotate(360deg); } }
+    header { padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); background: var(--bg); position: sticky; top: 0; z-index: 100; }
+    .user-pill { display: flex; align-items: center; gap: 8px; background: var(--surface2); padding: 5px 12px; border-radius: 20px; }
+    .user-pill img { width: 24px; height: 24px; border-radius: 50%; }
 </style>
 
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
@@ -57,48 +54,67 @@
 </head>
 <body>
 
-  <div id="screen-loading" class="screen active"><div class="spinner"></div></div>
+<div id="screen-loading" class="screen active" style="justify-content:center; align-items:center;">
+    <div style="width:40px; height:40px; border:3px solid var(--surface2); border-top-color:var(--accent); border-radius:50%; animation:spin 1s linear infinite;"></div>
+</div>
 
-  <div id="screen-onboarding" class="screen">
+<div id="screen-auth" class="screen">
     <div style="margin: auto; text-align: center; padding: 40px;">
-      <i class="fa-solid fa-receipt fa-4x" style="color:var(--accent); margin-bottom:20px"></i>
-      <h1 style="font-family:'Syne'; font-size: 2.5rem; margin-bottom: 10px;">DivideGastos</h1>
-      <p style="color:var(--muted); margin-bottom:30px">Ingreso seguro con Google</p>
-      <button class="btn" style="background:white; color:black; display:flex; align-items:center; justify-content:center; gap:10px" onclick="login()">
-        <img src="https://www.gstatic.com/images/branding/product/1x/gsa_512dp.png" width="18"> Continuar con Google
-      </button>
+        <h1 style="font-family:'Syne'; font-size: 3rem; margin-bottom: 10px;">DivideGastos</h1>
+        <p style="color:var(--muted); margin-bottom:40px;">Gestión de gastos colaborativa profesional</p>
+        <button onclick="login()" style="width:100%; padding:18px; border-radius:15px; border:none; background:white; color:black; font-weight:bold; display:flex; align-items:center; justify-content:center; gap:12px; cursor:pointer;">
+            <img src="https://www.gstatic.com/images/branding/product/1x/gsa_512dp.png" width="20"> Entrar con Google
+        </button>
     </div>
-  </div>
+</div>
 
-  <div id="screen-main" class="screen">
+<div id="screen-main" class="screen">
     <header>
-      <div class="user-badge">
-        <img id="user-photo" src="">
-        <span id="user-name">...</span>
-      </div>
-      <button onclick="logout()" style="background:none; border:none; color:var(--red)"><i class="fa-solid fa-power-off"></i></button>
+        <div class="user-pill">
+            <img id="user-photo" src="">
+            <span id="user-name">...</span>
+        </div>
+        <button onclick="logout()" style="background:none; border:none; color:var(--red); font-size:1.2rem;"><i class="fa-solid fa-power-off"></i></button>
     </header>
     <div class="container">
-      <h2>Mis Eventos</h2>
-      <div id="event-list"></div>
+        <h2 style="font-family:'Syne';">Mis Eventos</h2>
+        <div id="event-list"></div>
     </div>
-    <button class="fab" onclick="openModal('modal-new')"><i class="fa-solid fa-plus"></i></button>
-  </div>
+    <button class="fab" onclick="openModal('modal-new-event')"><i class="fa-solid fa-plus"></i></button>
+</div>
 
-  <div id="modal-new" class="modal-overlay" onclick="if(event.target==this)closeModal('modal-new')">
+<div id="screen-detail" class="screen">
+    <header>
+        <button onclick="showScreen('main')" style="background:none; border:none; color:white;"><i class="fa-solid fa-arrow-left"></i></button>
+        <h3 id="detail-title" style="font-family:'Syne';">Evento</h3>
+        <button onclick="shareEvent()" style="background:none; border:none; color:var(--accent); font-size:1.2rem;"><i class="fa-solid fa-share-nodes"></i></button>
+    </header>
+    <div class="container">
+        <div class="tabs-nav">
+            <button class="tab-btn active" onclick="switchTab('gastos')">Gastos</button>
+            <button class="tab-btn" onclick="switchTab('saldos')">Saldos</button>
+            <button class="tab-btn" onclick="switchTab('historial')">Historial</button>
+        </div>
+        <div id="detail-content"></div>
+    </div>
+    <button class="fab" onclick="openModal('modal-add-expense')"><i class="fa-solid fa-cart-plus"></i></button>
+</div>
+
+<div id="modal-new-event" class="modal-overlay" onclick="if(event.target==this)closeModal('modal-new-event')">
     <div class="modal">
-      <h2 style="font-size:1.4rem">Crear Evento</h2>
-      <input type="text" id="new-ev-name" placeholder="Nombre (ej: Asado del viernes)">
-      <select id="new-ev-currency">
-        <option value="ARS">Pesos (ARS)</option>
-        <option value="USD">Dólares (USD)</option>
-        <option value="EUR">Euros (EUR)</option>
-      </select>
-      <button class="btn btn-primary" onclick="createEvent()">Comenzar</button>
+        <h2 style="margin-bottom:20px;">Nuevo Evento</h2>
+        <input type="text" id="in-ev-name" placeholder="Nombre (ej: Asado, Viaje...)">
+        <select id="in-ev-currency">
+            <option value="ARS">Pesos (ARS)</option>
+            <option value="USD">Dólares (USD)</option>
+            <option value="EUR">Euros (EUR)</option>
+        </select>
+        <button onclick="dbCreateEvent()" style="width:100%; padding:16px; background:var(--accent); border:none; border-radius:12px; color:white; font-weight:bold;">Crear Evento</button>
     </div>
-  </div>
+</div>
 
-  <script>
+<script>
+    // --- CONFIGURACIÓN ---
     const firebaseConfig = {
       apiKey: "AIzaSyApUtaEOhMGQFMrHIzaypRX_GLx2cace_A",
       authDomain: "dividirgastosar.firebaseapp.com",
@@ -112,81 +128,111 @@
     const auth = firebase.auth();
     const db = firebase.firestore();
 
+    let currentEvent = null;
+    let currentTab = 'gastos';
+
+    // --- SESIÓN ---
+    auth.onAuthStateChanged(user => {
+        document.getElementById('screen-loading').style.display = 'none';
+        if (user) {
+            document.getElementById('user-name').innerText = user.displayName.split(' ')[0];
+            document.getElementById('user-photo').src = user.photoURL;
+            
+            const params = new URLSearchParams(window.location.search);
+            if(params.has('join')) joinEvent(params.get('join'));
+            else showScreen('main');
+            
+            loadEvents();
+        } else {
+            showScreen('auth');
+        }
+    });
+
+    async function login() { await auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()); }
+    function logout() { auth.signOut(); window.location.href = window.location.pathname; }
+
+    // --- BASE DE DATOS (FIRESTORE) ---
+    function loadEvents() {
+        db.collection('events')
+          .where('participantsIds', 'array-contains', auth.currentUser.uid)
+          .onSnapshot(snap => {
+            const list = document.getElementById('event-list');
+            list.innerHTML = snap.docs.map(doc => {
+                const d = doc.data();
+                return `<div class="event-card ${d.ownerId !== auth.currentUser.uid ? 'shared' : ''}" onclick="openDetail('${doc.id}')">
+                    <div style="font-size:0.7rem; color:var(--muted); margin-bottom:5px;">${d.ownerId === auth.currentUser.uid ? 'TÚ CREASTE ESTO' : 'POR ' + d.ownerName.toUpperCase()}</div>
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <div style="font-weight:700;">${d.name}</div>
+                        <div style="color:var(--accent); font-weight:800;">${d.currency}</div>
+                    </div>
+                </div>`;
+            }).join('');
+        });
+    }
+
+    async function dbCreateEvent() {
+        const name = document.getElementById('in-ev-name').value;
+        const cur = document.getElementById('in-ev-currency').value;
+        if(!name) return;
+
+        const user = auth.currentUser;
+        const doc = await db.collection('events').add({
+            name: name,
+            currency: cur,
+            ownerId: user.uid,
+            ownerName: user.displayName,
+            participantsIds: [user.uid],
+            participants: [{id: user.uid, name: user.displayName, photo: user.photoURL}],
+            expenses: [],
+            logs: [{u: user.displayName, a: "creó el evento", d: Date.now()}],
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        closeModal('modal-new-event');
+        openDetail(doc.id);
+    }
+
+    function openDetail(id) {
+        db.collection('events').doc(id).onSnapshot(doc => {
+            currentEvent = {id: doc.id, ...doc.data()};
+            document.getElementById('detail-title').innerText = currentEvent.name;
+            showScreen('screen-detail');
+            renderTab();
+        });
+    }
+
+    // --- INTERFAZ ---
     function showScreen(id) {
-      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-      document.getElementById('screen-' + id).classList.add('active');
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+    }
+
+    function switchTab(t) {
+        currentTab = t;
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.innerText.toLowerCase() === t));
+        renderTab();
+    }
+
+    function renderTab() {
+        const cont = document.getElementById('detail-content');
+        if(currentTab === 'gastos') {
+            cont.innerHTML = currentEvent.expenses.length === 0 ? '<p style="color:var(--muted); text-align:center; padding:40px;">No hay gastos. Toca + para agregar.</p>' : 'Lista de gastos...';
+        } else if(currentTab === 'historial') {
+            cont.innerHTML = currentEvent.logs.slice().reverse().map(l => `
+                <div class="log-item"><b>${l.u}</b> ${l.a} <br><small>${new Date(l.d).toLocaleString()}</small></div>
+            `).join('');
+        }
     }
 
     function openModal(id) { document.getElementById(id).classList.add('active'); }
     function closeModal(id) { document.getElementById(id).classList.remove('active'); }
 
-    // --- SESIÓN ---
-    auth.onAuthStateChanged(user => {
-      if (user) {
-        document.getElementById('user-name').innerText = user.displayName.split(' ')[0];
-        document.getElementById('user-photo').src = user.photoURL;
-        showScreen('main');
-        loadEvents();
-      } else {
-        showScreen('onboarding');
-      }
-      document.getElementById('screen-loading').classList.remove('active');
-    });
-
-    async function login() {
-      const provider = new firebase.auth.GoogleAuthProvider();
-      try { await auth.signInWithPopup(provider); } catch(e) { alert(e.message); }
+    function shareEvent() {
+        const url = window.location.origin + window.location.pathname + "?join=" + currentEvent.id;
+        if(navigator.share) navigator.share({title: currentEvent.name, url: url});
+        else prompt("Copia el link:", url);
     }
 
-    function logout() { auth.signOut(); }
-
-    // --- FIRESTORE ---
-    function loadEvents() {
-      db.collection('events')
-        .where('participantsIds', 'array-contains', auth.currentUser.uid)
-        .orderBy('createdAt', 'desc')
-        .onSnapshot(snap => {
-          const list = document.getElementById('event-list');
-          if (snap.empty) {
-            list.innerHTML = '<div style="text-align:center; margin-top:40px; color:var(--muted)">No tienes eventos creados.</div>';
-            return;
-          }
-          list.innerHTML = snap.docs.map(doc => {
-            const data = doc.data();
-            return `
-              <div class="event-card" onclick="alert('Abriendo: ${data.name}')">
-                <div style="font-size:0.7rem; color:var(--accent); font-weight:bold; margin-bottom:5px">
-                  ${data.ownerId === auth.currentUser.uid ? 'ERES EL DUEÑO' : 'CREADO POR ' + data.ownerName.toUpperCase()}
-                </div>
-                <div style="display:flex; justify-content:space-between; align-items:center">
-                  <div style="font-weight:700">${data.name}</div>
-                  <div style="color:var(--muted); font-size:0.9rem">${data.currency}</div>
-                </div>
-              </div>
-            `;
-          }).join('');
-        }, err => console.error(err));
-    }
-
-    async function createEvent() {
-      const name = document.getElementById('new-ev-name').value;
-      const currency = document.getElementById('new-ev-currency').value;
-      if (!name) return;
-
-      const user = auth.currentUser;
-      await db.collection('events').add({
-        name: name,
-        currency: currency,
-        ownerId: user.uid,
-        ownerName: user.displayName,
-        participantsIds: [user.uid],
-        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-        logs: [{user: user.displayName, action: "creó el evento", date: Date.now()}]
-      });
-
-      closeModal('modal-new');
-      document.getElementById('new-ev-name').value = '';
-    }
-  </script>
+    @keyframes spin { to { transform: rotate(360deg); } }
+</script>
 </body>
 </html>
