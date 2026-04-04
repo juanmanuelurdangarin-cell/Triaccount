@@ -1,57 +1,61 @@
 :root {
-    --primary: #00c853;
-    --primary-dark: #009624;
-    --bg: #f8f9fa;
-    --text: #2d3436;
-    --white: #ffffff;
-    --peya: #ff0045;
-    --shadow: 0 10px 30px rgba(0,0,0,0.05);
+    --bg: #0d0f14;
+    --surface: #161920;
+    --surface2: #1e2230;
+    --border: #2a2f40;
+    --accent: #2ecc71; /* Verde Fintech PedidosYa-friendly */
+    --accent-dark: #27ae60;
+    --red: #ff6584;
+    --text: #e8eaf0;
+    --muted: #7a7f99;
+    --pedidosya: #ff0045;
     --radius: 16px;
 }
 
-* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); margin: 0; overflow-x: hidden; }
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; }
+h1, .top-bar-title, .dash-title { font-family: 'Syne', sans-serif; font-weight: 800; }
 
-/* Welcome Screen - Glassmorphism */
-.screen { position: fixed; inset: 0; background: var(--text); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 20px; }
-.welcome-container { background: var(--white); width: 100%; max-width: 400px; padding: 40px 30px; border-radius: 30px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); }
-.brand-logo { width: 70px; height: 70px; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; border-radius: 20px; margin: 0 auto 20px; font-size: 2rem; transform: rotate(-10deg); }
+.screen { display: none; min-height: 100vh; flex-direction: column; animation: fadeIn 0.3s ease; padding-bottom: 100px; }
+.screen.active { display: flex; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-/* Header Premium */
-.main-header { background: var(--white); padding: 20px; border-radius: 0 0 25px 25px; box-shadow: var(--shadow); text-align: center; }
-.header-top { display: flex; justify-content: space-between; align-items: center; }
-.nav-icon { background: #f1f3f5; border: none; width: 40px; height: 40px; border-radius: 12px; cursor: pointer; color: var(--text); }
-.header-center h2 { margin: 0; font-size: 1.1rem; font-weight: 700; }
-#version-tag { font-size: 0.6rem; background: #eee; padding: 2px 6px; border-radius: 10px; opacity: 0.7; }
-.currency-pill { display: inline-block; background: var(--primary); color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.7rem; font-weight: bold; margin-top: 10px; }
-
-/* Inputs y Botones Modernos */
-.modern-input, .custom-select, .modern-select { width: 100%; padding: 14px; border: 2px solid #edf2f7; border-radius: var(--radius); font-size: 1rem; margin-bottom: 15px; outline: none; transition: 0.3s; }
-.modern-input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(0,200,83,0.1); }
-.btn-primary-lg { width: 100%; background: var(--primary); color: white; border: none; padding: 16px; border-radius: var(--radius); font-weight: 700; font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; }
-
-/* Tabs Estilo iOS */
-.tab-bar { display: flex; background: #e9ecef; margin: 20px; padding: 5px; border-radius: 14px; }
-.tab-item { flex: 1; border: none; padding: 10px; border-radius: 10px; background: none; font-weight: 600; color: #636e72; cursor: pointer; }
-.tab-item.active { background: var(--white); color: var(--text); box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-
-/* Publicidad PedidosYa Nativa */
-.ad-footer { position: fixed; bottom: 20px; left: 20px; right: 20px; background: var(--white); border-radius: var(--radius); padding: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.15); z-index: 100; }
-.ad-tag { position: absolute; top: -10px; left: 15px; background: #dfe6e9; font-size: 0.6rem; padding: 2px 8px; border-radius: 5px; font-weight: bold; }
-.ad-link { display: flex; justify-content: space-between; align-items: center; text-decoration: none; color: var(--text); }
-.ad-info { display: flex; align-items: center; gap: 12px; }
-.ad-info img { width: 30px; height: 30px; }
-.ad-info p { margin: 0; font-size: 0.85rem; }
-.ad-info b { color: var(--peya); }
-
-/* Fab */
-.fab-main { position: fixed; bottom: 120px; right: 30px; width: 60px; height: 60px; border-radius: 20px; background: var(--text); color: white; border: none; font-size: 1.5rem; box-shadow: 0 10px 25px rgba(0,0,0,0.2); z-index: 90; }
+/* UI Reutilizable */
+.top-bar { padding: 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: rgba(13,15,20,0.9); backdrop-filter: blur(10px); z-index: 10; }
+.btn-primary { background: var(--accent); color: white; border: none; padding: 16px; border-radius: 12px; font-family: 'Syne', sans-serif; font-weight: 700; cursor: pointer; width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px; }
+.btn-secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border); padding: 12px; border-radius: 10px; cursor: pointer; }
+.form-input { background: var(--surface); border: 1px solid var(--border); padding: 14px; border-radius: 10px; color: white; width: 100%; font-size: 16px; }
 
 /* Cards y Listas */
-.card { background: var(--white); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); margin: 15px; }
-.expense-card { background: var(--white); margin: 10px 20px; padding: 15px; border-radius: 16px; display: flex; justify-content: space-between; align-items: center; border-left: 5px solid var(--primary); }
+.history-list { padding: 20px; }
+.event-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; margin-bottom: 12px; display: flex; align-items: center; gap: 15px; }
+.currency-grid, .payer-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 10px; }
+.currency-btn, .payer-btn { padding: 10px; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; color: var(--muted); cursor: pointer; text-align: center; font-size: 13px; }
+.currency-btn.active, .payer-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
 
-/* Modal Sheet */
-.modal { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 2000; display: flex; align-items: flex-end; }
-.modal-sheet { background: var(--white); width: 100%; border-radius: 30px 30px 0 0; padding: 30px; animation: slideUp 0.4s ease-out; }
+/* Tabs */
+.tabs { display: flex; border-bottom: 1px solid var(--border); }
+.tab { flex: 1; padding: 15px; text-align: center; color: var(--muted); cursor: pointer; font-size: 13px; font-weight: 600; border-bottom: 2px solid transparent; }
+.tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+.tab-content { display: none; padding: 20px; }
+.tab-content.active { display: block; }
+
+/* Floating Action Button */
+.fab { position: fixed; bottom: 85px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 400px; padding: 16px; background: var(--accent); color: white; border-radius: 16px; border: none; font-weight: 700; box-shadow: 0 10px 20px rgba(46, 204, 113, 0.3); z-index: 5; }
+
+/* Banner PedidosYa */
+.pedidosya-banner { position: fixed; bottom: 0; width: 100%; background: var(--pedidosya); padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; z-index: 20; }
+.pedidosya-logo { color: white; font-weight: 900; font-family: 'Syne'; }
+.pedidosya-text { color: white; font-size: 12px; opacity: 0.9; }
+.pedidosya-cta { background: white; color: var(--pedidosya); border: none; padding: 6px 12px; border-radius: 20px; font-weight: 800; font-size: 12px; }
+
+/* Modales */
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); display: none; align-items: flex-end; z-index: 100; }
+.modal-overlay.active { display: flex; }
+.modal { background: var(--surface); width: 100%; border-radius: 24px 24px 0 0; padding: 30px; animation: slideUp 0.3s ease; }
 @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+.modal-handle { width: 40px; height: 4px; background: var(--border); border-radius: 2px; margin: 0 auto 20px; }
+
+/* Toast */
+.toast { position: fixed; top: 30px; left: 50%; transform: translateX(-50%); background: var(--accent); color: white; padding: 10px 20px; border-radius: 30px; font-size: 14px; font-weight: 600; z-index: 1000; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+.hidden { display: none; }
