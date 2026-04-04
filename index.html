@@ -1,17 +1,23 @@
 <!DOCTYPE html>
 <html lang="es">
-<header>
-    <h1 id="event-title-display">Nueva Juntada</h1>
-    <div class="header-actions">
-        <button class="icon-btn" onclick="shareResults()" title="Compartir">
-            <i class="fas fa-share-nodes"></i>
-        </button>
-        <div class="currency-badge" id="currency-display">ARS</div>
-    </div>
-</header>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DivideGastos - App de Amigos</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
 <body>
     <div id="app">
         <header>
+            <div class="header-actions">
+                <button class="icon-btn" onclick="shareResults()" id="btn-share" title="Compartir">
+                    <i class="fas fa-share-nodes"></i>
+                </button>
+                <button class="icon-btn" onclick="resetApp()" title="Reiniciar todo" style="margin-left: 10px; color: #e74c3c;">
+                    <i class="fas fa-trash-can"></i>
+                </button>
+            </div>
             <h1 id="event-title-display">Nueva Juntada</h1>
             <div class="currency-badge" id="currency-display">ARS</div>
         </header>
@@ -26,7 +32,7 @@
             </select>
             <div class="input-group">
                 <input type="text" id="friend-name" placeholder="Nombre del amigo">
-                <button onclick="addFriend()">Añadir</button>
+                <button class="btn-secondary" onclick="addFriend()">Añadir</button>
             </div>
             <ul id="friends-list"></ul>
             <button class="btn-main" onclick="startEvent()">Empezar Evento</button>
@@ -57,20 +63,20 @@
             <div class="modal-content">
                 <h3 id="modal-title">Agregar Gasto</h3>
                 <input type="text" id="exp-title" placeholder="¿En qué se gastó?">
-                <input type="number" id="exp-amount" placeholder="Monto" step="0.01">
+                <input type="number" id="exp-amount" placeholder="Monto" step="0.01" inputmode="decimal">
                 
                 <label>¿Quién pagó?</label>
                 <select id="exp-payer"></select>
 
                 <label>¿Quiénes participan?</label>
                 <div class="selection-tools">
-                    <button onclick="toggleAllFriends(true)">Todos</button>
-                    <button onclick="toggleAllFriends(false)">Ninguno</button>
+                    <button class="btn-small" onclick="toggleAllFriends(true)">Todos</button>
+                    <button class="btn-small" onclick="toggleAllFriends(false)">Ninguno</button>
                 </div>
                 <div id="exp-participants"></div>
 
                 <div class="modal-actions">
-                    <button onclick="closeExpenseModal()">Cancelar</button>
+                    <button class="btn-cancel" onclick="closeExpenseModal()">Cancelar</button>
                     <button class="btn-main" onclick="saveExpense()">Guardar</button>
                 </div>
             </div>
