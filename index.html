@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>DivideGastos Pro | vMaster 3.3</title>
+<title>DivideGastos Pro | vMaster 3.4</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
@@ -45,6 +45,8 @@
     #screen-loading { position: fixed; inset: 0; background: var(--bg); z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; }
     .loader { width: 45px; height: 45px; border: 4px solid var(--surface2); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
+
+    .participant-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border); }
 </style>
 
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
@@ -79,7 +81,10 @@
     <header>
         <button onclick="showScreen('screen-main')" style="background:none; border:none; color:white;"><i class="fa-solid fa-arrow-left"></i></button>
         <h3 id="det-title" style="font-family:'Syne'; flex:1; text-align:center; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; padding:0 10px;">Evento</h3>
-        <button onclick="shareEvent()" style="background:none; border:none; color:var(--accent);"><i class="fa-solid fa-share-nodes"></i></button>
+        <div style="display:flex; gap:15px;">
+            <button onclick="openModal('modal-manage-participants')" style="background:none; border:none; color:var(--text);"><i class="fa-solid fa-users"></i></button>
+            <button onclick="shareEvent()" style="background:none; border:none; color:var(--accent);"><i class="fa-solid fa-share-nodes"></i></button>
+        </div>
     </header>
     <div class="container">
         <div class="tabs-nav">
@@ -117,6 +122,19 @@
     </div>
 </div>
 
+<div id="modal-manage-participants" class="modal-overlay" onclick="if(event.target==this)closeModal('modal-manage-participants')">
+    <div class="modal">
+        <h2 style="font-family:'Syne'; margin-bottom:20px;">Participantes</h2>
+        <div id="manage-parts-list" style="margin-bottom:25px;"></div>
+        <h4 style="margin-bottom:10px; opacity:0.7;">Agregar nuevo</h4>
+        <div style="display:flex; gap:10px; margin-bottom:20px;">
+            <input type="text" id="add-new-part-name" placeholder="Nombre..." style="margin-bottom:0;">
+            <button onclick="addNewParticipantDirect()" style="background:var(--accent); border:none; color:white; width:60px; border-radius:16px;"><i class="fa-solid fa-user-plus"></i></button>
+        </div>
+        <button class="btn-main" style="background:var(--surface2); color:var(--muted);" onclick="closeModal('modal-manage-participants')">Cerrar</button>
+    </div>
+</div>
+
 <script>
     const firebaseConfig = {
       apiKey: "AIzaSyApUtaEOhMGQFMrHIzaypRX_GLx2cace_A",
@@ -130,9 +148,7 @@
     const auth = firebase.auth();
     const db = firebase.firestore();
 
-    // Formato Argentina: $ 1.234,56
     const fmt = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' });
-
     let currentEvent = null, activeTab = 'gastos', tempParticipants = [];
 
     function showScreen(id) {
@@ -147,7 +163,7 @@
             document.getElementById('header-img').src = user.photoURL;
             showScreen('screen-main');
             loadEvents();
-            checkJoinLink(); // Clave para links de invitación
+            checkJoinLink();
         } else { showScreen('screen-login'); }
     });
 
@@ -211,7 +227,7 @@
         if(!name) return;
         const ids = tempParticipants.map(p => p.id);
         if(!ids.includes(auth.currentUser.uid)) ids.push(auth.currentUser.uid);
-        closeModal('modal-new-event'); // CIERRE INSTANTÁNEO
+        closeModal('modal-new-event');
         try {
             await db.collection('events').add({
                 name, participantsIds: ids, participants: tempParticipants, expenses: [],
@@ -226,6 +242,7 @@
             currentEvent = {id: doc.id, ...doc.data()};
             document.getElementById('det-title').innerText = currentEvent.name;
             renderExpenseForm();
+            renderManageParticipants();
             renderTab();
             showScreen('screen-detail');
         });
@@ -238,11 +255,50 @@
         `).join('');
     }
 
+    function renderManageParticipants() {
+        const list = document.getElementById('manage-parts-list');
+        list.innerHTML = currentEvent.participants.map(p => `
+            <div class="participant-row">
+                <span style="font-weight:700;">${p.name}</span>
+                ${p.id !== auth.currentUser.uid ? `<button onclick="removeParticipantDirect('${p.id}')" style="background:none; border:none; color:var(--red); padding:5px;"><i class="fa-solid fa-user-minus"></i></button>` : `<small style="color:var(--muted)">Tú</small>`}
+            </div>
+        `).join('');
+    }
+
+    async function addNewParticipantDirect() {
+        const inp = document.getElementById('add-new-part-name');
+        const name = inp.value.trim();
+        if(!name) return;
+        const newPart = {id: 't_' + Date.now(), name: name};
+        try {
+            await db.collection('events').doc(currentEvent.id).update({
+                participants: firebase.firestore.FieldValue.arrayUnion(newPart),
+                participantsIds: firebase.firestore.FieldValue.arrayUnion(newPart.id),
+                logs: firebase.firestore.FieldValue.arrayUnion({u: auth.currentUser.displayName, a: `agregó a ${name}`, d: Date.now()})
+            });
+            inp.value = '';
+        } catch(e) { console.error(e); }
+    }
+
+    async function removeParticipantDirect(id) {
+        if(!confirm("¿Quitar a este participante? No se borrarán sus gastos cargados.")) return;
+        const pToRemove = currentEvent.participants.find(p => p.id === id);
+        const newParts = currentEvent.participants.filter(p => p.id !== id);
+        const newIds = currentEvent.participantsIds.filter(pid => pid !== id);
+        try {
+            await db.collection('events').doc(currentEvent.id).update({
+                participants: newParts,
+                participantsIds: newIds,
+                logs: firebase.firestore.FieldValue.arrayUnion({u: auth.currentUser.displayName, a: `eliminó a ${pToRemove.name}`, d: Date.now()})
+            });
+        } catch(e) { console.error(e); }
+    }
+
     async function dbAddExpense() {
         const desc = document.getElementById('ex-desc').value, amount = parseFloat(document.getElementById('ex-amount').value);
         if(!desc || isNaN(amount)) return;
         const payerId = document.getElementById('ex-payer').value, included = Array.from(document.querySelectorAll('.ex-check:checked')).map(c => c.value);
-        closeModal('modal-add-expense'); // CIERRE INSTANTÁNEO
+        closeModal('modal-add-expense');
         try {
             await db.collection('events').doc(currentEvent.id).update({
                 expenses: firebase.firestore.FieldValue.arrayUnion({ 
@@ -267,7 +323,9 @@
         currentEvent.expenses.forEach(e => {
             balances[e.payerId] += e.amount;
             let share = e.amount / e.includedIds.length;
-            e.includedIds.forEach(id => balances[id] -= share);
+            e.includedIds.forEach(id => {
+                if(balances.hasOwnProperty(id)) balances[id] -= share;
+            });
         });
         return balances;
     }
@@ -275,7 +333,7 @@
     function renderTab() {
         const area = document.getElementById('tab-area');
         if(activeTab === 'gastos') {
-            area.innerHTML = currentEvent.expenses.map(e => `
+            area.innerHTML = currentEvent.expenses.slice().reverse().map(e => `
                 <div class="card" style="border-left:5px solid var(--accent)">
                     <div style="display:flex; justify-content:space-between; align-items:center;">
                         <b>${e.desc}</b><b style="color:var(--accent)">${fmt.format(e.amount)}</b>
@@ -300,8 +358,12 @@
                 acreedores.forEach(a => {
                     if(d.amt > 0 && a.amt > 0) {
                         let move = Math.min(d.amt, a.amt);
-                        trans.push(`<b>${currentEvent.participants.find(p=>p.id===d.id).name}</b> le debe <b>${fmt.format(move)}</b> a <b>${currentEvent.participants.find(p=>p.id===a.id).name}</b>`);
-                        d.amt -= move; a.amt -= move;
+                        const deudor = currentEvent.participants.find(p=>p.id===d.id);
+                        const acreedor = currentEvent.participants.find(p=>p.id===a.id);
+                        if(deudor && acreedor) {
+                            trans.push(`<b>${deudor.name}</b> le debe <b>${fmt.format(move)}</b> a <b>${acreedor.name}</b>`);
+                            d.amt -= move; a.amt -= move;
+                        }
                     }
                 });
             });
