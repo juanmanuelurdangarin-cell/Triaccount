@@ -14,21 +14,18 @@ window.onload = () => {
         try {
             const decoded = JSON.parse(atob(sharedData));
             const existingIdx = allEvents.findIndex(e => e.id === decoded.id);
-            
-            // Lógica de versión: Solo actualizar si la versión que entra es mayor o igual a la local
             if (existingIdx > -1) {
                 if ((decoded.version || 0) >= (allEvents[existingIdx].version || 0)) {
                     allEvents[existingIdx] = decoded;
                     currentEvent = decoded;
                 } else {
-                    alert("Atención: El link que abriste es una versión antigua (v" + decoded.version + "). Se mantendrá tu versión local más reciente (v" + allEvents[existingIdx].version + ").");
+                    alert("Versión antigua detectada. Manteniendo local v" + allEvents[existingIdx].version);
                     currentEvent = allEvents[existingIdx];
                 }
             } else {
                 allEvents.push(decoded);
                 currentEvent = decoded;
             }
-            
             saveToLocal();
             window.history.replaceState({}, document.title, window.location.pathname);
             showMainScreen();
@@ -44,7 +41,7 @@ function saveToLocal() {
 
 function notifyChange() {
     hasUnsharedChanges = true;
-    currentEvent.version = (currentEvent.version || 1) + 1; // Subimos la versión ante cualquier cambio
+    currentEvent.version = (currentEvent.version || 1) + 1;
     document.getElementById('share-dot').classList.remove('hidden');
     document.getElementById('version-display').innerText = `v${currentEvent.version}`;
 }
@@ -53,6 +50,7 @@ function notifyChange() {
 function showHistory() {
     document.getElementById('setup-screen').classList.add('hidden');
     document.getElementById('main-screen').classList.add('hidden');
+    document.getElementById('ads-container').classList.add('hidden'); // Ocultar publicidad en historial
     document.getElementById('history-screen').classList.remove('hidden');
     document.getElementById('btn-back').classList.add('hidden');
     
@@ -69,6 +67,7 @@ function createNewEvent() {
     currentEvent = { id: Date.now(), title: "", currency: "$", friends: [], expenses: [], version: 1 };
     document.getElementById('history-screen').classList.add('hidden');
     document.getElementById('setup-screen').classList.remove('hidden');
+    document.getElementById('ads-container').classList.add('hidden'); // Ocultar en setup
     renderFriendsList();
 }
 
@@ -79,6 +78,7 @@ function loadEvent(id) {
 
 function goBackToSetup() {
     document.getElementById('main-screen').classList.add('hidden');
+    document.getElementById('ads-container').classList.add('hidden');
     document.getElementById('setup-screen').classList.remove('hidden');
     document.getElementById('event-title').value = currentEvent.title;
     renderFriendsList();
@@ -113,6 +113,7 @@ function showMainScreen() {
     document.getElementById('history-screen').classList.add('hidden');
     document.getElementById('setup-screen').classList.add('hidden');
     document.getElementById('main-screen').classList.remove('hidden');
+    document.getElementById('ads-container').classList.remove('hidden'); // MOSTRAR PUBLICIDAD
     document.getElementById('btn-back').classList.remove('hidden');
     document.getElementById('event-title-display').innerText = currentEvent.title;
     document.getElementById('version-display').innerText = `v${currentEvent.version || 1}`;
@@ -212,7 +213,6 @@ function renderUI(balances) {
     document.getElementById('settlements-list').innerHTML = html || '<p style="text-align:center;">¡Están a mano!</p>';
 }
 
-// COMPARTIR LINK + TEXTO RESUMEN CON VERSIÓN
 function shareEventLink() {
     const dataString = btoa(JSON.stringify(currentEvent));
     const shareUrl = `${window.location.origin}${window.location.pathname}?data=${dataString}`;
@@ -248,20 +248,16 @@ function shareEventLink() {
     });
 
     if (!debtFound) textSummary += "¡Todos están a mano!\n";
-    
     textSummary += `\n🔗 *Link para editar:* ${shareUrl}\n\nEnviado desde DivideGastos`;
 
     if (navigator.share) {
-        navigator.share({
-            title: `Gastos: ${currentEvent.title}`,
-            text: textSummary
-        }).then(() => {
+        navigator.share({ title: `Gastos: ${currentEvent.title}`, text: textSummary }).then(() => {
             hasUnsharedChanges = false;
             document.getElementById('share-dot').classList.add('hidden');
         });
     } else {
         navigator.clipboard.writeText(textSummary);
-        alert("Resumen (v" + currentEvent.version + ") copiado al portapapeles.");
+        alert("Resumen copiado.");
         hasUnsharedChanges = false;
         document.getElementById('share-dot').classList.add('hidden');
     }
