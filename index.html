@@ -2,51 +2,127 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>DivideGastos Pro</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
-  :root { --primary: #6c63ff; --accent: #ff6584; --bg: #f0f2f8; --text: #2d3142; }
-  body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; }
-  .screen { display: none; min-height: 100vh; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
+  :root {
+    --primary: #6c63ff;
+    --accent: #ff6584;
+    --bg: #f0f2f8;
+    --card: #ffffff;
+    --text: #2d3142;
+    --text-muted: #9094a8;
+    --border: #e2e5f0;
+    --radius: 20px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+  /* PANTALLAS */
+  .screen { display: none; flex-direction: column; min-height: 100vh; animation: fadeIn 0.3s ease; }
   .screen.active { display: flex; }
-  .btn-google { padding: 15px 25px; background: white; border: 2px solid #ddd; border-radius: 12px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 10px; }
-  .app-header { background: white; width: 100%; padding: 15px; border-bottom: 1px solid #ddd; display: flex; justify-content: space-between; position: fixed; top: 0; box-sizing: border-box; }
-  .user-photo { width: 35px; height: 35px; border-radius: 50%; }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  /* HEADER */
+  .app-header { 
+    background: white; padding: 15px 20px; display: flex; justify-content: space-between; 
+    align-items: center; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100;
+  }
+  .user-pill { display: flex; align-items: center; gap: 10px; background: var(--bg); padding: 5px 12px 5px 5px; border-radius: 30px; }
+  .user-pill img { width: 30px; height: 30px; border-radius: 50%; }
+  .user-pill span { font-size: 0.9rem; font-weight: 600; }
+
+  /* CONTENIDO */
+  .container { padding: 20px; max-width: 600px; margin: 0 auto; width: 100%; flex: 1; }
+  .section-title { font-size: 1.2rem; font-weight: 800; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+  
+  /* TARJETAS DE EVENTO */
+  .event-card { 
+    background: white; border-radius: var(--radius); padding: 20px; margin-bottom: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center;
+    border-left: 5px solid var(--primary); transition: 0.2s; cursor: pointer;
+  }
+  .event-card:active { transform: scale(0.98); }
+  .event-info h3 { font-size: 1.1rem; margin-bottom: 4px; }
+  .event-info p { font-size: 0.85rem; color: var(--text-muted); }
+  .event-amount { text-align: right; font-weight: 800; color: var(--primary); }
+
+  /* VACÍO */
+  .empty-state { text-align: center; margin-top: 60px; color: var(--text-muted); }
+  .empty-state i { font-size: 4rem; margin-bottom: 20px; opacity: 0.2; }
+
+  /* BOTÓN FLOTANTE */
+  .fab { 
+    position: fixed; bottom: 30px; right: 25px; width: 60px; height: 60px; 
+    background: var(--primary); color: white; border-radius: 50%; border: none;
+    font-size: 24px; box-shadow: 0 10px 25px rgba(108,99,255,0.4); cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  /* BOTÓN LOGIN */
+  #screen-onboarding { background: linear-gradient(145deg, #6c63ff, #ff6584); justify-content: center; align-items: center; }
+  .login-box { background: white; padding: 40px; border-radius: 30px; text-align: center; width: 90%; max-width: 380px; }
+  .btn-google { 
+    width: 100%; padding: 15px; margin-top: 25px; border: 2px solid #eee; 
+    border-radius: 12px; background: white; font-weight: bold; display: flex; 
+    align-items: center; justify-content: center; gap: 10px; cursor: pointer;
+  }
 </style>
 
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 </head>
 <body>
 
   <div id="screen-loading" class="screen active">
-    <i class="fa-solid fa-circle-notch fa-spin fa-3x" style="color:var(--primary)"></i>
+    <div style="text-align:center">
+      <i class="fa-solid fa-receipt fa-spin fa-3x" style="color:var(--primary)"></i>
+    </div>
   </div>
 
   <div id="screen-onboarding" class="screen">
-    <i class="fa-solid fa-receipt fa-4x" style="color:var(--primary); margin-bottom:20px"></i>
-    <h1>DivideGastos</h1>
-    <p style="color:#666; margin-bottom:30px">Ingresá para gestionar tus cuentas</p>
-    <button class="btn-google" onclick="login()">
-      <img src="https://www.gstatic.com/images/branding/product/1x/gsa_512dp.png" width="20">
-      Continuar con Google
-    </button>
+    <div class="login-box">
+      <i class="fa-solid fa-receipt fa-4x" style="color:var(--primary)"></i>
+      <h1 style="margin-top:15px">DivideGastos</h1>
+      <p style="color:var(--text-muted)">Cuentas claras entre amigos.</p>
+      <button class="btn-google" onclick="login()">
+        <img src="https://www.gstatic.com/images/branding/product/1x/gsa_512dp.png" width="20">
+        Entrar con Google
+      </button>
+    </div>
   </div>
 
   <div id="screen-main" class="screen">
     <header class="app-header">
-      <div style="display:flex; align-items:center; gap:10px">
-        <img id="user-photo" class="user-photo" src="">
+      <div class="user-pill">
+        <img id="user-photo" src="" alt="">
         <span id="user-name">Usuario</span>
       </div>
-      <button onclick="logout()" style="border:none; background:none; color:var(--accent); font-weight:bold">Salir</button>
+      <button onclick="logout()" style="border:none; background:none; color:var(--accent); font-size:1.2rem">
+        <i class="fa-solid fa-right-from-bracket"></i>
+      </button>
     </header>
-    <div style="text-align:center">
-      <i class="fa-solid fa-face-smile fa-4x" style="color:var(--primary); margin-bottom:20px"></i>
-      <h2>¡Ya estás adentro!</h2>
-      <p id="user-email" style="color:#666"></p>
+
+    <div class="container">
+      <div class="section-title">
+        <i class="fa-solid fa-history" style="color:var(--primary)"></i>
+        Mis Eventos
+      </div>
+
+      <div id="event-list">
+        <div class="empty-state">
+          <i class="fa-solid fa-folder-plus"></i>
+          <p>No tenés eventos activos.</p>
+          <small>Toca el botón + para crear el primero.</small>
+        </div>
+      </div>
     </div>
+
+    <button class="fab" onclick="createNewEvent()">
+      <i class="fa-solid fa-plus"></i>
+    </button>
   </div>
 
   <script>
@@ -59,7 +135,7 @@
       appId: "1:1073347556736:web:d98c2c848cf73c7148bd65"
     };
 
-    let auth;
+    let auth, db;
 
     function showScreen(id) {
       document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -69,15 +145,14 @@
     function init() {
       firebase.initializeApp(firebaseConfig);
       auth = firebase.auth();
+      db = firebase.firestore();
 
-      // Escuchamos el estado del usuario
       auth.onAuthStateChanged((user) => {
         if (user) {
-          console.log("Sesión activa:", user.displayName);
-          document.getElementById('user-name').innerText = user.displayName;
-          document.getElementById('user-email').innerText = user.email;
+          document.getElementById('user-name').innerText = user.displayName.split(' ')[0];
           document.getElementById('user-photo').src = user.photoURL;
           showScreen('main');
+          loadEvents();
         } else {
           showScreen('onboarding');
         }
@@ -87,16 +162,28 @@
     async function login() {
       const provider = new firebase.auth.GoogleAuthProvider();
       try {
-        // CAMBIO CLAVE: Usamos Popup en lugar de Redirect
         await auth.signInWithPopup(provider);
-      } catch (error) {
-        console.error("Error en login:", error);
-        alert("No se pudo iniciar sesión: " + error.message);
+      } catch (e) {
+        alert("Error al entrar: " + e.message);
       }
     }
 
     function logout() {
-      auth.signOut().then(() => window.location.reload());
+      if(confirm("¿Cerrar sesión?")) auth.signOut();
+    }
+
+    // SIMULACIÓN DE CARGA DE DATOS (Próximo paso: Firestore real)
+    function loadEvents() {
+      const list = document.getElementById('event-list');
+      // Por ahora dejamos el empty state, pero aquí es donde 
+      // consultaremos a la base de datos más adelante.
+    }
+
+    function createNewEvent() {
+      const nombre = prompt("Nombre del evento (ej: Asado Sábado):");
+      if (nombre) {
+        alert("¡Genial! Vamos a crear: " + nombre + ". (Próxima actualización: Formulario de gastos)");
+      }
     }
 
     window.onload = init;
