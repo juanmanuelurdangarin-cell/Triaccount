@@ -3,27 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DivideGastos Debug Mode</title>
+<title>DivideGastos Fix</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
-  :root { --primary: #6c63ff; --accent: #ff6584; --bg: #f0f2f8; --text: #2d3142; }
-  body { font-family: sans-serif; background: var(--bg); margin: 0; padding: 0; }
+  :root { --primary: #6c63ff; --bg: #f0f2f8; --text: #2d3142; }
+  body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg); margin: 0; }
   .screen { display: none; min-height: 100vh; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px; }
   .screen.active { display: flex; }
-  
-  /* Consola de errores en pantalla */
-  #debug-console { 
-    position: fixed; bottom: 0; left: 0; right: 0; 
-    background: #1a1a1a; color: #00ff00; font-family: monospace; 
-    font-size: 12px; padding: 10px; max-height: 150px; overflow-y: auto; z-index: 9999;
-    border-top: 2px solid var(--accent);
-  }
-
-  .btn-google { 
-    padding: 15px 25px; background: white; border: 2px solid #ddd; 
-    border-radius: 10px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 10px;
-  }
-  .app-header { background: white; width: 100%; padding: 15px; border-bottom: 1px solid #ddd; display: flex; justify-content: space-between; position: fixed; top: 0; }
+  #debug-console { position: fixed; bottom: 0; left: 0; right: 0; background: #000; color: #0f0; font-family: monospace; font-size: 11px; padding: 10px; max-height: 120px; overflow-y: auto; z-index: 1000; opacity: 0.9; }
+  .btn-google { padding: 15px 25px; background: white; border: 2px solid #ddd; border-radius: 12px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+  .app-header { background: white; width: 100%; padding: 15px; border-bottom: 1px solid #ddd; display: flex; justify-content: space-between; position: fixed; top: 0; box-sizing: border-box; }
 </style>
 
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
@@ -35,11 +24,13 @@
 
   <div id="screen-loading" class="screen active">
     <i class="fa-solid fa-sync fa-spin fa-3x" style="color:var(--primary)"></i>
-    <p style="margin-top:20px">Verificando sesión...</p>
+    <p style="margin-top:20px">Sincronizando con Google...</p>
   </div>
 
   <div id="screen-onboarding" class="screen">
-    <h1 style="margin-bottom:20px">DivideGastos</h1>
+    <i class="fa-solid fa-receipt fa-4x" style="color:var(--primary); margin-bottom:20px"></i>
+    <h1>DivideGastos</h1>
+    <p style="color:#666; margin-bottom:30px">Presioná el botón para ingresar</p>
     <button class="btn-google" onclick="login()">
       <img src="https://www.gstatic.com/images/branding/product/1x/gsa_512dp.png" width="20">
       Entrar con Google
@@ -48,19 +39,19 @@
 
   <div id="screen-main" class="screen">
     <header class="app-header">
-      <span id="user-name">Usuario</span>
-      <button onclick="logout()">Salir</button>
+      <span id="user-display">Cargando...</span>
+      <button onclick="logout()" style="border:none; background:none; color:red; font-weight:bold">Cerrar Sesión</button>
     </header>
-    <h2>¡Logueado con éxito!</h2>
-    <p>Si ves esto, el problema está resuelto.</p>
+    <i class="fa-solid fa-check-circle fa-4x" style="color:green; margin-bottom:20px"></i>
+    <h2>¡Acceso Correcto!</h2>
+    <p id="user-email"></p>
   </div>
 
   <script>
-    const debug = (msg, isError = false) => {
-      const consoleEl = document.getElementById('debug-console');
-      const time = new Date().toLocaleTimeString();
-      consoleEl.innerHTML += `<div style="color:${isError?'#ff6b6b':'#00ff00'}">[${time}] ${msg}</div>`;
-      consoleEl.scrollTop = consoleEl.scrollHeight;
+    const debug = (msg) => {
+      const el = document.getElementById('debug-console');
+      el.innerHTML += `<div>[${new Date().toLocaleTimeString()}] ${msg}</div>`;
+      el.scrollTop = el.scrollHeight;
       console.log(msg);
     };
 
@@ -79,54 +70,54 @@
     }
 
     function init() {
-      try {
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        debug("Firebase Inicializado.");
+      if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+      const auth = firebase.auth();
+      
+      debug("Firebase listo. Verificando persistencia...");
 
-        // CAPTURAR RESULTADO DE REDIRECCIÓN
-        auth.getRedirectResult()
-          .then((result) => {
-            if (result.user) {
-              debug("Redirect exitoso: " + result.user.displayName);
-            } else {
-              debug("No hay resultado de redirect pendiente.");
-            }
-          })
-          .catch((error) => {
-            debug("ERROR EN REDIRECT: " + error.code + " - " + error.message, true);
-            // Si el error es 'auth/internal-error', es un problema de comunicación con Google.
-            alert("Error crítico: " + error.message);
-          });
-
-        // OBSERVAR ESTADO
+      // Forzar que la sesión se guarde localmente pase lo que pase
+      auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).then(() => {
+        
+        // El observador es el que manda
         auth.onAuthStateChanged((user) => {
           if (user) {
-            debug("Sesión activa detectada: " + user.email);
-            document.getElementById('user-name').innerText = user.displayName;
+            debug("¡USUARIO DETECTADO!: " + user.email);
+            document.getElementById('user-display').innerText = user.displayName;
+            document.getElementById('user-email').innerText = user.email;
             showScreen('main');
           } else {
-            debug("No hay sesión. Mostrando login.");
-            showScreen('onboarding');
+            debug("No hay sesión activa.");
+            // Antes de mostrar login, vemos si estamos volviendo de un redirect
+            auth.getRedirectResult().then(result => {
+               if (!result.user) {
+                 debug("No se encontró usuario en el redirect. Al login.");
+                 showScreen('onboarding');
+               }
+            }).catch(e => {
+               debug("Error en redirect result: " + e.message);
+               showScreen('onboarding');
+            });
           }
         });
-
-      } catch (e) {
-        debug("ERROR INICIAL: " + e.message, true);
-      }
+      });
     }
 
     function login() {
-      debug("Iniciando flujo de login...");
+      debug("Redirigiendo a Google...");
       const provider = new firebase.auth.GoogleAuthProvider();
+      // Esto ayuda a que el navegador no "olvide" la operación al redirigir
       firebase.auth().signInWithRedirect(provider);
     }
 
     function logout() {
-      firebase.auth().signOut().then(() => window.location.reload());
+      firebase.auth().signOut().then(() => {
+        debug("Sesión cerrada.");
+        window.location.reload();
+      });
     }
 
-    window.onload = init;
+    // Usamos DOMContentLoaded para asegurar que todo el HTML esté listo
+    document.addEventListener('DOMContentLoaded', init);
   </script>
 </body>
 </html>
