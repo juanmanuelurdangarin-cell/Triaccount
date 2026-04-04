@@ -13,42 +13,43 @@
         --text: #e8eaf0; --muted: #7a7f99; --radius: 16px;
     }
     * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); }
+    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; }
     
     .screen { display: none; min-height: 100vh; flex-direction: column; }
     .screen.active { display: flex; animation: fadeIn 0.2s ease; }
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-    /* HEADER CORREGIDO: FOTO A LA IZQUIERDA */
-    header { padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; background: var(--surface); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
-    .user-info { display: flex; align-items: center; gap: 10px; }
-    .user-info img { width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--accent); }
-    .user-info span { font-weight: 700; font-size: 0.95rem; }
+    /* HEADER: FOTO Y NOMBRE A LA IZQUIERDA */
+    header { padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; background: var(--surface); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; height: 70px; }
+    .user-box { display: flex; align-items: center; gap: 12px; }
+    .user-box img { width: 35px; height: 35px; border-radius: 50%; border: 2px solid var(--accent); background: var(--surface2); }
+    .user-box span { font-weight: 700; font-size: 0.9rem; color: var(--text); }
 
     .container { padding: 20px; max-width: 600px; margin: 0 auto; width: 100%; }
 
+    /* EVENT CARDS */
+    .event-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-bottom: 15px; cursor: pointer; transition: 0.2s; border-left: 5px solid var(--accent); }
+    .event-card:active { transform: scale(0.98); }
+
     /* TABS */
     .tabs-nav { display: flex; background: var(--surface2); padding: 5px; border-radius: 14px; margin-bottom: 20px; gap: 4px; overflow-x: auto; }
-    .tab-btn { flex: 1; padding: 10px; border: none; background: none; color: var(--muted); font-weight: 700; cursor: pointer; border-radius: 10px; font-size: 0.75rem; white-space: nowrap; }
-    .tab-btn.active { background: var(--accent); color: white; }
-
-    /* CARDS */
-    .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; margin-bottom: 12px; cursor: pointer; transition: 0.2s; }
-    .card:active { transform: scale(0.98); }
+    .tab-btn { flex: 1; padding: 12px; border: none; background: none; color: var(--muted); font-weight: 700; cursor: pointer; border-radius: 10px; font-size: 0.75rem; white-space: nowrap; }
+    .tab-btn.active { background: var(--accent); color: white; box-shadow: 0 4px 12px rgba(108,99,255,0.3); }
 
     /* MODALES */
     .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.9); display: none; align-items: flex-end; z-index: 1000; }
     .modal-overlay.active { display: flex; }
-    .modal { background: var(--surface); width: 100%; border-radius: 24px 24px 0 0; padding: 25px; max-height: 90vh; overflow-y: auto; }
+    .modal { background: var(--surface); width: 100%; border-radius: 24px 24px 0 0; padding: 30px 20px; max-height: 90vh; overflow-y: auto; animation: slideUp 0.3s ease; }
+    @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
     
-    input, select { width: 100%; background: var(--surface2); border: 1px solid var(--border); padding: 15px; border-radius: 12px; color: white; margin-bottom: 15px; font-size: 1rem; outline: none; }
-    .btn { width: 100%; padding: 16px; border-radius: 12px; border: none; font-weight: 800; cursor: pointer; background: var(--accent); color: white; }
-    .btn:disabled { opacity: 0.5; filter: grayscale(1); }
+    input, select { width: 100%; background: var(--surface2); border: 1px solid var(--border); padding: 16px; border-radius: 12px; color: white; margin-bottom: 15px; font-size: 1rem; outline: none; }
+    .btn-main { width: 100%; padding: 18px; border-radius: 14px; border: none; font-weight: 800; cursor: pointer; background: var(--accent); color: white; font-size: 1rem; }
+    .btn-main:disabled { opacity: 0.5; filter: grayscale(1); }
 
-    .fab { position: fixed; bottom: 30px; right: 25px; width: 60px; height: 60px; background: var(--accent); color: white; border-radius: 50%; border: none; font-size: 24px; box-shadow: 0 8px 20px rgba(0,0,0,0.4); z-index: 90; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+    .fab { position: fixed; bottom: 30px; right: 25px; width: 65px; height: 65px; background: var(--accent); color: white; border-radius: 50%; border: none; font-size: 26px; box-shadow: 0 10px 20px rgba(0,0,0,0.4); z-index: 90; display: flex; align-items: center; justify-content: center; cursor: pointer; }
 
-    #screen-loading { position: fixed; inset: 0; background: var(--bg); z-index: 9999; display: flex; justify-content: center; align-items: center; }
-    .spinner { width: 40px; height: 40px; border: 4px solid var(--surface2); border-top-color: var(--accent); border-radius: 50%; animation: spin 1s linear infinite; }
+    #screen-loading { position: fixed; inset: 0; background: var(--bg); z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+    .loader { width: 45px; height: 45px; border: 4px solid var(--surface2); border-top-color: var(--accent); border-radius: 50%; animation: spin 1s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
 </style>
 
@@ -58,28 +59,28 @@
 </head>
 <body>
 
-<div id="screen-loading"><div class="spinner"></div></div>
+<div id="screen-loading"><div class="loader"></div><p style="margin-top:15px; color:var(--muted); font-weight:bold;">Cargando interfaz...</p></div>
 
 <div id="screen-main" class="screen">
     <header>
-        <div class="user-info">
-            <img id="header-photo" src="https://via.placeholder.com/32">
-            <span id="header-name">Usuario</span>
+        <div class="user-box">
+            <img id="header-img" src="">
+            <span id="header-user">...</span>
         </div>
-        <button onclick="logout()" style="background:none; border:none; color:var(--red); font-size: 1.2rem;"><i class="fa-solid fa-right-from-bracket"></i></button>
+        <button onclick="logout()" style="background:none; border:none; color:var(--red); font-size: 1.3rem;"><i class="fa-solid fa-power-off"></i></button>
     </header>
     <div class="container">
-        <h2 style="font-family:'Syne'; margin-bottom:20px;">Mis Eventos</h2>
-        <div id="event-list"></div>
+        <h2 style="font-family:'Syne'; margin-bottom:25px; font-size: 1.8rem;">Mis Eventos</h2>
+        <div id="main-event-list"></div>
     </div>
     <button class="fab" onclick="openModal('modal-new-event')"><i class="fa-solid fa-plus"></i></button>
 </div>
 
 <div id="screen-detail" class="screen">
     <header>
-        <button onclick="showScreen('screen-main')" style="background:none; border:none; color:white;"><i class="fa-solid fa-chevron-left"></i></button>
-        <h3 id="detail-title" style="font-family:'Syne';">Evento</h3>
-        <button onclick="shareEvent()" style="background:none; border:none; color:var(--accent);"><i class="fa-solid fa-user-plus"></i></button>
+        <button onclick="showScreen('screen-main')" style="background:none; border:none; color:white; font-size:1.2rem;"><i class="fa-solid fa-arrow-left"></i></button>
+        <h3 id="det-title" style="font-family:'Syne'; font-size:1.1rem;">Evento</h3>
+        <button onclick="shareEvent()" style="background:none; border:none; color:var(--accent); font-size:1.2rem;"><i class="fa-solid fa-user-plus"></i></button>
     </header>
     <div class="container">
         <div class="tabs-nav">
@@ -88,30 +89,30 @@
             <button class="tab-btn" onclick="switchTab('pagos', this)">PAGOS</button>
             <button class="tab-btn" onclick="switchTab('historial', this)">HISTORIAL</button>
         </div>
-        <div id="tab-content"></div>
+        <div id="detail-area"></div>
     </div>
-    <button class="fab" onclick="openModal('modal-add-expense')"><i class="fa-solid fa-cart-plus"></i></button>
+    <button class="fab" onclick="openModal('modal-add-expense')"><i class="fa-solid fa-cart-shopping"></i></button>
 </div>
 
 <div id="modal-new-event" class="modal-overlay" onclick="if(event.target==this)closeModal('modal-new-event')">
     <div class="modal">
-        <h2 style="margin-bottom:20px;">Nuevo Evento</h2>
-        <input type="text" id="new-ev-name" placeholder="Nombre del evento">
-        <select id="new-ev-cur"><option value="ARS">Peso Argentino (ARS)</option><option value="USD">Dólar (USD)</option></select>
-        <button id="btn-create-ev" class="btn" onclick="dbCreateEvent()">CREAR EVENTO</button>
+        <h2 style="font-family:'Syne'; margin-bottom:25px;">Crear Evento</h2>
+        <input type="text" id="in-name" placeholder="Ej: Viaje a Bariloche">
+        <select id="in-cur"><option value="ARS">Pesos (ARS)</option><option value="USD">Dólares (USD)</option></select>
+        <button id="btn-create" class="btn-main" onclick="dbCreateEvent()">CREAR EVENTO</button>
     </div>
 </div>
 
 <div id="modal-add-expense" class="modal-overlay" onclick="if(event.target==this)closeModal('modal-add-expense')">
     <div class="modal">
-        <h2>Cargar Gasto</h2>
-        <input type="text" id="ex-desc" placeholder="Descripción">
-        <input type="number" id="ex-amount" placeholder="Monto total">
+        <h2 style="margin-bottom:20px;">Nuevo Gasto</h2>
+        <input type="text" id="ex-desc" placeholder="¿Qué se compró?">
+        <input type="number" id="ex-val" placeholder="Monto">
         <label style="font-size:0.8rem; color:var(--muted)">¿Quién pagó?</label>
-        <select id="ex-payer"></select>
-        <label style="font-size:0.8rem; color:var(--muted)">¿Quiénes consumieron?</label>
-        <div id="ex-participants-list" style="margin: 10px 0 20px 0; max-height: 150px; overflow-y: auto;"></div>
-        <button id="btn-save-expense" class="btn" onclick="dbAddExpense()">GUARDAR GASTO</button>
+        <select id="ex-payer-select"></select>
+        <label style="font-size:0.8rem; color:var(--muted)">¿Para quiénes?</label>
+        <div id="ex-part-list" style="margin: 10px 0 20px 0; max-height: 200px; overflow-y: auto;"></div>
+        <button class="btn-main" onclick="dbAddExpense()">GUARDAR GASTO</button>
     </div>
 </div>
 
@@ -124,6 +125,7 @@
       messagingSenderId: "1073347556736",
       appId: "1:1073347556736:web:d98c2c848cf73c7148bd65"
     };
+
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     const db = firebase.firestore();
@@ -131,176 +133,177 @@
     let currentEvent = null;
     let activeTab = 'gastos';
 
-    auth.onAuthStateChanged(user => {
+    // --- SEGURIDAD DE CARGA ---
+    function showScreen(id) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        const el = document.getElementById(id);
+        if(el) el.classList.add('active');
         document.getElementById('screen-loading').style.display = 'none';
+    }
+
+    auth.onAuthStateChanged(user => {
         if (user) {
-            document.getElementById('header-name').innerText = user.displayName.split(' ')[0];
-            document.getElementById('header-photo').src = user.photoURL;
-            const params = new URLSearchParams(window.location.search);
-            if(params.has('join')) joinEvent(params.get('join'));
-            else showScreen('screen-main');
-            loadEvents();
+            document.getElementById('header-user').innerText = user.displayName;
+            document.getElementById('header-img').src = user.photoURL;
+            
+            const urlParams = new URLSearchParams(window.location.search);
+            if(urlParams.has('join')) joinEvent(urlParams.get('join'));
+            else {
+                showScreen('screen-main');
+                loadEvents();
+            }
         } else {
             login();
         }
     });
 
-    async function login() { 
+    async function login() {
         const provider = new firebase.auth.GoogleAuthProvider();
-        await auth.signInWithPopup(provider).catch(e => console.log(e));
+        try { await auth.signInWithPopup(provider); } catch(e) { console.error(e); }
     }
 
-    function logout() { 
+    function logout() {
         auth.signOut().then(() => {
-            // Limpia la URL y recarga para evitar errores de sesión
             window.location.href = window.location.origin + window.location.pathname;
         });
     }
 
-    function showScreen(id) {
-        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-        document.getElementById(id).classList.add('active');
-    }
-
+    // --- LOGICA DE DATOS ---
     function loadEvents() {
-        db.collection('events').where('participantsIds', 'array-contains', auth.currentUser.uid)
-        .onSnapshot(snap => {
-            const list = document.getElementById('event-list');
+        const list = document.getElementById('main-event-list');
+        db.collection('events')
+          .where('participantsIds', 'array-contains', auth.currentUser.uid)
+          .onSnapshot(snap => {
             if (snap.empty) {
                 list.innerHTML = `
-                    <div style="text-align:center; padding:60px 20px; color:var(--muted);">
-                        <i class="fa-solid fa-folder-open fa-3x" style="margin-bottom:15px; opacity:0.3;"></i>
-                        <p style="font-weight:600;">No tenés eventos activos.</p>
-                        <p style="font-size:0.85rem; margin-top:5px;">Tocá el botón <b>+</b> para crear uno.</p>
+                    <div style="text-align:center; padding:80px 20px; color:var(--muted);">
+                        <i class="fa-solid fa-ghost fa-3x" style="margin-bottom:20px; opacity:0.2;"></i>
+                        <p style="font-weight:700;">No tenés eventos todavía.</p>
+                        <p style="font-size:0.8rem; margin-top:10px;">Tocá el <b>+</b> y armá el primero.</p>
                     </div>`;
                 return;
             }
-            list.innerHTML = snap.docs.map(doc => `
-                <div class="card" onclick="openEvent('${doc.id}')">
+            list.innerHTML = snap.docs.map(doc => {
+                const d = doc.data();
+                return `
+                <div class="event-card" onclick="openEvent('${doc.id}')">
                     <div style="display:flex; justify-content:space-between; align-items:center;">
                         <div>
-                            <b style="font-size:1.1rem;">${doc.data().name}</b><br>
-                            <small style="color:var(--accent); font-weight:bold;">${doc.data().currency}</small>
+                            <b style="font-size:1.1rem; color:white;">${d.name}</b><br>
+                            <small style="color:var(--accent2); font-weight:bold;">${d.currency}</small>
                         </div>
-                        <div style="text-align:right">
-                            <small style="color:var(--muted)">${doc.data().participants.length} personas</small>
+                        <div style="background:var(--surface2); padding:6px 12px; border-radius:10px; font-size:0.75rem; color:var(--muted)">
+                            ${d.participants.length} integrantes
                         </div>
                     </div>
-                </div>
-            `).join('');
+                </div>`;
+            }).join('');
         });
     }
 
     async function dbCreateEvent() {
-        const nameInput = document.getElementById('new-ev-name');
-        const btn = document.getElementById('btn-create-ev');
-        if(!nameInput.value || btn.disabled) return;
+        const name = document.getElementById('in-name').value;
+        const btn = document.getElementById('btn-create');
+        if(!name || btn.disabled) return;
         
         btn.disabled = true;
-        btn.innerText = "CREANDO...";
-
         const user = auth.currentUser;
+        
         try {
             const doc = await db.collection('events').add({
-                name: nameInput.value, 
-                currency: document.getElementById('new-ev-cur').value,
-                ownerId: user.uid, 
-                ownerName: user.displayName,
+                name: name, currency: document.getElementById('in-cur').value,
+                ownerId: user.uid, ownerName: user.displayName,
                 participantsIds: [user.uid],
                 participants: [{id: user.uid, name: user.displayName, photo: user.photoURL}],
                 expenses: [],
-                logs: [{u: user.displayName, a: "creó el evento", d: Date.now()}]
+                logs: [{u: user.displayName, a: "creó el evento", d: Date.now()}],
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
             });
-            nameInput.value = '';
             closeModal('modal-new-event');
             openEvent(doc.id);
-        } catch(e) { alert(e.message); }
-        finally {
-            btn.disabled = false;
-            btn.innerText = "CREAR EVENTO";
-        }
+        } catch(e) { alert("Error: " + e.message); }
+        finally { btn.disabled = false; }
     }
 
     function openEvent(id) {
         db.collection('events').doc(id).onSnapshot(doc => {
             if(!doc.exists) return;
             currentEvent = {id: doc.id, ...doc.data()};
-            document.getElementById('detail-title').innerText = currentEvent.name;
-            renderExpenseParticipants();
+            document.getElementById('det-title').innerText = currentEvent.name;
+            renderExpenseUI();
             renderTab();
             showScreen('screen-detail');
         });
     }
 
-    function renderExpenseParticipants() {
-        const payerSelect = document.getElementById('ex-payer');
-        const listDiv = document.getElementById('ex-participants-list');
-        
-        payerSelect.innerHTML = currentEvent.participants.map(p => `<option value="${p.id}">${p.name}</option>`).join('');
-        listDiv.innerHTML = currentEvent.participants.map(p => `
-            <label style="display:flex; align-items:center; gap:10px; padding:8px; background:var(--surface2); border-radius:8px; margin-bottom:5px;">
-                <input type="checkbox" value="${p.id}" checked class="ex-check"> ${p.name}
+    function renderExpenseUI() {
+        document.getElementById('ex-payer-select').innerHTML = currentEvent.participants.map(p => `<option value="${p.id}">${p.name}</option>`).join('');
+        document.getElementById('ex-part-list').innerHTML = currentEvent.participants.map(p => `
+            <label style="display:flex; align-items:center; gap:12px; padding:12px; background:var(--surface2); border-radius:10px; margin-bottom:8px;">
+                <input type="checkbox" value="${p.id}" checked class="ex-check">
+                <span style="font-size:0.9rem;">${p.name}</span>
             </label>
         `).join('');
     }
 
     async function dbAddExpense() {
         const desc = document.getElementById('ex-desc').value;
-        const amount = parseFloat(document.getElementById('ex-amount').value);
-        const payerId = document.getElementById('ex-payer').value;
-        const includedIds = Array.from(document.querySelectorAll('.ex-check:checked')).map(c => c.value);
+        const val = parseFloat(document.getElementById('ex-val').value);
+        const payerId = document.getElementById('ex-payer-select').value;
+        const included = Array.from(document.querySelectorAll('.ex-check:checked')).map(c => c.value);
 
-        if(!desc || isNaN(amount) || includedIds.length === 0) return alert("Faltan datos");
+        if(!desc || isNaN(val) || included.length === 0) return alert("Completa los campos");
 
         const expense = {
-            id: Date.now(), desc, amount, payerId, includedIds,
+            id: Date.now(), desc, amount: val, payerId, includedIds: included,
             payerName: currentEvent.participants.find(p => p.id === payerId).name,
             date: Date.now()
         };
 
-        const log = { u: auth.currentUser.displayName, a: `agregó "${desc}" por $${amount}`, d: Date.now() };
-
         await db.collection('events').doc(currentEvent.id).update({
             expenses: firebase.firestore.FieldValue.arrayUnion(expense),
-            logs: firebase.firestore.FieldValue.arrayUnion(log)
+            logs: firebase.firestore.FieldValue.arrayUnion({u: auth.currentUser.displayName, a: `sumó "${desc}" ($${val})`, d: Date.now()})
         });
 
         document.getElementById('ex-desc').value = '';
-        document.getElementById('ex-amount').value = '';
+        document.getElementById('ex-val').value = '';
         closeModal('modal-add-expense');
     }
 
-    function switchTab(t, el) {
+    function switchTab(t, btn) {
         activeTab = t;
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        el.classList.add('active');
+        btn.classList.add('active');
         renderTab();
     }
 
     function renderTab() {
-        const area = document.getElementById('tab-content');
+        const area = document.getElementById('detail-area');
         if(activeTab === 'gastos') {
             area.innerHTML = currentEvent.expenses.length ? currentEvent.expenses.map(e => `
-                <div class="card" style="display:flex; justify-content:space-between; align-items:center;">
-                    <div><b>${e.desc}</b><br><small style="color:var(--muted)">Paga: ${e.payerName}</small></div>
-                    <div style="font-weight:bold; color:var(--green)">$${e.amount}</div>
+                <div class="event-card" style="border-left-color:var(--green)">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <div><b>${e.desc}</b><br><small style="color:var(--muted)">Pagó: ${e.payerName}</small></div>
+                        <div style="color:var(--green); font-weight:800; font-size:1.1rem;">$${e.amount}</div>
+                    </div>
                 </div>
-            `).join('') : '<p style="text-align:center; color:var(--muted); padding:20px;">Sin gastos aún.</p>';
+            `).join('') : '<p style="text-align:center; color:var(--muted); padding:40px;">No hay gastos cargados.</p>';
         } else if(activeTab === 'historial') {
             area.innerHTML = currentEvent.logs.slice().reverse().map(l => `
-                <div style="font-size:0.8rem; padding:12px 0; border-bottom:1px solid var(--border)">
-                    <b>${l.u}</b> ${l.a}<br><small style="color:var(--muted)">${new Date(l.d).toLocaleString()}</small>
+                <div style="padding:15px 0; border-bottom:1px solid var(--border); font-size:0.85rem;">
+                    <span style="color:var(--accent); font-weight:bold;">${l.u}</span> ${l.a}
+                    <div style="color:var(--muted); font-size:0.7rem; margin-top:4px;">${new Date(l.d).toLocaleString()}</div>
                 </div>
             `).join('');
         } else {
-            area.innerHTML = `<div style="text-align:center; padding:40px; color:var(--muted)">Cálculos de ${activeTab} próximamente.</div>`;
+            area.innerHTML = `<div style="text-align:center; padding:40px; color:var(--muted)">La pestaña ${activeTab} se habilitará al calcular deudas.</div>`;
         }
     }
 
     function shareEvent() {
         const url = window.location.origin + window.location.pathname + "?join=" + currentEvent.id;
         if(navigator.share) navigator.share({title: currentEvent.name, url: url});
-        else prompt("Link para invitar:", url);
+        else prompt("Link de invitación:", url);
     }
 
     async function joinEvent(id) {
@@ -310,7 +313,7 @@
             await ref.update({
                 participantsIds: firebase.firestore.FieldValue.arrayUnion(auth.currentUser.uid),
                 participants: firebase.firestore.FieldValue.arrayUnion({id: auth.currentUser.uid, name: auth.currentUser.displayName, photo: auth.currentUser.photoURL}),
-                logs: firebase.firestore.FieldValue.arrayUnion({u: auth.currentUser.displayName, a: "se unió al evento", d: Date.now()})
+                logs: firebase.firestore.FieldValue.arrayUnion({u: auth.currentUser.displayName, a: "se unió", d: Date.now()})
             });
         }
         window.history.replaceState({}, '', window.location.pathname);
