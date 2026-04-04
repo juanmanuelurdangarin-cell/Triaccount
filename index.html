@@ -68,7 +68,7 @@
   .btn-google img { width: 22px; height: 22px; }
 
   /* ══ FIREBASE CONFIG SCREEN ══ */
-  #screen-firebase { background: linear-gradient(145deg,#6c63ff,#a78bfa,#ff6584); justify-content: center; align-items: center; padding: 24px; }
+  #screen-firebase-config { background: linear-gradient(145deg,#6c63ff,#a78bfa,#ff6584); justify-content: center; align-items: center; padding: 24px; }
   .firebase-card { background: #fff; border-radius: 24px; padding: 28px 24px; width: 100%; max-width: 440px; box-shadow: 0 20px 60px rgba(0,0,0,0.18); }
   .firebase-card h2 { font-size: 1.3rem; font-weight: 800; margin-bottom: 6px; }
   .firebase-card p { font-size: .85rem; color: var(--text-muted); margin-bottom: 20px; line-height: 1.5; }
@@ -89,7 +89,7 @@
     <div class="loading-logo">
       <i class="fa-solid fa-receipt"></i>
       <h1>DivideGastos Pro</h1>
-      <p>Iniciando sesión...</p>
+      <p>Procesando...</p>
       <div class="spinner"></div>
     </div>
   </div>
@@ -113,7 +113,7 @@
     </div>
   </div>
 
-  <div id="screen-firebase-config" class="screen" style="justify-content:center; align-items:center; padding: 24px;">
+  <div id="screen-firebase-config" class="screen">
     <div class="firebase-card">
       <h2>⚙️ Configurar Firebase</h2>
       <p>Ingresá tus credenciales para conectar la base de datos.</p>
@@ -167,10 +167,23 @@
         db = firebase.firestore();
         auth = firebase.auth();
         
+        // MANEJAR EL RESULTADO DE LA REDIRECCIÓN
+        auth.getRedirectResult().then((result) => {
+          if (result.user) {
+            state.user = result.user;
+            showToast(`¡Bienvenido ${result.user.displayName || 'Usuario'}!`);
+            loadEventsFromCloud();
+          }
+        }).catch((error) => {
+          console.error("Error al volver de la redirección:", error);
+          showToast("Hubo un error al autenticar con Google.");
+          showScreen("onboarding");
+        });
+
+        // ESCUCHAR CAMBIOS DE ESTADO DE AUTENTICACIÓN
         auth.onAuthStateChanged(user => {
           if (user) {
             state.user = user;
-            showToast(`¡Bienvenido ${user.displayName || 'Usuario'}!`);
             loadEventsFromCloud();
           } else {
             state.user = null;
@@ -194,7 +207,8 @@
       const provider = new firebase.auth.GoogleAuthProvider();
       try {
         showScreen("loading");
-        await auth.signInWithPopup(provider);
+        // Cambiado de popup a redirección para evitar bloqueos
+        await auth.signInWithRedirect(provider);
       } catch (error) {
         console.error("Error en login:", error);
         showToast("Error al iniciar sesión");
@@ -212,8 +226,10 @@
         
         state.history = snapshot.docs.map(doc => doc.data());
         renderHistory();
-        // Cambiar a la pantalla principal después de cargar (por ejemplo, 'history')
         console.log("Datos cargados:", state.history);
+        
+        // Como no hay una pantalla principal definida en tu base, de momento nos quedamos cargando.
+        // Aquí deberías redirigir a la pantalla de menú o historial con showScreen('nombre');
       } catch (e) {
         console.error("Error cargando datos:", e);
         showToast("Error al cargar los datos");
@@ -221,7 +237,6 @@
     }
 
     function renderHistory() {
-      // Lógica de renderizado de historial
       console.log("Renderizando historial...");
     }
 
