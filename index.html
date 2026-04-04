@@ -1483,9 +1483,8 @@ async function loadEventsFromCloud() {
   
   if (ok) {
     showScreen("loading");
-    // El onAuthStateChanged se encarga de redirigir al entrar
+    // El onAuthStateChanged se encarga de redirigir
   } else {
-    // Si falla Firebase, entra en modo local
     if (state.lang && state.country) {
       state.localMode = true;
       showScreen("history");
