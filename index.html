@@ -14,48 +14,70 @@
                 <button class="icon-btn" onclick="showHistory()" title="Mis Eventos">
                     <i class="fas fa-list-ul"></i>
                 </button>
-                <button class="icon-btn" onclick="shareEventLink()" id="btn-share" title="Compartir Actualización">
+                <button class="icon-btn" onclick="shareEventLink()" id="btn-share" title="Compartir">
                     <i class="fas fa-share-nodes"></i>
                     <span id="share-dot" class="dot hidden"></span>
                 </button>
-                <button class="icon-btn" onclick="goBackToSetup()" id="btn-back" title="Editar Miembros">
-                    <i class="fas fa-user-plus"></i>
-                </button>
+                <div class="lang-wrapper">
+                    <i class="fas fa-globe"></i>
+                    <select id="lang-selector" onchange="changeLanguage(this.value)">
+                        <option value="es">Español</option>
+                        <option value="en">English</option>
+                        <option value="pt">Português</option>
+                        <option value="fr">Français</option>
+                        <option value="de">Deutsch</option>
+                        <option value="it">Italiano</option>
+                        <option value="zh">中文</option>
+                        <option value="ja">日本語</option>
+                        <option value="ru">Русский</option>
+                        <option value="ko">한국어</option>
+                        <option value="hi">हिन्दी</option>
+                        <option value="ar">العربية</option>
+                        <option value="bn">বাংলা</option>
+                        <option value="tr">Türkçe</option>
+                        <option value="vi">Tiếng Việt</option>
+                        <option value="pl">Polski</option>
+                        <option value="nl">Nederlands</option>
+                        <option value="th">ไทย</option>
+                        <option value="id">Bahasa Indonesia</option>
+                        <option value="uk">Українська</option>
+                    </select>
+                </div>
             </div>
             <div>
-                <h1 id="event-title-display" style="margin-bottom: 0;">DivideGastos</h1>
-                <small id="version-display" style="opacity: 0.7; font-size: 0.7rem;">v1</small>
+                <h1 id="event-title-display">DivideGastos</h1>
+                <small id="version-display">v1</small>
             </div>
             <div class="currency-badge" id="currency-display">ARS</div>
         </header>
 
         <section id="history-screen" class="card hidden">
-            <h2>Mis Eventos Guardados</h2>
+            <h2 data-i18n="history_title">Mis Eventos Guardados</h2>
             <div id="history-list"></div>
-            <button class="btn-main" onclick="createNewEvent()">+ Crear Nuevo Evento</button>
+            <button class="btn-main" onclick="createNewEvent()" data-i18n="btn_new_event">+ Crear Nuevo Evento</button>
         </section>
 
         <section id="setup-screen" class="card">
-            <h2>Configuración del Evento</h2>
-            <input type="text" id="event-title" placeholder="Título (ej: Asado, Viaje)">
+            <h2 data-i18n="setup_title">Configuración del Evento</h2>
+            <input type="text" id="event-title" data-i18n-placeholder="placeholder_title">
             <select id="event-currency">
-                <option value="$">Pesos (ARS)</option>
-                <option value="USD">Dólares (USD)</option>
-                <option value="EUR">Euros (EUR)</option>
+                <option value="$">ARS ($)</option>
+                <option value="USD">USD (US$)</option>
+                <option value="EUR">EUR (€)</option>
             </select>
             <div class="input-group">
-                <input type="text" id="friend-name" placeholder="Nombre del amigo">
-                <button class="btn-secondary" onclick="addFriend()">Añadir</button>
+                <input type="text" id="friend-name" data-i18n-placeholder="placeholder_name">
+                <button class="btn-secondary" onclick="addFriend()" data-i18n="btn_add">Añadir</button>
             </div>
             <ul id="friends-list"></ul>
-            <button class="btn-main" onclick="startEvent()">Guardar y Continuar</button>
+            <button class="btn-main" onclick="startEvent()" data-i18n="btn_save_continue">Guardar y Continuar</button>
         </section>
 
         <section id="main-screen" class="hidden">
             <nav class="tabs">
-                <button class="tab-btn active" onclick="showTab('gastos')">Gastos</button>
-                <button class="tab-btn" onclick="showTab('saldos')">Saldos</button>
-                <button class="tab-btn" onclick="showTab('deudas')">Pagos</button>
+                <button class="tab-btn active" onclick="showTab('gastos')" data-i18n="tab_expenses">Gastos</button>
+                <button class="tab-btn" onclick="showTab('saldos')" data-i18n="tab_balances">Saldos</button>
+                <button class="tab-btn" onclick="showTab('deudas')" data-i18n="tab_payments">Pagos</button>
             </nav>
 
             <div id="tab-gastos" class="tab-content">
@@ -76,7 +98,7 @@
             <a href="https://www.pedidosya.com.ar" target="_blank" class="ad-banner">
                 <div class="ad-content">
                     <i class="fas fa-motorcycle"></i>
-                    <span>¿Hambre? Pedí algo rico en <b>PedidosYa</b></span>
+                    <span id="ad-text">¿Hambre? Pedí en <b>PedidosYa</b></span>
                 </div>
                 <i class="fas fa-external-link-alt ad-icon"></i>
             </a>
@@ -84,20 +106,16 @@
 
         <div id="expense-modal" class="modal hidden">
             <div class="modal-content">
-                <h3 id="modal-title">Gasto</h3>
-                <input type="text" id="exp-title" placeholder="¿En qué se gastó?">
-                <input type="number" id="exp-amount" placeholder="Monto" step="0.01" inputmode="decimal">
-                <label>¿Quién pagó?</label>
+                <h3 id="modal-title" data-i18n="modal_title">Gasto</h3>
+                <input type="text" id="exp-title" data-i18n-placeholder="placeholder_expense">
+                <input type="number" id="exp-amount" data-i18n-placeholder="placeholder_amount" step="0.01" inputmode="decimal">
+                <label data-i18n="label_payer">¿Quién pagó?</label>
                 <select id="exp-payer"></select>
-                <label>¿Quiénes participan?</label>
-                <div class="selection-tools">
-                    <button class="btn-small" onclick="toggleAllFriends(true)">Todos</button>
-                    <button class="btn-small" onclick="toggleAllFriends(false)">Ninguno</button>
-                </div>
+                <label data-i18n="label_participants">¿Quiénes participan?</label>
                 <div id="exp-participants"></div>
                 <div class="modal-actions">
-                    <button class="btn-cancel" onclick="closeExpenseModal()">Cancelar</button>
-                    <button class="btn-main" onclick="saveExpense()">Guardar</button>
+                    <button class="btn-cancel" onclick="closeExpenseModal()" data-i18n="btn_cancel">Cancelar</button>
+                    <button class="btn-main" onclick="saveExpense()" data-i18n="btn_save">Guardar</button>
                 </div>
             </div>
         </div>
