@@ -1,140 +1,1701 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>DivideGastos Pro | Premium Edition</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>DivideGastos Pro</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  :root {
+    --primary: #6c63ff;
+    --primary-dark: #5a52d5;
+    --primary-light: #ede9ff;
+    --accent: #ff6584;
+    --success: #43c59e;
+    --danger: #ff6b6b;
+    --warning: #ffd166;
+    --bg: #f0f2f8;
+    --card: #ffffff;
+    --text: #2d3142;
+    --text-muted: #9094a8;
+    --border: #e2e5f0;
+    --pedidosya: #ff0045;
+    --shadow: 0 4px 20px rgba(108,99,255,0.10);
+    --shadow-card: 0 2px 12px rgba(0,0,0,0.08);
+    --radius: 18px;
+    --radius-sm: 10px;
+    --transition: 0.22s cubic-bezier(.4,0,.2,1);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  html, body { height: 100%; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; }
+  body { display: flex; flex-direction: column; min-height: 100vh; }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 5px; } ::-webkit-scrollbar-track { background: transparent; } ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+
+  /* ── SCREENS ── */
+  .screen { display: none; flex-direction: column; min-height: 100vh; animation: fadeIn .3s ease; }
+  .screen.active { display: flex; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+  /* ══════════════════════════════════════
+     ONBOARDING
+  ══════════════════════════════════════ */
+  #screen-onboarding {
+    background: linear-gradient(145deg, #6c63ff 0%, #a78bfa 50%, #ff6584 100%);
+    justify-content: center; align-items: center; padding: 28px 24px;
+  }
+  .onboarding-card {
+    background: rgba(255,255,255,0.97);
+    border-radius: 28px;
+    padding: 36px 28px 32px;
+    width: 100%; max-width: 420px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.18);
+  }
+  .onboarding-logo { text-align: center; margin-bottom: 8px; }
+  .onboarding-logo i { font-size: 2.8rem; color: var(--primary); }
+  .onboarding-title { text-align: center; font-size: 1.7rem; font-weight: 800; color: var(--text); margin-bottom: 4px; }
+  .onboarding-title span { color: var(--primary); }
+  .onboarding-subtitle { text-align: center; color: var(--text-muted); font-size: 0.93rem; margin-bottom: 28px; min-height: 40px; transition: var(--transition); }
+  .form-group { margin-bottom: 18px; }
+  .form-group label { display: block; font-size: 0.82rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 7px; }
+  .form-group select, .form-group input[type=text] {
+    width: 100%; padding: 13px 16px; border: 2px solid var(--border);
+    border-radius: var(--radius-sm); font-size: 1rem; color: var(--text);
+    background: var(--bg); outline: none; transition: border-color var(--transition);
+    appearance: none; -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236c63ff' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 14px center;
+  }
+  .form-group select:focus, .form-group input[type=text]:focus { border-color: var(--primary); }
+  .btn-primary {
+    width: 100%; padding: 15px; background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: #fff; border: none; border-radius: var(--radius-sm); font-size: 1.05rem;
+    font-weight: 700; cursor: pointer; transition: transform var(--transition), box-shadow var(--transition);
+    box-shadow: 0 4px 15px rgba(108,99,255,0.35); margin-top: 6px;
+  }
+  .btn-primary:active { transform: scale(0.97); }
+  .btn-primary:disabled { opacity: .5; cursor: not-allowed; }
+
+  /* ══════════════════════════════════════
+     HISTORY
+  ══════════════════════════════════════ */
+  #screen-history { background: var(--bg); }
+  .top-bar {
+    background: var(--card); padding: 16px 20px 14px;
+    display: flex; align-items: center; justify-content: space-between;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06); position: sticky; top: 0; z-index: 50;
+  }
+  .top-bar-title { font-size: 1.2rem; font-weight: 800; color: var(--text); }
+  .top-bar-title span { color: var(--primary); }
+  .top-bar-actions { display: flex; gap: 10px; }
+  .icon-btn {
+    width: 40px; height: 40px; border-radius: 50%; border: none;
+    background: var(--primary-light); color: var(--primary);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; font-size: 1rem; transition: background var(--transition);
+  }
+  .icon-btn:active { background: var(--primary); color: #fff; }
+  .history-list { flex: 1; padding: 20px 16px; overflow-y: auto; }
+  .history-empty {
+    text-align: center; padding: 60px 20px; color: var(--text-muted);
+  }
+  .history-empty i { font-size: 3.5rem; color: var(--border); margin-bottom: 16px; display: block; }
+  .history-empty p { font-size: 1rem; }
+  .event-card {
+    background: var(--card); border-radius: var(--radius); padding: 18px 20px;
+    margin-bottom: 14px; box-shadow: var(--shadow-card);
+    display: flex; align-items: center; gap: 14px; cursor: pointer;
+    transition: transform var(--transition), box-shadow var(--transition);
+    position: relative; overflow: hidden;
+  }
+  .event-card:active { transform: scale(0.98); }
+  .event-card-icon {
+    width: 48px; height: 48px; border-radius: 14px;
+    background: var(--primary-light); color: var(--primary);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem; flex-shrink: 0;
+  }
+  .event-card-info { flex: 1; min-width: 0; }
+  .event-card-title { font-size: 1rem; font-weight: 700; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .event-card-meta { font-size: 0.8rem; color: var(--text-muted); margin-top: 3px; }
+  .event-card-badge {
+    font-size: 0.75rem; font-weight: 700; padding: 4px 10px;
+    border-radius: 20px; background: var(--primary-light); color: var(--primary);
+    white-space: nowrap;
+  }
+  .event-card-delete {
+    position: absolute; right: 0; top: 0; bottom: 0; width: 60px;
+    background: var(--danger); color: #fff; border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; transform: translateX(100%); transition: transform var(--transition);
+    border-radius: 0 var(--radius) var(--radius) 0;
+  }
+  .event-card:hover .event-card-delete { transform: translateX(0); }
+  .fab {
+    position: fixed; bottom: 88px; right: 20px;
+    width: 58px; height: 58px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: #fff; border: none; font-size: 1.5rem; cursor: pointer;
+    box-shadow: 0 6px 20px rgba(108,99,255,0.4);
+    display: flex; align-items: center; justify-content: center;
+    transition: transform var(--transition); z-index: 40;
+  }
+  .fab:active { transform: scale(0.93) rotate(45deg); }
+  .fab-history { bottom: 24px; }
+
+  /* ══════════════════════════════════════
+     SETUP
+  ══════════════════════════════════════ */
+  #screen-setup { background: var(--bg); }
+  .setup-body { flex: 1; padding: 20px 16px 100px; overflow-y: auto; }
+  .section-title { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--text-muted); margin-bottom: 12px; }
+  .card { background: var(--card); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow-card); margin-bottom: 18px; }
+  .input-field {
+    width: 100%; padding: 12px 14px; border: 2px solid var(--border);
+    border-radius: var(--radius-sm); font-size: 1rem; color: var(--text);
+    background: var(--bg); outline: none; transition: border-color var(--transition);
+    font-family: inherit;
+  }
+  .input-field:focus { border-color: var(--primary); }
+  .input-field.error { border-color: var(--danger); }
+  .currency-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-top: 4px; }
+  .currency-btn {
+    padding: 10px 6px; border: 2px solid var(--border); border-radius: var(--radius-sm);
+    background: var(--bg); color: var(--text-muted); font-size: 0.85rem; font-weight: 600;
+    cursor: pointer; transition: all var(--transition); text-align: center;
+  }
+  .currency-btn.active { border-color: var(--primary); background: var(--primary-light); color: var(--primary); }
+  .members-list { margin-top: 14px; display: flex; flex-direction: column; gap: 8px; }
+  .member-item {
+    display: flex; align-items: center; gap: 10px;
+    background: var(--bg); border-radius: var(--radius-sm); padding: 10px 14px;
+  }
+  .member-avatar {
+    width: 34px; height: 34px; border-radius: 50%;
+    background: var(--primary); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.85rem; font-weight: 700; flex-shrink: 0;
+  }
+  .member-name { flex: 1; font-size: 0.95rem; font-weight: 600; }
+  .member-remove { background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 1rem; padding: 4px; }
+  .member-remove:active { color: var(--danger); }
+  .add-member-row { display: flex; gap: 8px; margin-top: 12px; }
+  .add-member-row .input-field { flex: 1; }
+  .btn-icon-add {
+    width: 46px; height: 46px; border-radius: var(--radius-sm); border: none;
+    background: var(--primary); color: #fff; font-size: 1.2rem;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; transition: background var(--transition);
+  }
+  .btn-icon-add:active { background: var(--primary-dark); }
+  .bottom-action {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: var(--card); padding: 14px 16px 24px;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.08); z-index: 40;
+  }
+
+  /* ══════════════════════════════════════
+     DASHBOARD
+  ══════════════════════════════════════ */
+  #screen-dashboard { background: var(--bg); }
+  .dashboard-header {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    padding: 16px 20px 20px; color: #fff;
+  }
+  .dashboard-header-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+  .dashboard-event-title { font-size: 1.25rem; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: calc(100% - 80px); }
+  .dashboard-header-actions { display: flex; gap: 8px; }
+  .header-icon-btn { background: rgba(255,255,255,0.2); border: none; color: #fff; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 0.95rem; }
+  .dashboard-meta { font-size: 0.82rem; opacity: .8; }
+  .tabs { display: flex; background: var(--card); box-shadow: 0 2px 8px rgba(0,0,0,0.06); position: sticky; top: 0; z-index: 50; }
+  .tab-btn {
+    flex: 1; padding: 14px 4px; border: none; background: none; color: var(--text-muted);
+    font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em;
+    cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 4px;
+    border-bottom: 3px solid transparent; transition: all var(--transition);
+  }
+  .tab-btn i { font-size: 1.1rem; }
+  .tab-btn.active { color: var(--primary); border-bottom-color: var(--primary); }
+  .tab-content { display: none; flex: 1; padding: 16px 14px 140px; overflow-y: auto; animation: fadeIn .25s ease; }
+  .tab-content.active { display: block; }
+
+  /* Gastos Tab */
+  .expense-card {
+    background: var(--card); border-radius: var(--radius); padding: 16px 18px;
+    margin-bottom: 12px; box-shadow: var(--shadow-card);
+    display: flex; align-items: flex-start; gap: 14px;
+    position: relative; overflow: hidden;
+  }
+  .expense-icon {
+    width: 42px; height: 42px; border-radius: 12px;
+    background: var(--primary-light); color: var(--primary);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; flex-shrink: 0;
+  }
+  .expense-info { flex: 1; min-width: 0; }
+  .expense-desc { font-size: 0.97rem; font-weight: 700; color: var(--text); }
+  .expense-detail { font-size: 0.8rem; color: var(--text-muted); margin-top: 3px; }
+  .expense-amount { font-size: 1.05rem; font-weight: 800; color: var(--primary); white-space: nowrap; }
+  .expense-delete { background: none; border: none; color: var(--text-muted); cursor: pointer; padding: 4px; font-size: 0.95rem; }
+  .expense-delete:active { color: var(--danger); }
+  .split-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+  .split-tag { font-size: 0.72rem; padding: 2px 8px; border-radius: 20px; background: var(--primary-light); color: var(--primary); font-weight: 600; }
+
+  /* Saldos Tab */
+  .balance-card {
+    background: var(--card); border-radius: var(--radius); padding: 18px 20px;
+    margin-bottom: 12px; box-shadow: var(--shadow-card);
+    display: flex; align-items: center; gap: 14px;
+  }
+  .balance-avatar {
+    width: 46px; height: 46px; border-radius: 50%;
+    background: var(--primary); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem; font-weight: 700; flex-shrink: 0;
+  }
+  .balance-info { flex: 1; }
+  .balance-name { font-size: 1rem; font-weight: 700; }
+  .balance-detail { font-size: 0.82rem; color: var(--text-muted); margin-top: 2px; }
+  .balance-amount { font-size: 1.1rem; font-weight: 800; }
+  .balance-amount.positive { color: var(--success); }
+  .balance-amount.negative { color: var(--danger); }
+  .balance-amount.neutral { color: var(--text-muted); }
+  .balance-bar-wrap { margin-top: 8px; background: var(--border); border-radius: 4px; height: 5px; }
+  .balance-bar { height: 5px; border-radius: 4px; transition: width .5s ease; }
+
+  /* Pagos Tab */
+  .payment-card {
+    background: var(--card); border-radius: var(--radius); padding: 18px 20px;
+    margin-bottom: 12px; box-shadow: var(--shadow-card);
+  }
+  .payment-row { display: flex; align-items: center; gap: 10px; }
+  .payment-avatar {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: var(--danger); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.85rem; font-weight: 700; flex-shrink: 0;
+  }
+  .payment-avatar.receiver { background: var(--success); }
+  .payment-arrow { color: var(--text-muted); font-size: 1rem; flex: 1; text-align: center; }
+  .payment-amount { font-size: 1.1rem; font-weight: 800; color: var(--primary); margin-top: 10px; text-align: center; }
+  .payment-label { font-size: 0.82rem; color: var(--text-muted); text-align: center; margin-top: 4px; }
+  .all-settled {
+    text-align: center; padding: 50px 20px; color: var(--text-muted);
+  }
+  .all-settled i { font-size: 3rem; color: var(--success); margin-bottom: 14px; display: block; }
+
+  /* ══════════════════════════════════════
+     MODAL GASTO
+  ══════════════════════════════════════ */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.45); z-index: 200;
+    align-items: flex-end; justify-content: center;
+    animation: fadeIn .2s ease;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--card); border-radius: 28px 28px 0 0;
+    padding: 24px 20px 36px; width: 100%; max-width: 520px;
+    max-height: 92vh; overflow-y: auto;
+    animation: slideUp .28s cubic-bezier(.4,0,.2,1);
+  }
+  @keyframes slideUp { from { transform: translateY(100%); } to { transform: none; } }
+  .modal-handle { width: 40px; height: 4px; border-radius: 2px; background: var(--border); margin: 0 auto 20px; }
+  .modal-title { font-size: 1.2rem; font-weight: 800; margin-bottom: 20px; }
+  .modal-section { margin-bottom: 18px; }
+  .modal-section label { display: block; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--text-muted); margin-bottom: 7px; }
+  .payer-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px,1fr)); gap: 8px; }
+  .payer-btn {
+    padding: 8px 4px; border: 2px solid var(--border); border-radius: var(--radius-sm);
+    background: var(--bg); cursor: pointer; text-align: center; transition: all var(--transition);
+  }
+  .payer-btn .payer-av {
+    width: 30px; height: 30px; border-radius: 50%;
+    background: var(--text-muted); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.75rem; font-weight: 700; margin: 0 auto 4px;
+  }
+  .payer-btn .payer-name { font-size: 0.75rem; font-weight: 600; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .payer-btn.active { border-color: var(--primary); background: var(--primary-light); }
+  .payer-btn.active .payer-av { background: var(--primary); }
+  .payer-btn.active .payer-name { color: var(--primary); }
+  .split-grid { display: flex; flex-direction: column; gap: 8px; }
+  .split-item { display: flex; align-items: center; gap: 10px; }
+  .split-check { width: 22px; height: 22px; accent-color: var(--primary); cursor: pointer; }
+  .split-item label { flex: 1; font-size: 0.9rem; font-weight: 600; cursor: pointer; }
+  .modal-actions { display: flex; gap: 10px; margin-top: 6px; }
+  .btn-secondary {
+    flex: 1; padding: 13px; border: 2px solid var(--border);
+    border-radius: var(--radius-sm); background: none; color: var(--text-muted);
+    font-size: 0.95rem; font-weight: 700; cursor: pointer;
+  }
+  .btn-primary-sm {
+    flex: 2; padding: 13px; background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: #fff; border: none; border-radius: var(--radius-sm);
+    font-size: 0.95rem; font-weight: 700; cursor: pointer;
+  }
+
+  /* ══════════════════════════════════════
+     TOAST & BANNER
+  ══════════════════════════════════════ */
+  .toast {
+    position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%) translateY(20px);
+    background: #2d3142; color: #fff; padding: 12px 22px;
+    border-radius: 30px; font-size: 0.88rem; font-weight: 600;
+    opacity: 0; transition: all .3s ease; z-index: 300; white-space: nowrap;
+    pointer-events: none;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  .pedidosya-banner {
+    display: none; position: fixed; bottom: 0; left: 0; right: 0;
+    background: var(--pedidosya); color: #fff;
+    padding: 12px 20px; z-index: 100;
+    align-items: center; justify-content: space-between;
+    box-shadow: 0 -4px 20px rgba(255,0,69,0.25);
+  }
+  .pedidosya-banner.visible { display: flex; }
+  .pedidosya-left { display: flex; align-items: center; gap: 10px; }
+  .pedidosya-left i { font-size: 1.4rem; }
+  .pedidosya-text { font-size: 0.88rem; font-weight: 700; }
+  .pedidosya-sub { font-size: 0.73rem; opacity: .85; }
+  .pedidosya-cta {
+    background: rgba(255,255,255,0.2); border: 2px solid rgba(255,255,255,0.5);
+    color: #fff; padding: 7px 14px; border-radius: 20px;
+    font-size: 0.8rem; font-weight: 800; cursor: pointer; white-space: nowrap;
+  }
+
+  /* ══════════════════════════════════════
+     VERSION BADGE
+  ══════════════════════════════════════ */
+  .version-badge {
+    display: inline-block; font-size: 0.7rem; font-weight: 700;
+    background: var(--primary-light); color: var(--primary);
+    padding: 2px 8px; border-radius: 20px; margin-left: 6px;
+  }
+
+  /* ══════════════════════════════════════
+     SHARE MODAL
+  ══════════════════════════════════════ */
+  .share-link-box {
+    background: var(--bg); border-radius: var(--radius-sm);
+    padding: 12px 14px; font-size: 0.78rem; word-break: break-all;
+    color: var(--text-muted); margin: 14px 0; max-height: 80px; overflow-y: auto;
+    border: 2px solid var(--border);
+  }
+
+  /* ══════════════════════════════════════
+     SUMMARY MODAL
+  ══════════════════════════════════════ */
+  .summary-text {
+    background: var(--bg); border-radius: var(--radius-sm);
+    padding: 14px; font-size: 0.88rem; color: var(--text);
+    white-space: pre-wrap; border: 2px solid var(--border);
+    max-height: 200px; overflow-y: auto; margin: 14px 0;
+  }
+
+  /* ══════════════════════════════════════
+     RESPONSIVE
+  ══════════════════════════════════════ */
+  @media (min-width: 480px) {
+    .modal { border-radius: 28px; margin: auto; max-height: 85vh; }
+    .modal-overlay { align-items: center; }
+    .pedidosya-banner { border-radius: 16px 16px 0 0; max-width: 520px; left: 50%; transform: translateX(-50%); }
+  }
+</style>
 </head>
 <body>
 
-<section id="screen-onboarding" class="screen active">
-    <div class="ob-logo">
-        <div class="ob-logo-icon"><i class="fa-solid fa-scale-balanced"></i></div>
-        <div class="ob-logo-text">Divide<span>Gastos</span></div>
+<!-- ══════════════════════════════════════
+     SCREEN: ONBOARDING
+══════════════════════════════════════ -->
+<div id="screen-onboarding" class="screen active">
+  <div class="onboarding-card">
+    <div class="onboarding-logo"><i class="fa-solid fa-receipt"></i></div>
+    <h1 class="onboarding-title">Divide<span>Gastos</span> Pro</h1>
+    <p class="onboarding-subtitle" id="ob-subtitle">Dividí gastos grupales sin drama.</p>
+    <div class="form-group">
+      <label id="ob-lang-label">Idioma / Language</label>
+      <select id="ob-lang" onchange="onLangChange()">
+        <option value="">— Seleccionar —</option>
+        <option value="es">🇪🇸 Español</option>
+        <option value="en">🇺🇸 English</option>
+        <option value="pt">🇧🇷 Português</option>
+        <option value="fr">🇫🇷 Français</option>
+        <option value="de">🇩🇪 Deutsch</option>
+        <option value="it">🇮🇹 Italiano</option>
+      </select>
     </div>
-    <div class="ob-hero">
-        <h1>Dividí gastos sin <em>dramas.</em></h1>
-        <p>La herramienta definitiva para asados, viajes y salidas. Calculá deudas en segundos.</p>
+    <div class="form-group" id="ob-country-group" style="display:none">
+      <label id="ob-country-label">País</label>
+      <select id="ob-country">
+        <option value="">— Seleccionar —</option>
+      </select>
     </div>
-    <div class="ob-form">
-        <label>Idioma y Moneda Local</label>
-        <select id="ob-lang" onchange="updateOnboardingUI()">
-            <option value="es">🇦🇷 Español (ARS)</option>
-            <option value="en">🇺🇸 English (USD)</option>
-            <option value="pt">🇧🇷 Português (BRL)</option>
-        </select>
-        <button class="btn-primary" onclick="completeOnboarding()">
-            Continuar <i class="fa-solid fa-arrow-right"></i>
-        </button>
-    </div>
-</section>
-
-<section id="screen-history" class="screen">
-    <div class="top-bar">
-        <div class="top-bar-title">Mis Eventos</div>
-        <div class="version-badge">PRO v1.2</div>
-    </div>
-    <div class="history-list" id="history-list"></div>
-    <button class="fab" onclick="showScreen('screen-setup')">
-        <i class="fa-solid fa-plus"></i> Nuevo Evento
+    <button class="btn-primary" id="ob-btn" onclick="finishOnboarding()" disabled>
+      <i class="fa-solid fa-arrow-right"></i> <span id="ob-btn-text">Continuar</span>
     </button>
-</section>
-
-<section id="screen-setup" class="screen">
-    <div class="top-bar">
-        <button class="icon-btn" onclick="showScreen('screen-history')"><i class="fa-solid fa-arrow-left"></i></button>
-        <div class="top-bar-title">Configurar</div>
-        <div></div>
-    </div>
-    <div class="setup-content">
-        <div class="form-group">
-            <label>Nombre del evento</label>
-            <input class="form-input" id="setup-title" type="text" placeholder="Ej: Viaje a Bariloche">
-        </div>
-        <div class="form-group">
-            <label>Moneda</label>
-            <div class="currency-grid" id="currency-grid">
-                <button class="currency-btn active" onclick="setCurrency('ARS', this)">ARS</button>
-                <button class="currency-btn" onclick="setCurrency('USD', this)">USD</button>
-                <button class="currency-btn" onclick="setCurrency('EUR', this)">EUR</button>
-            </div>
-        </div>
-        <div class="form-group">
-            <label>Participantes</label>
-            <div class="member-list" id="member-list-setup"></div>
-            <div class="add-member-row">
-                <input class="form-input" id="member-input" type="text" placeholder="Nombre...">
-                <button class="btn-secondary" onclick="addMemberToSetup()">Añadir</button>
-            </div>
-        </div>
-    </div>
-    <div class="setup-footer">
-        <button class="btn-primary" onclick="createNewEvent()">
-            <i class="fa-solid fa-check"></i> Crear Evento
-        </button>
-    </div>
-</section>
-
-<section id="screen-dashboard" class="screen">
-    <div class="dash-header">
-        <div class="dash-header-row">
-            <button class="icon-btn" onclick="showScreen('screen-history')"><i class="fa-solid fa-arrow-left"></i></button>
-            <div class="dash-title" id="dash-event-title">Evento</div>
-            <div class="dash-actions">
-                <button class="icon-btn" onclick="shareEvent()"><i class="fa-solid fa-share-nodes"></i></button>
-                <button class="icon-btn" onclick="deleteCurrentEvent()"><i class="fa-solid fa-trash"></i></button>
-            </div>
-        </div>
-        <div class="tabs">
-            <div class="tab active" id="tab-gastos-btn" onclick="switchTab('gastos')"><i class="fa-solid fa-receipt"></i> Gastos</div>
-            <div class="tab" id="tab-saldos-btn" onclick="switchTab('saldos')"><i class="fa-solid fa-chart-pie"></i> Saldos</div>
-            <div class="tab" id="tab-pagos-btn" onclick="switchTab('pagos')"><i class="fa-solid fa-hand-holding-dollar"></i> Pagos</div>
-        </div>
-    </div>
-
-    <div id="tab-content-gastos" class="tab-content active"></div>
-    <div id="tab-content-saldos" class="tab-content"></div>
-    <div id="tab-content-pagos" class="tab-content"></div>
-
-    <button class="fab" id="btn-add-expense" onclick="openExpenseModal()">
-        <i class="fa-solid fa-plus"></i> Agregar Gasto
-    </button>
-
-    <div class="pedidosya-banner">
-        <div class="pedidosya-content">
-            <div class="pedidosya-logo">PedidosYa</div>
-            <div class="pedidosya-text">¿Hambre en el grupo?</div>
-        </div>
-        <button class="pedidosya-cta" onclick="window.open('https://www.pedidosya.com.ar', '_blank')">Pedir</button>
-    </div>
-</section>
-
-<div class="modal-overlay" id="modal-expense">
-    <div class="modal">
-        <div class="modal-handle"></div>
-        <div class="modal-title">Nuevo Gasto</div>
-        <div class="form-group">
-            <label>Descripción</label>
-            <input class="form-input" id="exp-desc" type="text" placeholder="Ej: Pizza, Nafta...">
-        </div>
-        <div class="form-group">
-            <label>Monto</label>
-            <input class="form-input" id="exp-amount" type="number" inputmode="decimal" placeholder="0.00">
-        </div>
-        <div class="form-group">
-            <label>¿Quién pagó?</label>
-            <div class="payer-grid" id="modal-payer-grid"></div>
-        </div>
-        <button class="btn-primary" onclick="saveExpense()">Guardar Gasto</button>
-        <button class="btn-secondary" style="width:100%; margin-top:10px" onclick="closeModal()">Cancelar</button>
-    </div>
+  </div>
 </div>
 
-<div id="toast" class="toast hidden"></div>
+<!-- ══════════════════════════════════════
+     SCREEN: HISTORY
+══════════════════════════════════════ -->
+<div id="screen-history" class="screen">
+  <div class="top-bar">
+    <div class="top-bar-title">Divide<span>Gastos</span> Pro</div>
+    <div class="top-bar-actions">
+      <button class="icon-btn" onclick="openImportModal()" title="Importar link"><i class="fa-solid fa-link"></i></button>
+      <button class="icon-btn" onclick="goOnboarding()" title="Configuración"><i class="fa-solid fa-globe"></i></button>
+    </div>
+  </div>
+  <div class="history-list" id="history-list"></div>
+  <button class="fab fab-history" onclick="goSetup()" title="Nuevo evento"><i class="fa-solid fa-plus"></i></button>
+</div>
 
-<script src="script.js"></script>
+<!-- ══════════════════════════════════════
+     SCREEN: SETUP
+══════════════════════════════════════ -->
+<div id="screen-setup" class="screen">
+  <div class="top-bar">
+    <button class="icon-btn" onclick="goHistory()"><i class="fa-solid fa-arrow-left"></i></button>
+    <div class="top-bar-title" id="setup-title-bar">Nuevo Evento</div>
+    <div></div>
+  </div>
+  <div class="setup-body">
+    <div class="card">
+      <div class="section-title" id="setup-lbl-name">Nombre del evento</div>
+      <input type="text" class="input-field" id="setup-event-name" placeholder="Ej: Asado con amigos">
+    </div>
+    <div class="card">
+      <div class="section-title" id="setup-lbl-currency">Moneda</div>
+      <div class="currency-grid" id="currency-grid"></div>
+    </div>
+    <div class="card">
+      <div class="section-title" id="setup-lbl-members">Participantes</div>
+      <div class="members-list" id="members-list"></div>
+      <div class="add-member-row">
+        <input type="text" class="input-field" id="member-input" placeholder="Nombre..." onkeydown="if(event.key==='Enter')addMember()">
+        <button class="btn-icon-add" onclick="addMember()"><i class="fa-solid fa-plus"></i></button>
+      </div>
+    </div>
+  </div>
+  <div class="bottom-action">
+    <button class="btn-primary" id="setup-save-btn" onclick="saveEvent()">
+      <i class="fa-solid fa-check"></i> <span id="setup-save-label">Crear Evento</span>
+    </button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SCREEN: DASHBOARD
+══════════════════════════════════════ -->
+<div id="screen-dashboard" class="screen">
+  <div class="dashboard-header">
+    <div class="dashboard-header-top">
+      <button class="header-icon-btn" onclick="goHistory()"><i class="fa-solid fa-arrow-left"></i></button>
+      <div class="dashboard-event-title" id="dash-title">Evento</div>
+      <div class="dashboard-header-actions">
+        <button class="header-icon-btn" onclick="openShareModal()" title="Compartir"><i class="fa-solid fa-share-nodes"></i></button>
+        <button class="header-icon-btn" onclick="openSummaryModal()" title="Resumen"><i class="fa-solid fa-file-lines"></i></button>
+      </div>
+    </div>
+    <div class="dashboard-meta" id="dash-meta"></div>
+  </div>
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="gastos" onclick="switchTab('gastos')">
+      <i class="fa-solid fa-receipt"></i><span id="tab-lbl-gastos">Gastos</span>
+    </button>
+    <button class="tab-btn" data-tab="saldos" onclick="switchTab('saldos')">
+      <i class="fa-solid fa-scale-balanced"></i><span id="tab-lbl-saldos">Saldos</span>
+    </button>
+    <button class="tab-btn" data-tab="pagos" onclick="switchTab('pagos')">
+      <i class="fa-solid fa-money-bill-transfer"></i><span id="tab-lbl-pagos">Pagos</span>
+    </button>
+  </div>
+  <div id="tab-gastos" class="tab-content active">
+    <div id="gastos-list"></div>
+    <div id="gastos-empty" class="history-empty" style="display:none">
+      <i class="fa-solid fa-receipt"></i>
+      <p id="gastos-empty-msg">Aún no hay gastos. ¡Añadí el primero!</p>
+    </div>
+  </div>
+  <div id="tab-saldos" class="tab-content">
+    <div id="saldos-list"></div>
+  </div>
+  <div id="tab-pagos" class="tab-content">
+    <div id="pagos-list"></div>
+  </div>
+  <button class="fab" id="fab-add-expense" onclick="openExpenseModal()" title="Añadir gasto">
+    <i class="fa-solid fa-plus"></i>
+  </button>
+</div>
+
+<!-- ══════════════════════════════════════
+     MODAL: NUEVO GASTO
+══════════════════════════════════════ -->
+<div class="modal-overlay" id="modal-expense">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title" id="modal-expense-title">Nuevo Gasto</div>
+    <div class="modal-section">
+      <label id="exp-lbl-desc">Descripción</label>
+      <input type="text" class="input-field" id="exp-desc" placeholder="Ej: Pizza">
+    </div>
+    <div class="modal-section">
+      <label id="exp-lbl-amount">Monto</label>
+      <input type="number" class="input-field" id="exp-amount" placeholder="0.00" min="0" step="0.01">
+    </div>
+    <div class="modal-section">
+      <label id="exp-lbl-payer">¿Quién pagó?</label>
+      <div class="payer-grid" id="payer-grid"></div>
+    </div>
+    <div class="modal-section">
+      <label id="exp-lbl-split">Dividir entre</label>
+      <div class="split-grid" id="split-grid"></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeExpenseModal()" id="exp-btn-cancel">Cancelar</button>
+      <button class="btn-primary-sm" onclick="saveExpense()" id="exp-btn-save">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     MODAL: COMPARTIR
+══════════════════════════════════════ -->
+<div class="modal-overlay" id="modal-share">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title" id="share-modal-title">Compartir Evento</div>
+    <p id="share-modal-desc" style="color:var(--text-muted);font-size:.88rem;margin-bottom:4px">Copiá este link y compartilo con tu grupo:</p>
+    <div class="share-link-box" id="share-link-box"></div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal('modal-share')" id="share-btn-close">Cerrar</button>
+      <button class="btn-primary-sm" onclick="copyShareLink()" id="share-btn-copy"><i class="fa-solid fa-copy"></i> Copiar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     MODAL: RESUMEN
+══════════════════════════════════════ -->
+<div class="modal-overlay" id="modal-summary">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title" id="summary-modal-title">Resumen</div>
+    <div class="summary-text" id="summary-text"></div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal('modal-summary')" id="summary-btn-close">Cerrar</button>
+      <button class="btn-primary-sm" onclick="copySummary()" id="summary-btn-copy"><i class="fa-solid fa-copy"></i> Copiar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     MODAL: IMPORTAR LINK
+══════════════════════════════════════ -->
+<div class="modal-overlay" id="modal-import">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title" id="import-modal-title">Importar desde Link</div>
+    <div class="modal-section">
+      <label id="import-lbl">Pegá el link aquí</label>
+      <textarea class="input-field" id="import-input" rows="4" style="resize:none;font-size:.85rem" placeholder="https://..."></textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal('modal-import')" id="import-btn-cancel">Cancelar</button>
+      <button class="btn-primary-sm" onclick="importFromLink()" id="import-btn-ok">Importar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     BANNER PEDIDOSYA
+══════════════════════════════════════ -->
+<div class="pedidosya-banner" id="pedidosya-banner">
+  <div class="pedidosya-left">
+    <i class="fa-solid fa-bag-shopping"></i>
+    <div>
+      <div class="pedidosya-text" id="py-text">¿Hambre después de dividir? 🍕</div>
+      <div class="pedidosya-sub" id="py-sub">Pedí en PedidosYa y llegá primero</div>
+    </div>
+  </div>
+  <button class="pedidosya-cta" onclick="window.open('https://www.pedidosya.com','_blank')" id="py-cta">Pedir</button>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ══════════════════════════════════════════════════════════
+//  TRANSLATIONS (i18n)
+// ══════════════════════════════════════════════════════════
+const I18N = {
+  es: {
+    subtitle: "Dividí gastos grupales sin drama.",
+    langLabel: "Idioma",
+    countryLabel: "País",
+    continueBtn: "Continuar",
+    historyEmpty: "No tenés eventos aún.\n¡Creá el primero!",
+    newEvent: "Nuevo Evento",
+    setupName: "Nombre del evento",
+    setupCurrency: "Moneda",
+    setupMembers: "Participantes",
+    setupSave: "Crear Evento",
+    setupUpdate: "Guardar Cambios",
+    setupTitleEdit: "Editar Evento",
+    tabGastos: "Gastos",
+    tabSaldos: "Saldos",
+    tabPagos: "Pagos",
+    addExpense: "Nuevo Gasto",
+    expDesc: "Descripción",
+    expAmount: "Monto",
+    expPayer: "¿Quién pagó?",
+    expSplit: "Dividir entre",
+    expCancel: "Cancelar",
+    expSave: "Guardar",
+    shareTitle: "Compartir Evento",
+    shareDesc: "Copiá este link y compartilo con tu grupo:",
+    shareClose: "Cerrar",
+    shareCopy: "Copiar",
+    summaryTitle: "Resumen",
+    summaryClose: "Cerrar",
+    summaryCopy: "Copiar",
+    importTitle: "Importar desde Link",
+    importLabel: "Pegá el link aquí",
+    importCancel: "Cancelar",
+    importOk: "Importar",
+    toastCopied: "¡Link copiado!",
+    toastSummaryCopied: "¡Resumen copiado!",
+    toastEventSaved: "Evento guardado",
+    toastExpenseSaved: "Gasto guardado",
+    toastExpenseDeleted: "Gasto eliminado",
+    toastEventDeleted: "Evento eliminado",
+    toastImported: "Evento importado",
+    toastImportError: "Link inválido",
+    toastMemberExists: "Ese nombre ya existe",
+    toastFillAll: "Completá todos los campos",
+    toastMinMembers: "Necesitás al menos 2 participantes",
+    toastSelectPayer: "Seleccioná quién pagó",
+    toastSelectSplit: "Seleccioná al menos un destinatario",
+    toastInvalidAmount: "Ingresá un monto válido",
+    allSettled: "¡Todo saldado! No hay deudas pendientes. 🎉",
+    gastosEmpty: "Aún no hay gastos. ¡Añadí el primero!",
+    paidBy: "Pagó",
+    splitAmong: "Entre",
+    members: "participantes",
+    expenses: "gastos",
+    total: "Total",
+    owes: "le debe",
+    summaryHeader: "💰 Resumen de gastos",
+    summaryPayments: "💸 Pagos sugeridos",
+    summaryFooter: "Generado con DivideGastos Pro",
+    versionWarning: "⚠️ Este evento tiene una versión más nueva. ¿Querés reemplazar tu copia local?",
+    memberPlaceholder: "Nombre...",
+    eventNamePlaceholder: "Ej: Asado con amigos",
+    pyText: "¿Hambre después de dividir? 🍕",
+    pySub: "Pedí en PedidosYa y llegá primero",
+    pyCta: "Pedir",
+    positiveLabel: "A favor",
+    negativeLabel: "A pagar",
+    neutralLabel: "Saldado",
+    pays: "paga",
+    to: "a",
+    eventOf: "Evento de",
+    deleteConfirm: "¿Eliminar este evento?",
+    deleteExpenseConfirm: "¿Eliminar este gasto?",
+    yes: "Sí",
+    no: "No",
+  },
+  en: {
+    subtitle: "Split group expenses without drama.",
+    langLabel: "Language",
+    countryLabel: "Country",
+    continueBtn: "Continue",
+    historyEmpty: "No events yet.\nCreate the first one!",
+    newEvent: "New Event",
+    setupName: "Event name",
+    setupCurrency: "Currency",
+    setupMembers: "Participants",
+    setupSave: "Create Event",
+    setupUpdate: "Save Changes",
+    setupTitleEdit: "Edit Event",
+    tabGastos: "Expenses",
+    tabSaldos: "Balances",
+    tabPagos: "Payments",
+    addExpense: "New Expense",
+    expDesc: "Description",
+    expAmount: "Amount",
+    expPayer: "Who paid?",
+    expSplit: "Split among",
+    expCancel: "Cancel",
+    expSave: "Save",
+    shareTitle: "Share Event",
+    shareDesc: "Copy this link and share it with your group:",
+    shareClose: "Close",
+    shareCopy: "Copy",
+    summaryTitle: "Summary",
+    summaryClose: "Close",
+    summaryCopy: "Copy",
+    importTitle: "Import from Link",
+    importLabel: "Paste the link here",
+    importCancel: "Cancel",
+    importOk: "Import",
+    toastCopied: "Link copied!",
+    toastSummaryCopied: "Summary copied!",
+    toastEventSaved: "Event saved",
+    toastExpenseSaved: "Expense saved",
+    toastExpenseDeleted: "Expense deleted",
+    toastEventDeleted: "Event deleted",
+    toastImported: "Event imported",
+    toastImportError: "Invalid link",
+    toastMemberExists: "That name already exists",
+    toastFillAll: "Please fill all fields",
+    toastMinMembers: "You need at least 2 participants",
+    toastSelectPayer: "Select who paid",
+    toastSelectSplit: "Select at least one recipient",
+    toastInvalidAmount: "Enter a valid amount",
+    allSettled: "All settled! No pending debts. 🎉",
+    gastosEmpty: "No expenses yet. Add the first one!",
+    paidBy: "Paid by",
+    splitAmong: "Split among",
+    members: "participants",
+    expenses: "expenses",
+    total: "Total",
+    owes: "owes",
+    summaryHeader: "💰 Expense Summary",
+    summaryPayments: "💸 Suggested Payments",
+    summaryFooter: "Generated with DivideGastos Pro",
+    versionWarning: "⚠️ This event has a newer version. Replace your local copy?",
+    memberPlaceholder: "Name...",
+    eventNamePlaceholder: "E.g.: Trip to NY",
+    pyText: "Hungry after splitting? 🍕",
+    pySub: "Order on PedidosYa and be first",
+    pyCta: "Order",
+    positiveLabel: "In favor",
+    negativeLabel: "Owes",
+    neutralLabel: "Settled",
+    pays: "pays",
+    to: "to",
+    eventOf: "Event of",
+    deleteConfirm: "Delete this event?",
+    deleteExpenseConfirm: "Delete this expense?",
+    yes: "Yes",
+    no: "No",
+  },
+  pt: {
+    subtitle: "Divida despesas em grupo sem drama.",
+    langLabel: "Idioma",
+    countryLabel: "País",
+    continueBtn: "Continuar",
+    historyEmpty: "Sem eventos ainda.\nCrie o primeiro!",
+    newEvent: "Novo Evento",
+    setupName: "Nome do evento",
+    setupCurrency: "Moeda",
+    setupMembers: "Participantes",
+    setupSave: "Criar Evento",
+    setupUpdate: "Salvar Alterações",
+    setupTitleEdit: "Editar Evento",
+    tabGastos: "Despesas",
+    tabSaldos: "Saldos",
+    tabPagos: "Pagamentos",
+    addExpense: "Nova Despesa",
+    expDesc: "Descrição",
+    expAmount: "Valor",
+    expPayer: "Quem pagou?",
+    expSplit: "Dividir entre",
+    expCancel: "Cancelar",
+    expSave: "Salvar",
+    shareTitle: "Compartilhar Evento",
+    shareDesc: "Copie este link e compartilhe com seu grupo:",
+    shareClose: "Fechar",
+    shareCopy: "Copiar",
+    summaryTitle: "Resumo",
+    summaryClose: "Fechar",
+    summaryCopy: "Copiar",
+    importTitle: "Importar de Link",
+    importLabel: "Cole o link aqui",
+    importCancel: "Cancelar",
+    importOk: "Importar",
+    toastCopied: "Link copiado!",
+    toastSummaryCopied: "Resumo copiado!",
+    toastEventSaved: "Evento salvo",
+    toastExpenseSaved: "Despesa salva",
+    toastExpenseDeleted: "Despesa removida",
+    toastEventDeleted: "Evento removido",
+    toastImported: "Evento importado",
+    toastImportError: "Link inválido",
+    toastMemberExists: "Esse nome já existe",
+    toastFillAll: "Preencha todos os campos",
+    toastMinMembers: "Você precisa de pelo menos 2 participantes",
+    toastSelectPayer: "Selecione quem pagou",
+    toastSelectSplit: "Selecione pelo menos um destinatário",
+    toastInvalidAmount: "Insira um valor válido",
+    allSettled: "Tudo quitado! Sem dívidas pendentes. 🎉",
+    gastosEmpty: "Ainda sem despesas. Adicione a primeira!",
+    paidBy: "Pago por",
+    splitAmong: "Dividido entre",
+    members: "participantes",
+    expenses: "despesas",
+    total: "Total",
+    owes: "deve",
+    summaryHeader: "💰 Resumo de despesas",
+    summaryPayments: "💸 Pagamentos sugeridos",
+    summaryFooter: "Gerado com DivideGastos Pro",
+    versionWarning: "⚠️ Este evento tem uma versão mais recente. Substituir cópia local?",
+    memberPlaceholder: "Nome...",
+    eventNamePlaceholder: "Ex: Churrasco com amigos",
+    pyText: "Com fome depois de dividir? 🍕",
+    pySub: "Peça no PedidosYa e chegue primeiro",
+    pyCta: "Pedir",
+    positiveLabel: "A favor",
+    negativeLabel: "A pagar",
+    neutralLabel: "Quitado",
+    pays: "paga",
+    to: "para",
+    eventOf: "Evento de",
+    deleteConfirm: "Excluir este evento?",
+    deleteExpenseConfirm: "Excluir esta despesa?",
+    yes: "Sim",
+    no: "Não",
+  },
+  fr: {
+    subtitle: "Partagez les dépenses sans drama.",
+    langLabel: "Langue",
+    countryLabel: "Pays",
+    continueBtn: "Continuer",
+    historyEmpty: "Pas encore d'événements.\nCréez le premier!",
+    newEvent: "Nouvel Événement",
+    setupName: "Nom de l'événement",
+    setupCurrency: "Devise",
+    setupMembers: "Participants",
+    setupSave: "Créer l'événement",
+    setupUpdate: "Enregistrer",
+    setupTitleEdit: "Modifier l'événement",
+    tabGastos: "Dépenses",
+    tabSaldos: "Soldes",
+    tabPagos: "Paiements",
+    addExpense: "Nouvelle Dépense",
+    expDesc: "Description",
+    expAmount: "Montant",
+    expPayer: "Qui a payé?",
+    expSplit: "Partager entre",
+    expCancel: "Annuler",
+    expSave: "Enregistrer",
+    shareTitle: "Partager l'événement",
+    shareDesc: "Copiez ce lien et partagez-le avec votre groupe:",
+    shareClose: "Fermer",
+    shareCopy: "Copier",
+    summaryTitle: "Résumé",
+    summaryClose: "Fermer",
+    summaryCopy: "Copier",
+    importTitle: "Importer depuis un lien",
+    importLabel: "Collez le lien ici",
+    importCancel: "Annuler",
+    importOk: "Importer",
+    toastCopied: "Lien copié!",
+    toastSummaryCopied: "Résumé copié!",
+    toastEventSaved: "Événement enregistré",
+    toastExpenseSaved: "Dépense enregistrée",
+    toastExpenseDeleted: "Dépense supprimée",
+    toastEventDeleted: "Événement supprimé",
+    toastImported: "Événement importé",
+    toastImportError: "Lien invalide",
+    toastMemberExists: "Ce nom existe déjà",
+    toastFillAll: "Remplissez tous les champs",
+    toastMinMembers: "Vous avez besoin d'au moins 2 participants",
+    toastSelectPayer: "Sélectionnez qui a payé",
+    toastSelectSplit: "Sélectionnez au moins un destinataire",
+    toastInvalidAmount: "Entrez un montant valide",
+    allSettled: "Tout réglé! Aucune dette en attente. 🎉",
+    gastosEmpty: "Pas encore de dépenses. Ajoutez la première!",
+    paidBy: "Payé par",
+    splitAmong: "Partagé entre",
+    members: "participants",
+    expenses: "dépenses",
+    total: "Total",
+    owes: "doit",
+    summaryHeader: "💰 Résumé des dépenses",
+    summaryPayments: "💸 Paiements suggérés",
+    summaryFooter: "Généré avec DivideGastos Pro",
+    versionWarning: "⚠️ Cet événement a une version plus récente. Remplacer la copie locale?",
+    memberPlaceholder: "Nom...",
+    eventNamePlaceholder: "Ex: Soirée entre amis",
+    pyText: "Faim après avoir partagé? 🍕",
+    pySub: "Commandez sur PedidosYa",
+    pyCta: "Commander",
+    positiveLabel: "Créditeur",
+    negativeLabel: "Débiteur",
+    neutralLabel: "Équilibré",
+    pays: "paie",
+    to: "à",
+    eventOf: "Événement de",
+    deleteConfirm: "Supprimer cet événement?",
+    deleteExpenseConfirm: "Supprimer cette dépense?",
+    yes: "Oui",
+    no: "Non",
+  },
+  de: {
+    subtitle: "Gruppenausgaben ohne Drama teilen.",
+    langLabel: "Sprache",
+    countryLabel: "Land",
+    continueBtn: "Weiter",
+    historyEmpty: "Noch keine Ereignisse.\nErstes erstellen!",
+    newEvent: "Neues Ereignis",
+    setupName: "Ereignisname",
+    setupCurrency: "Währung",
+    setupMembers: "Teilnehmer",
+    setupSave: "Ereignis erstellen",
+    setupUpdate: "Änderungen speichern",
+    setupTitleEdit: "Ereignis bearbeiten",
+    tabGastos: "Ausgaben",
+    tabSaldos: "Salden",
+    tabPagos: "Zahlungen",
+    addExpense: "Neue Ausgabe",
+    expDesc: "Beschreibung",
+    expAmount: "Betrag",
+    expPayer: "Wer hat bezahlt?",
+    expSplit: "Aufteilen unter",
+    expCancel: "Abbrechen",
+    expSave: "Speichern",
+    shareTitle: "Ereignis teilen",
+    shareDesc: "Kopiere diesen Link und teile ihn mit deiner Gruppe:",
+    shareClose: "Schließen",
+    shareCopy: "Kopieren",
+    summaryTitle: "Zusammenfassung",
+    summaryClose: "Schließen",
+    summaryCopy: "Kopieren",
+    importTitle: "Aus Link importieren",
+    importLabel: "Link hier einfügen",
+    importCancel: "Abbrechen",
+    importOk: "Importieren",
+    toastCopied: "Link kopiert!",
+    toastSummaryCopied: "Zusammenfassung kopiert!",
+    toastEventSaved: "Ereignis gespeichert",
+    toastExpenseSaved: "Ausgabe gespeichert",
+    toastExpenseDeleted: "Ausgabe gelöscht",
+    toastEventDeleted: "Ereignis gelöscht",
+    toastImported: "Ereignis importiert",
+    toastImportError: "Ungültiger Link",
+    toastMemberExists: "Dieser Name existiert bereits",
+    toastFillAll: "Bitte alle Felder ausfüllen",
+    toastMinMembers: "Mindestens 2 Teilnehmer erforderlich",
+    toastSelectPayer: "Wähle aus, wer bezahlt hat",
+    toastSelectSplit: "Wähle mindestens einen Empfänger",
+    toastInvalidAmount: "Gib einen gültigen Betrag ein",
+    allSettled: "Alles beglichen! Keine ausstehenden Schulden. 🎉",
+    gastosEmpty: "Noch keine Ausgaben. Füge die erste hinzu!",
+    paidBy: "Bezahlt von",
+    splitAmong: "Aufgeteilt unter",
+    members: "Teilnehmer",
+    expenses: "Ausgaben",
+    total: "Gesamt",
+    owes: "schuldet",
+    summaryHeader: "💰 Ausgabenübersicht",
+    summaryPayments: "💸 Vorgeschlagene Zahlungen",
+    summaryFooter: "Erstellt mit DivideGastos Pro",
+    versionWarning: "⚠️ Dieses Ereignis hat eine neuere Version. Lokale Kopie ersetzen?",
+    memberPlaceholder: "Name...",
+    eventNamePlaceholder: "z.B.: Grillparty",
+    pyText: "Hunger nach dem Teilen? 🍕",
+    pySub: "Bestell bei PedidosYa",
+    pyCta: "Bestellen",
+    positiveLabel: "Guthaben",
+    negativeLabel: "Schulden",
+    neutralLabel: "Ausgeglichen",
+    pays: "zahlt",
+    to: "an",
+    eventOf: "Ereignis von",
+    deleteConfirm: "Dieses Ereignis löschen?",
+    deleteExpenseConfirm: "Diese Ausgabe löschen?",
+    yes: "Ja",
+    no: "Nein",
+  },
+  it: {
+    subtitle: "Dividi le spese di gruppo senza drama.",
+    langLabel: "Lingua",
+    countryLabel: "Paese",
+    continueBtn: "Continua",
+    historyEmpty: "Nessun evento ancora.\nCrea il primo!",
+    newEvent: "Nuovo Evento",
+    setupName: "Nome dell'evento",
+    setupCurrency: "Valuta",
+    setupMembers: "Partecipanti",
+    setupSave: "Crea Evento",
+    setupUpdate: "Salva Modifiche",
+    setupTitleEdit: "Modifica Evento",
+    tabGastos: "Spese",
+    tabSaldos: "Saldi",
+    tabPagos: "Pagamenti",
+    addExpense: "Nuova Spesa",
+    expDesc: "Descrizione",
+    expAmount: "Importo",
+    expPayer: "Chi ha pagato?",
+    expSplit: "Dividi tra",
+    expCancel: "Annulla",
+    expSave: "Salva",
+    shareTitle: "Condividi Evento",
+    shareDesc: "Copia questo link e condividilo con il tuo gruppo:",
+    shareClose: "Chiudi",
+    shareCopy: "Copia",
+    summaryTitle: "Riepilogo",
+    summaryClose: "Chiudi",
+    summaryCopy: "Copia",
+    importTitle: "Importa da Link",
+    importLabel: "Incolla il link qui",
+    importCancel: "Annulla",
+    importOk: "Importa",
+    toastCopied: "Link copiato!",
+    toastSummaryCopied: "Riepilogo copiato!",
+    toastEventSaved: "Evento salvato",
+    toastExpenseSaved: "Spesa salvata",
+    toastExpenseDeleted: "Spesa eliminata",
+    toastEventDeleted: "Evento eliminato",
+    toastImported: "Evento importato",
+    toastImportError: "Link non valido",
+    toastMemberExists: "Quel nome esiste già",
+    toastFillAll: "Compila tutti i campi",
+    toastMinMembers: "Servono almeno 2 partecipanti",
+    toastSelectPayer: "Seleziona chi ha pagato",
+    toastSelectSplit: "Seleziona almeno un destinatario",
+    toastInvalidAmount: "Inserisci un importo valido",
+    allSettled: "Tutto saldato! Nessun debito in sospeso. 🎉",
+    gastosEmpty: "Ancora nessuna spesa. Aggiungi la prima!",
+    paidBy: "Pagato da",
+    splitAmong: "Diviso tra",
+    members: "partecipanti",
+    expenses: "spese",
+    total: "Totale",
+    owes: "deve",
+    summaryHeader: "💰 Riepilogo spese",
+    summaryPayments: "💸 Pagamenti suggeriti",
+    summaryFooter: "Generato con DivideGastos Pro",
+    versionWarning: "⚠️ Questo evento ha una versione più recente. Sostituire la copia locale?",
+    memberPlaceholder: "Nome...",
+    eventNamePlaceholder: "Es: Gita con amici",
+    pyText: "Fame dopo aver diviso? 🍕",
+    pySub: "Ordina su PedidosYa",
+    pyCta: "Ordina",
+    positiveLabel: "Credito",
+    negativeLabel: "Debito",
+    neutralLabel: "Pareggiato",
+    pays: "paga",
+    to: "a",
+    eventOf: "Evento di",
+    deleteConfirm: "Eliminare questo evento?",
+    deleteExpenseConfirm: "Eliminare questa spesa?",
+    yes: "Sì",
+    no: "No",
+  }
+};
+
+// ══════════════════════════════════════════════════════════
+//  COUNTRY / CURRENCY DATA
+// ══════════════════════════════════════════════════════════
+const COUNTRIES = {
+  es: [
+    { code: "AR", name: "Argentina", currency: "ARS", symbol: "$", flag: "🇦🇷" },
+    { code: "ES", name: "España", currency: "EUR", symbol: "€", flag: "🇪🇸" },
+    { code: "MX", name: "México", currency: "MXN", symbol: "$", flag: "🇲🇽" },
+    { code: "CO", name: "Colombia", currency: "COP", symbol: "$", flag: "🇨🇴" },
+    { code: "CL", name: "Chile", currency: "CLP", symbol: "$", flag: "🇨🇱" },
+    { code: "PE", name: "Perú", currency: "PEN", symbol: "S/", flag: "🇵🇪" },
+    { code: "VE", name: "Venezuela", currency: "USD", symbol: "$", flag: "🇻🇪" },
+    { code: "UY", name: "Uruguay", currency: "UYU", symbol: "$", flag: "🇺🇾" },
+    { code: "PY", name: "Paraguay", currency: "PYG", symbol: "₲", flag: "🇵🇾" },
+    { code: "BO", name: "Bolivia", currency: "BOB", symbol: "Bs.", flag: "🇧🇴" },
+    { code: "EC", name: "Ecuador", currency: "USD", symbol: "$", flag: "🇪🇨" },
+  ],
+  en: [
+    { code: "US", name: "United States", currency: "USD", symbol: "$", flag: "🇺🇸" },
+    { code: "GB", name: "United Kingdom", currency: "GBP", symbol: "£", flag: "🇬🇧" },
+    { code: "AU", name: "Australia", currency: "AUD", symbol: "A$", flag: "🇦🇺" },
+    { code: "CA", name: "Canada", currency: "CAD", symbol: "C$", flag: "🇨🇦" },
+    { code: "NZ", name: "New Zealand", currency: "NZD", symbol: "NZ$", flag: "🇳🇿" },
+    { code: "ZA", name: "South Africa", currency: "ZAR", symbol: "R", flag: "🇿🇦" },
+    { code: "IN", name: "India", currency: "INR", symbol: "₹", flag: "🇮🇳" },
+    { code: "SG", name: "Singapore", currency: "SGD", symbol: "S$", flag: "🇸🇬" },
+  ],
+  pt: [
+    { code: "BR", name: "Brasil", currency: "BRL", symbol: "R$", flag: "🇧🇷" },
+    { code: "PT", name: "Portugal", currency: "EUR", symbol: "€", flag: "🇵🇹" },
+    { code: "AO", name: "Angola", currency: "AOA", symbol: "Kz", flag: "🇦🇴" },
+    { code: "MZ", name: "Moçambique", currency: "MZN", symbol: "MT", flag: "🇲🇿" },
+  ],
+  fr: [
+    { code: "FR", name: "France", currency: "EUR", symbol: "€", flag: "🇫🇷" },
+    { code: "BE", name: "Belgique", currency: "EUR", symbol: "€", flag: "🇧🇪" },
+    { code: "CH", name: "Suisse", currency: "CHF", symbol: "Fr.", flag: "🇨🇭" },
+    { code: "CA", name: "Canada (QC)", currency: "CAD", symbol: "C$", flag: "🇨🇦" },
+    { code: "MA", name: "Maroc", currency: "MAD", symbol: "DH", flag: "🇲🇦" },
+  ],
+  de: [
+    { code: "DE", name: "Deutschland", currency: "EUR", symbol: "€", flag: "🇩🇪" },
+    { code: "AT", name: "Österreich", currency: "EUR", symbol: "€", flag: "🇦🇹" },
+    { code: "CH", name: "Schweiz", currency: "CHF", symbol: "Fr.", flag: "🇨🇭" },
+  ],
+  it: [
+    { code: "IT", name: "Italia", currency: "EUR", symbol: "€", flag: "🇮🇹" },
+    { code: "CH", name: "Svizzera", currency: "CHF", symbol: "Fr.", flag: "🇨🇭" },
+    { code: "SM", name: "San Marino", currency: "EUR", symbol: "€", flag: "🇸🇲" },
+  ]
+};
+
+const EXTRA_CURRENCIES = [
+  { code: "USD", symbol: "$", label: "USD $" },
+  { code: "EUR", symbol: "€", label: "EUR €" },
+];
+
+const EXPENSE_ICONS = ["fa-utensils","fa-car","fa-house","fa-cart-shopping","fa-music","fa-film","fa-plane","fa-gamepad","fa-gift","fa-wine-glass","fa-coffee","fa-receipt"];
+
+// ══════════════════════════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════════════════════════
+let state = {
+  lang: "es",
+  country: null,
+  events: [],        // array of event objects
+  currentEventId: null,
+  editingEventId: null,
+  setupMembers: [],
+  setupCurrency: null,
+  editingExpenseId: null,
+};
+
+// ══════════════════════════════════════════════════════════
+//  HELPERS
+// ══════════════════════════════════════════════════════════
+function t(key) { return (I18N[state.lang] || I18N.es)[key] || key; }
+function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2); }
+function fmt(amount, currency) {
+  const ev = getCurrentEvent();
+  const sym = ev ? ev.currencySymbol : "$";
+  const cur = currency || (ev ? ev.currency : "USD");
+  try {
+    return new Intl.NumberFormat(state.lang, { style: 'currency', currency: cur, minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(amount);
+  } catch(e) {
+    return sym + " " + Number(amount).toFixed(2);
+  }
+}
+function initials(name) { return name.split(" ").map(w=>w[0]).join("").toUpperCase().slice(0,2); }
+function avatarColor(name) {
+  const colors = ["#6c63ff","#ff6584","#43c59e","#ffd166","#118ab2","#ef476f","#06d6a0","#f77f00","#a78bfa","#f72585"];
+  let h = 0; for (let c of name) h = (h*31 + c.charCodeAt(0)) % colors.length;
+  return colors[Math.abs(h)];
+}
+function randomIcon() { return EXPENSE_ICONS[Math.floor(Math.random()*EXPENSE_ICONS.length)]; }
+function showToast(msg, duration=2200) {
+  const el = document.getElementById("toast");
+  el.textContent = msg; el.classList.add("show");
+  setTimeout(() => el.classList.remove("show"), duration);
+}
+function showScreen(id) {
+  document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+  document.getElementById("screen-" + id).classList.add("active");
+  const banner = document.getElementById("pedidosya-banner");
+  banner.classList.toggle("visible", ["gastos","saldos","pagos","dashboard"].includes(id));
+}
+function closeModal(id) { document.getElementById(id).classList.remove("open"); }
+function openModal(id) { document.getElementById(id).classList.add("open"); }
+function saveToStorage() { localStorage.setItem("dg_state_v2", JSON.stringify(state)); }
+function loadFromStorage() {
+  try {
+    const raw = localStorage.getItem("dg_state_v2");
+    if (raw) { const s = JSON.parse(raw); Object.assign(state, s); }
+  } catch(e) {}
+}
+function getCurrentEvent() {
+  return state.events.find(e => e.id === state.currentEventId) || null;
+}
+
+// ══════════════════════════════════════════════════════════
+//  ONBOARDING
+// ══════════════════════════════════════════════════════════
+function onLangChange() {
+  const lang = document.getElementById("ob-lang").value;
+  if (!lang) { document.getElementById("ob-country-group").style.display = "none"; return; }
+  state.lang = lang;
+  applyI18nOnboarding();
+  const countries = COUNTRIES[lang] || [];
+  const sel = document.getElementById("ob-country");
+  sel.innerHTML = `<option value="">— ${t("countryLabel")} —</option>`;
+  countries.forEach(c => { sel.innerHTML += `<option value="${c.code}">${c.flag} ${c.name}</option>`; });
+  document.getElementById("ob-country-group").style.display = "block";
+  document.getElementById("ob-btn").disabled = true;
+  sel.onchange = () => { document.getElementById("ob-btn").disabled = !sel.value; };
+}
+function applyI18nOnboarding() {
+  document.getElementById("ob-subtitle").textContent = t("subtitle");
+  document.getElementById("ob-lang-label").textContent = t("langLabel");
+  document.getElementById("ob-country-label").textContent = t("countryLabel");
+  document.getElementById("ob-btn-text").textContent = t("continueBtn");
+}
+function finishOnboarding() {
+  const lang = document.getElementById("ob-lang").value;
+  const country = document.getElementById("ob-country").value;
+  if (!lang || !country) return;
+  state.lang = lang;
+  state.country = country;
+  saveToStorage();
+  applyI18nGlobal();
+  goHistory();
+}
+function goOnboarding() {
+  showScreen("onboarding");
+  document.getElementById("ob-lang").value = state.lang || "";
+  if (state.lang) { onLangChange(); document.getElementById("ob-country").value = state.country || ""; document.getElementById("ob-btn").disabled = false; }
+}
+
+// ══════════════════════════════════════════════════════════
+//  GLOBAL I18N APPLY
+// ══════════════════════════════════════════════════════════
+function applyI18nGlobal() {
+  const l = t;
+  // tabs
+  document.getElementById("tab-lbl-gastos").textContent = l("tabGastos");
+  document.getElementById("tab-lbl-saldos").textContent = l("tabSaldos");
+  document.getElementById("tab-lbl-pagos").textContent = l("tabPagos");
+  // setup
+  document.getElementById("setup-lbl-name").textContent = l("setupName");
+  document.getElementById("setup-lbl-currency").textContent = l("setupCurrency");
+  document.getElementById("setup-lbl-members").textContent = l("setupMembers");
+  document.getElementById("member-input").placeholder = l("memberPlaceholder");
+  document.getElementById("setup-event-name").placeholder = l("eventNamePlaceholder");
+  // modals
+  document.getElementById("exp-lbl-desc").textContent = l("expDesc");
+  document.getElementById("exp-lbl-amount").textContent = l("expAmount");
+  document.getElementById("exp-lbl-payer").textContent = l("expPayer");
+  document.getElementById("exp-lbl-split").textContent = l("expSplit");
+  document.getElementById("exp-btn-cancel").textContent = l("expCancel");
+  document.getElementById("exp-btn-save").textContent = l("expSave");
+  document.getElementById("share-modal-title").textContent = l("shareTitle");
+  document.getElementById("share-modal-desc").textContent = l("shareDesc");
+  document.getElementById("share-btn-close").textContent = l("shareClose");
+  document.getElementById("share-btn-copy").innerHTML = `<i class="fa-solid fa-copy"></i> ${l("shareCopy")}`;
+  document.getElementById("summary-modal-title").textContent = l("summaryTitle");
+  document.getElementById("summary-btn-close").textContent = l("summaryClose");
+  document.getElementById("summary-btn-copy").innerHTML = `<i class="fa-solid fa-copy"></i> ${l("summaryCopy")}`;
+  document.getElementById("import-modal-title").textContent = l("importTitle");
+  document.getElementById("import-lbl").textContent = l("importLabel");
+  document.getElementById("import-btn-cancel").textContent = l("importCancel");
+  document.getElementById("import-btn-ok").textContent = l("importOk");
+  // pedidosya
+  document.getElementById("py-text").textContent = l("pyText");
+  document.getElementById("py-sub").textContent = l("pySub");
+  document.getElementById("py-cta").textContent = l("pyCta");
+  // gastos empty
+  document.getElementById("gastos-empty-msg").textContent = l("gastosEmpty");
+}
+
+// ══════════════════════════════════════════════════════════
+//  HISTORY
+// ══════════════════════════════════════════════════════════
+function goHistory() {
+  applyI18nGlobal();
+  renderHistory();
+  showScreen("history");
+}
+function renderHistory() {
+  const list = document.getElementById("history-list");
+  if (!state.events.length) {
+    list.innerHTML = `<div class="history-empty"><i class="fa-solid fa-layer-group"></i><p>${t("historyEmpty").replace("\n","<br>")}</p></div>`;
+    return;
+  }
+  list.innerHTML = state.events.map(ev => {
+    const total = ev.expenses.reduce((a,e) => a + e.amount, 0);
+    return `
+    <div class="event-card" onclick="openEvent('${ev.id}')">
+      <div class="event-card-icon"><i class="fa-solid fa-layer-group"></i></div>
+      <div class="event-card-info">
+        <div class="event-card-title">${ev.title} <span class="version-badge">v${ev.version||1}</span></div>
+        <div class="event-card-meta">${ev.members.length} ${t("members")} · ${ev.expenses.length} ${t("expenses")} · ${fmt(total, ev.currency)}</div>
+      </div>
+      <span class="event-card-badge">${ev.currencySymbol}</span>
+      <button class="event-card-delete" onclick="event.stopPropagation();deleteEvent('${ev.id}')"><i class="fa-solid fa-trash"></i></button>
+    </div>`;
+  }).join("");
+}
+
+function openEvent(id) {
+  state.currentEventId = id;
+  saveToStorage();
+  renderDashboard();
+  showScreen("dashboard");
+}
+function deleteEvent(id) {
+  if (!confirm(t("deleteConfirm"))) return;
+  state.events = state.events.filter(e => e.id !== id);
+  saveToStorage();
+  renderHistory();
+  showToast(t("toastEventDeleted"));
+}
+
+// ══════════════════════════════════════════════════════════
+//  SETUP
+// ══════════════════════════════════════════════════════════
+function goSetup(editId) {
+  state.editingEventId = editId || null;
+  state.setupMembers = [];
+  state.setupCurrency = null;
+  const ev = editId ? state.events.find(e => e.id === editId) : null;
+  document.getElementById("setup-title-bar").textContent = ev ? t("setupTitleEdit") : t("newEvent");
+  document.getElementById("setup-save-label").textContent = ev ? t("setupUpdate") : t("setupSave");
+  document.getElementById("setup-event-name").value = ev ? ev.title : "";
+  // Currency grid
+  const countryData = (COUNTRIES[state.lang]||[]).find(c => c.code === state.country);
+  const currencies = [];
+  if (countryData) currencies.push({ code: countryData.currency, symbol: countryData.symbol, label: `${countryData.currency} ${countryData.symbol}` });
+  EXTRA_CURRENCIES.forEach(c => { if (!currencies.find(x=>x.code===c.code)) currencies.push(c); });
+  state.setupCurrency = ev ? { code: ev.currency, symbol: ev.currencySymbol } : currencies[0];
+  document.getElementById("currency-grid").innerHTML = currencies.map(c =>
+    `<button class="currency-btn ${state.setupCurrency&&state.setupCurrency.code===c.code?'active':''}" onclick="selectCurrency('${c.code}','${c.symbol}','${c.label}',this)">${c.label}</button>`
+  ).join("");
+  // Members
+  state.setupMembers = ev ? [...ev.members] : [];
+  renderSetupMembers();
+  showScreen("setup");
+}
+function selectCurrency(code, symbol, label, btn) {
+  state.setupCurrency = { code, symbol };
+  document.querySelectorAll(".currency-btn").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+}
+function renderSetupMembers() {
+  const list = document.getElementById("members-list");
+  list.innerHTML = state.setupMembers.map((m,i) => `
+    <div class="member-item">
+      <div class="member-avatar" style="background:${avatarColor(m)}">${initials(m)}</div>
+      <span class="member-name">${m}</span>
+      <button class="member-remove" onclick="removeMember(${i})"><i class="fa-solid fa-xmark"></i></button>
+    </div>`).join("");
+}
+function addMember() {
+  const inp = document.getElementById("member-input");
+  const name = inp.value.trim();
+  if (!name) return;
+  if (state.setupMembers.map(m=>m.toLowerCase()).includes(name.toLowerCase())) { showToast(t("toastMemberExists")); return; }
+  state.setupMembers.push(name);
+  inp.value = "";
+  renderSetupMembers();
+}
+function removeMember(i) { state.setupMembers.splice(i,1); renderSetupMembers(); }
+function saveEvent() {
+  const title = document.getElementById("setup-event-name").value.trim();
+  if (!title) { document.getElementById("setup-event-name").classList.add("error"); showToast(t("toastFillAll")); return; }
+  document.getElementById("setup-event-name").classList.remove("error");
+  if (state.setupMembers.length < 2) { showToast(t("toastMinMembers")); return; }
+  if (!state.setupCurrency) { showToast(t("toastFillAll")); return; }
+  if (state.editingEventId) {
+    const ev = state.events.find(e => e.id === state.editingEventId);
+    ev.title = title;
+    ev.currency = state.setupCurrency.code;
+    ev.currencySymbol = state.setupCurrency.symbol;
+    ev.members = [...state.setupMembers];
+    ev.version = (ev.version||1) + 1;
+    state.currentEventId = ev.id;
+  } else {
+    const ev = {
+      id: uid(), title, currency: state.setupCurrency.code,
+      currencySymbol: state.setupCurrency.symbol,
+      members: [...state.setupMembers], expenses: [], version: 1,
+      createdAt: Date.now()
+    };
+    state.events.unshift(ev);
+    state.currentEventId = ev.id;
+  }
+  saveToStorage();
+  showToast(t("toastEventSaved"));
+  renderDashboard();
+  showScreen("dashboard");
+}
+
+// ══════════════════════════════════════════════════════════
+//  DASHBOARD
+// ══════════════════════════════════════════════════════════
+function renderDashboard() {
+  const ev = getCurrentEvent();
+  if (!ev) return;
+  document.getElementById("dash-title").textContent = ev.title;
+  document.getElementById("dash-meta").textContent =
+    `${ev.members.length} ${t("members")} · ${ev.currency} · v${ev.version||1}`;
+  applyI18nGlobal();
+  switchTab("gastos");
+}
+function switchTab(tab) {
+  document.querySelectorAll(".tab-btn").forEach(b => b.classList.toggle("active", b.dataset.tab === tab));
+  document.querySelectorAll(".tab-content").forEach(c => c.classList.remove("active"));
+  document.getElementById("tab-" + tab).classList.add("active");
+  if (tab === "gastos") renderGastos();
+  if (tab === "saldos") renderSaldos();
+  if (tab === "pagos") renderPagos();
+}
+
+// ── GASTOS ──
+function renderGastos() {
+  const ev = getCurrentEvent(); if (!ev) return;
+  const list = document.getElementById("gastos-list");
+  const empty = document.getElementById("gastos-empty");
+  if (!ev.expenses.length) { list.innerHTML = ""; empty.style.display = "block"; return; }
+  empty.style.display = "none";
+  list.innerHTML = ev.expenses.map(exp => `
+    <div class="expense-card">
+      <div class="expense-icon"><i class="fa-solid ${exp.icon||'fa-receipt'}"></i></div>
+      <div class="expense-info">
+        <div class="expense-desc">${exp.desc}</div>
+        <div class="expense-detail">${t("paidBy")}: <b>${exp.payer}</b></div>
+        <div class="split-tags">${exp.splitAmong.map(m=>`<span class="split-tag">${m}</span>`).join("")}</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+        <div class="expense-amount">${fmt(exp.amount)}</div>
+        <button class="expense-delete" onclick="deleteExpense('${exp.id}')"><i class="fa-solid fa-trash"></i></button>
+      </div>
+    </div>`).join("");
+}
+
+// ── SALDOS ──
+function computeBalances() {
+  const ev = getCurrentEvent(); if (!ev) return {};
+  const balances = {};
+  ev.members.forEach(m => { balances[m] = 0; });
+  ev.expenses.forEach(exp => {
+    const share = exp.amount / exp.splitAmong.length;
+    balances[exp.payer] = (balances[exp.payer]||0) + exp.amount;
+    exp.splitAmong.forEach(m => { balances[m] = (balances[m]||0) - share; });
+  });
+  return balances;
+}
+function renderSaldos() {
+  const ev = getCurrentEvent(); if (!ev) return;
+  const balances = computeBalances();
+  const total = ev.expenses.reduce((a,e)=>a+e.amount,0);
+  const maxAbs = Math.max(...Object.values(balances).map(Math.abs), 0.01);
+  document.getElementById("saldos-list").innerHTML = ev.members.map(m => {
+    const bal = balances[m] || 0;
+    const isPos = bal > 0.005, isNeg = bal < -0.005;
+    const color = isPos ? "var(--success)" : isNeg ? "var(--danger)" : "var(--text-muted)";
+    const label = isPos ? t("positiveLabel") : isNeg ? t("negativeLabel") : t("neutralLabel");
+    const pct = Math.round((Math.abs(bal)/maxAbs)*100);
+    return `
+    <div class="balance-card">
+      <div class="balance-avatar" style="background:${avatarColor(m)}">${initials(m)}</div>
+      <div class="balance-info" style="flex:1">
+        <div class="balance-name">${m}</div>
+        <div class="balance-detail">${label}</div>
+        <div class="balance-bar-wrap"><div class="balance-bar" style="width:${pct}%;background:${color}"></div></div>
+      </div>
+      <div class="balance-amount ${isPos?'positive':isNeg?'negative':'neutral'}">${fmt(Math.abs(bal))}</div>
+    </div>`;
+  }).join("") + `<div class="card" style="margin-top:8px;text-align:center;color:var(--text-muted);font-size:.88rem">${t("total")}: <b style="color:var(--text)">${fmt(total)}</b></div>`;
+}
+
+// ── PAGOS (minimización de deudas) ──
+function computePayments() {
+  const balances = computeBalances();
+  const creditors = [], debtors = [];
+  Object.entries(balances).forEach(([name, bal]) => {
+    if (bal > 0.005) creditors.push({ name, amount: bal });
+    else if (bal < -0.005) debtors.push({ name, amount: -bal });
+  });
+  creditors.sort((a,b) => b.amount - a.amount);
+  debtors.sort((a,b) => b.amount - a.amount);
+  const payments = [];
+  let ci = 0, di = 0;
+  while (ci < creditors.length && di < debtors.length) {
+    const c = creditors[ci], d = debtors[di];
+    const pay = Math.min(c.amount, d.amount);
+    payments.push({ from: d.name, to: c.name, amount: pay });
+    c.amount -= pay; d.amount -= pay;
+    if (c.amount < 0.005) ci++;
+    if (d.amount < 0.005) di++;
+  }
+  return payments;
+}
+function renderPagos() {
+  const payments = computePayments();
+  const list = document.getElementById("pagos-list");
+  if (!payments.length) {
+    list.innerHTML = `<div class="all-settled"><i class="fa-solid fa-circle-check"></i><p>${t("allSettled")}</p></div>`;
+    return;
+  }
+  list.innerHTML = payments.map(p => `
+    <div class="payment-card">
+      <div class="payment-row">
+        <div class="payment-avatar">${initials(p.from)}</div>
+        <div class="payment-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+        <div class="payment-avatar receiver">${initials(p.to)}</div>
+      </div>
+      <div class="payment-amount">${fmt(p.amount)}</div>
+      <div class="payment-label">${p.from} ${t("pays")} ${t("to")} ${p.to}</div>
+    </div>`).join("");
+}
+
+// ══════════════════════════════════════════════════════════
+//  EXPENSE MODAL
+// ══════════════════════════════════════════════════════════
+function openExpenseModal() {
+  const ev = getCurrentEvent(); if (!ev) return;
+  document.getElementById("modal-expense-title").textContent = t("addExpense");
+  document.getElementById("exp-desc").value = "";
+  document.getElementById("exp-amount").value = "";
+  // Payer grid
+  document.getElementById("payer-grid").innerHTML = ev.members.map(m => `
+    <button class="payer-btn" onclick="selectPayer(this,'${m}')">
+      <div class="payer-av" style="background:${avatarColor(m)}">${initials(m)}</div>
+      <div class="payer-name">${m}</div>
+    </button>`).join("");
+  // Split grid
+  document.getElementById("split-grid").innerHTML = ev.members.map(m => `
+    <div class="split-item">
+      <input type="checkbox" class="split-check" id="split-${m}" value="${m}" checked>
+      <label for="split-${m}">${m}</label>
+    </div>`).join("");
+  openModal("modal-expense");
+}
+function selectPayer(btn, name) {
+  document.querySelectorAll(".payer-btn").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+}
+function closeExpenseModal() { closeModal("modal-expense"); }
+function saveExpense() {
+  const desc = document.getElementById("exp-desc").value.trim();
+  const amount = parseFloat(document.getElementById("exp-amount").value);
+  const payerBtn = document.querySelector(".payer-btn.active");
+  const splitChecks = [...document.querySelectorAll(".split-check:checked")].map(c => c.value);
+  if (!desc || !amount || isNaN(amount) || amount <= 0) { showToast(t("toastInvalidAmount")); return; }
+  if (!payerBtn) { showToast(t("toastSelectPayer")); return; }
+  if (!splitChecks.length) { showToast(t("toastSelectSplit")); return; }
+  const payer = payerBtn.querySelector(".payer-name").textContent;
+  const ev = getCurrentEvent();
+  ev.expenses.push({
+    id: uid(), desc, amount, payer, splitAmong: splitChecks,
+    icon: randomIcon(), createdAt: Date.now()
+  });
+  ev.version = (ev.version||1) + 1;
+  saveToStorage();
+  closeExpenseModal();
+  showToast(t("toastExpenseSaved"));
+  renderGastos();
+}
+function deleteExpense(id) {
+  if (!confirm(t("deleteExpenseConfirm"))) return;
+  const ev = getCurrentEvent();
+  ev.expenses = ev.expenses.filter(e => e.id !== id);
+  ev.version = (ev.version||1) + 1;
+  saveToStorage();
+  renderGastos();
+  showToast(t("toastExpenseDeleted"));
+}
+
+// ══════════════════════════════════════════════════════════
+//  SHARE / IMPORT
+// ══════════════════════════════════════════════════════════
+function openShareModal() {
+  const ev = getCurrentEvent(); if (!ev) return;
+  const data = JSON.stringify(ev);
+  const encoded = btoa(unescape(encodeURIComponent(data)));
+  const url = `${location.href.split('?')[0]}?event=${encoded}`;
+  document.getElementById("share-link-box").textContent = url;
+  openModal("modal-share");
+}
+function copyShareLink() {
+  const text = document.getElementById("share-link-box").textContent;
+  navigator.clipboard.writeText(text).then(() => showToast(t("toastCopied"))).catch(() => {
+    const ta = document.createElement("textarea");
+    ta.value = text; document.body.appendChild(ta); ta.select(); document.execCommand("copy");
+    document.body.removeChild(ta); showToast(t("toastCopied"));
+  });
+}
+function openImportModal() { document.getElementById("import-input").value = ""; openModal("modal-import"); }
+function importFromLink() {
+  const raw = document.getElementById("import-input").value.trim();
+  try {
+    let encoded = raw;
+    if (raw.includes("?event=")) encoded = raw.split("?event=")[1];
+    const data = JSON.parse(decodeURIComponent(escape(atob(encoded))));
+    if (!data.id || !data.title || !data.members) throw new Error("invalid");
+    const existing = state.events.find(e => e.id === data.id);
+    if (existing) {
+      if ((data.version||1) > (existing.version||1)) {
+        if (confirm(t("versionWarning"))) { Object.assign(existing, data); }
+      } else { showToast(t("toastImported")); closeModal("modal-import"); return; }
+    } else { state.events.unshift(data); }
+    saveToStorage(); renderHistory(); closeModal("modal-import"); showToast(t("toastImported"));
+  } catch(e) { showToast(t("toastImportError")); }
+}
+
+// ══════════════════════════════════════════════════════════
+//  SUMMARY
+// ══════════════════════════════════════════════════════════
+function openSummaryModal() {
+  const ev = getCurrentEvent(); if (!ev) return;
+  const payments = computePayments();
+  const total = ev.expenses.reduce((a,e)=>a+e.amount,0);
+  let txt = `${t("summaryHeader")}: ${ev.title}\n`;
+  txt += `${"─".repeat(30)}\n`;
+  ev.expenses.forEach(exp => {
+    txt += `• ${exp.desc}: ${fmt(exp.amount)} (${t("paidBy")}: ${exp.payer})\n`;
+  });
+  txt += `\n${t("total")}: ${fmt(total)}\n\n`;
+  txt += `${t("summaryPayments")}:\n`;
+  if (payments.length) {
+    payments.forEach(p => { txt += `• ${p.from} → ${p.to}: ${fmt(p.amount)}\n`; });
+  } else { txt += `✅ ${t("allSettled")}\n`; }
+  txt += `\n${t("summaryFooter")}`;
+  document.getElementById("summary-text").textContent = txt;
+  openModal("modal-summary");
+}
+function copySummary() {
+  const text = document.getElementById("summary-text").textContent;
+  navigator.clipboard.writeText(text).then(() => showToast(t("toastSummaryCopied"))).catch(() => {
+    const ta = document.createElement("textarea");
+    ta.value = text; document.body.appendChild(ta); ta.select(); document.execCommand("copy");
+    document.body.removeChild(ta); showToast(t("toastSummaryCopied"));
+  });
+}
+
+// ══════════════════════════════════════════════════════════
+//  CLOSE MODALS ON OVERLAY CLICK
+// ══════════════════════════════════════════════════════════
+document.querySelectorAll(".modal-overlay").forEach(overlay => {
+  overlay.addEventListener("click", e => { if (e.target === overlay) overlay.classList.remove("open"); });
+});
+
+// ══════════════════════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════════════════════
+function init() {
+  loadFromStorage();
+  // Check for shared event in URL
+  const urlParams = new URLSearchParams(location.search);
+  const eventParam = urlParams.get("event");
+  if (eventParam) {
+    try {
+      const data = JSON.parse(decodeURIComponent(escape(atob(eventParam))));
+      if (data.id && data.title && data.members) {
+        const existing = state.events.find(e => e.id === data.id);
+        if (!existing) { state.events.unshift(data); saveToStorage(); }
+        else if ((data.version||1) > (existing.version||1)) {
+          if (confirm((I18N[state.lang]||I18N.es).versionWarning)) { Object.assign(existing, data); saveToStorage(); }
+        }
+        if (state.lang && state.country) {
+          applyI18nGlobal(); state.currentEventId = data.id; renderDashboard(); showScreen("dashboard"); return;
+        }
+      }
+    } catch(e) {}
+  }
+  if (state.lang && state.country) {
+    applyI18nGlobal();
+    goHistory();
+  } else {
+    showScreen("onboarding");
+    applyI18nOnboarding();
+  }
+}
+
+init();
+</script>
 </body>
 </html>
