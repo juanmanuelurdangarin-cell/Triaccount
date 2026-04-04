@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>DivideGastos Pro | vMaster 3.2</title>
+<title>DivideGastos Pro | vMaster 3.3</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
@@ -59,7 +59,7 @@
     <div style="flex:1; display:flex; flex-direction:column; justify-content:center; align-items:center; padding:40px; text-align:center;">
         <i class="fa-solid fa-bolt-lightning fa-5x" style="color:var(--accent); margin-bottom:20px;"></i>
         <h1 style="font-family:'Syne'; font-size:2.8rem; font-weight:800; line-height:0.9;">Divide<br><span style="color:var(--accent)">PRO</span></h1>
-        <button class="btn-main" style="margin-top:40px;" onclick="login()">Ingresar con Google</button>
+        <button class="btn-main" style="margin-top:40px;" onclick="login()">Entrar con Google</button>
     </div>
 </div>
 
@@ -78,7 +78,7 @@
 <div id="screen-detail" class="screen">
     <header>
         <button onclick="showScreen('screen-main')" style="background:none; border:none; color:white;"><i class="fa-solid fa-arrow-left"></i></button>
-        <h3 id="det-title" style="font-family:'Syne'; flex:1; text-align:center;">Evento</h3>
+        <h3 id="det-title" style="font-family:'Syne'; flex:1; text-align:center; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; padding:0 10px;">Evento</h3>
         <button onclick="shareEvent()" style="background:none; border:none; color:var(--accent);"><i class="fa-solid fa-share-nodes"></i></button>
     </header>
     <div class="container">
@@ -130,7 +130,7 @@
     const auth = firebase.auth();
     const db = firebase.firestore();
 
-    // Formateador Argentino: $ 1.234,56
+    // Formato Argentina: $ 1.234,56
     const fmt = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' });
 
     let currentEvent = null, activeTab = 'gastos', tempParticipants = [];
@@ -147,11 +147,35 @@
             document.getElementById('header-img').src = user.photoURL;
             showScreen('screen-main');
             loadEvents();
+            checkJoinLink(); // Clave para links de invitación
         } else { showScreen('screen-login'); }
     });
 
     async function login() { await auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()); }
     function logout() { auth.signOut().then(() => location.reload()); }
+
+    async function checkJoinLink() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const joinId = urlParams.get('join');
+        if (joinId && auth.currentUser) {
+            const eventRef = db.collection('events').doc(joinId);
+            try {
+                const doc = await eventRef.get();
+                if (doc.exists) {
+                    const data = doc.data();
+                    if (!data.participantsIds.includes(auth.currentUser.uid)) {
+                        await eventRef.update({
+                            participantsIds: firebase.firestore.FieldValue.arrayUnion(auth.currentUser.uid),
+                            participants: firebase.firestore.FieldValue.arrayUnion({ id: auth.currentUser.uid, name: auth.currentUser.displayName }),
+                            logs: firebase.firestore.FieldValue.arrayUnion({ u: "Sistema", a: `${auth.currentUser.displayName} se unió`, d: Date.now() })
+                        });
+                    }
+                    window.history.replaceState({}, document.title, window.location.pathname);
+                    openEvent(joinId);
+                }
+            } catch (e) { console.error(e); }
+        }
+    }
 
     function openModalCreate() {
         tempParticipants = [{id: auth.currentUser.uid, name: auth.currentUser.displayName}];
@@ -187,10 +211,7 @@
         if(!name) return;
         const ids = tempParticipants.map(p => p.id);
         if(!ids.includes(auth.currentUser.uid)) ids.push(auth.currentUser.uid);
-
-        // CIERRE INMEDIATO PREVENTIVO
-        closeModal('modal-new-event');
-
+        closeModal('modal-new-event'); // CIERRE INSTANTÁNEO
         try {
             await db.collection('events').add({
                 name, participantsIds: ids, participants: tempParticipants, expenses: [],
@@ -221,10 +242,7 @@
         const desc = document.getElementById('ex-desc').value, amount = parseFloat(document.getElementById('ex-amount').value);
         if(!desc || isNaN(amount)) return;
         const payerId = document.getElementById('ex-payer').value, included = Array.from(document.querySelectorAll('.ex-check:checked')).map(c => c.value);
-
-        // CIERRE INMEDIATO PREVENTIVO
-        closeModal('modal-add-expense');
-
+        closeModal('modal-add-expense'); // CIERRE INSTANTÁNEO
         try {
             await db.collection('events').doc(currentEvent.id).update({
                 expenses: firebase.firestore.FieldValue.arrayUnion({ 
@@ -295,14 +313,13 @@
 
     function shareEvent() {
         const url = window.location.origin + window.location.pathname + "?join=" + currentEvent.id;
-        if(navigator.share) navigator.share({title: 'Sumate al evento ' + currentEvent.name, url});
-        else prompt("Copiá el link para invitar:", url);
+        if(navigator.share) navigator.share({title: 'Invitación al evento: ' + currentEvent.name, url});
+        else prompt("Copiá este link para invitar amigos:", url);
     }
 
     function openModal(id) { document.getElementById(id).classList.add('active'); }
     function closeModal(id) { 
         document.getElementById(id).classList.remove('active');
-        // Limpiamos inputs para que la próxima vez esté vacío
         document.getElementById(id).querySelectorAll('input').forEach(i => i.value = '');
     }
 </script>
