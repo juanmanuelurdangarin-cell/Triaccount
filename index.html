@@ -3,499 +3,90 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>DivideGastos Pro | vMaster 5.0</title>
+<title>DivideGastos Pro | vMaster 4.2</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
     :root {
-        /* PALETA 3: PURPLE DARK */
-        --bg: #0f0a15;
-        --surface: #1a1428;
-        --surface2: #24192e;
-        --border: #3a2e4a;
-        --accent: #a78bfa;
-        --accent-soft: rgba(167, 139, 250, 0.15);
-        --accent-hover: #c4b5fd;
-        --green: #34d399;
-        --red: #f87171;
-        --text: #f3f0ff;
-        --muted: #a8a0ba;
-        --radius: 20px;
-        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        --bg: #0d0f14; --surface: #161920; --surface2: #1e2230; --border: #2a2f40;
+        --accent: #ff0045; --accent-soft: rgba(255, 0, 69, 0.15);
+        --green: #1de9b6; --red: #ff6584; --text: #e8eaf0; --muted: #7a7f99; --radius: 20px;
     }
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
     
-    * { 
-        margin: 0; 
-        padding: 0; 
-        box-sizing: border-box; 
-        -webkit-tap-highlight-color: transparent; 
-    }
-    
-    body { 
-        font-family: 'DM Sans', sans-serif; 
-        background: var(--bg); 
-        color: var(--text); 
-        min-height: 100vh; 
-        overflow-x: hidden; 
-    }
-    
-    .screen { 
-        display: none; 
-        min-height: 100vh; 
-        flex-direction: column; 
-    }
-    .screen.active { 
-        display: flex; 
-        animation: fadeIn 0.3s ease; 
-    }
-    
-    @keyframes fadeIn { 
-        from { opacity: 0; transform: translateY(8px); } 
-        to { opacity: 1; transform: translateY(0); } 
-    }
-    
-    @keyframes slideUp {
-        from { transform: translateY(20px); opacity: 0; }
-        to { transform: translateY(0); opacity: 1; }
-    }
-    
-    @keyframes pulse-soft {
-        0%, 100% { opacity: 1; }
-        50% { opacity: 0.6; }
-    }
+    .screen { display: none; min-height: 100vh; flex-direction: column; }
+    .screen.active { display: flex; animation: fadeIn 0.3s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
-    header { 
-        padding: 15px 20px; 
-        display: flex; 
-        justify-content: space-between; 
-        align-items: center; 
-        background: var(--surface); 
-        border-bottom: 1px solid var(--border); 
-        position: sticky; 
-        top: 0; 
-        z-index: 100; 
-        height: 75px; 
-        box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-    }
-    
-    .user-box { 
-        display: flex; 
-        align-items: center; 
-        gap: 12px; 
-    }
-    
-    .user-box img { 
-        width: 40px; 
-        height: 40px; 
-        border-radius: 50%; 
-        border: 2px solid var(--accent); 
-        object-fit: cover; 
-        transition: var(--transition);
-    }
-    
-    .user-box img:hover {
-        border-color: var(--accent-hover);
-        transform: scale(1.05);
-    }
+    header { padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; background: var(--surface); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; height: 75px; }
+    .user-box { display: flex; align-items: center; gap: 12px; }
+    .user-box img { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--accent); object-fit: cover; }
 
-    .container { 
-        padding: 20px; 
-        max-width: 600px; 
-        margin: 0 auto; 
-        width: 100%; 
-    }
+    .container { padding: 20px; max-width: 600px; margin: 0 auto; width: 100%; }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-bottom: 15px; position: relative; cursor: pointer; }
     
-    .card { 
-        background: var(--surface); 
-        border: 1px solid var(--border); 
-        border-radius: var(--radius); 
-        padding: 20px; 
-        margin-bottom: 15px; 
-        position: relative; 
-        cursor: pointer; 
-        transition: var(--transition);
-        animation: slideUp 0.4s ease;
-    }
-    
-    .card:hover {
-        border-color: var(--accent);
-        transform: translateY(-3px);
-        box-shadow: 0 8px 24px rgba(167, 139, 250, 0.15);
-    }
-    
-    .tabs-nav { 
-        display: flex; 
-        background: var(--surface2); 
-        padding: 5px; 
-        border-radius: 18px; 
-        margin-bottom: 20px; 
-        gap: 4px; 
-        overflow-x: auto; 
-        scrollbar-width: none; 
-    }
-    
-    .tab-btn { 
-        flex: 1; 
-        min-width: 85px; 
-        padding: 12px 8px; 
-        border: none; 
-        background: none; 
-        color: var(--muted); 
-        font-weight: 700; 
-        cursor: pointer; 
-        border-radius: 14px; 
-        font-size: 0.75rem; 
-        text-transform: uppercase; 
-        transition: var(--transition);
-    }
-    
-    .tab-btn:hover {
-        color: var(--accent);
-    }
-    
-    .tab-btn.active { 
-        background: var(--accent); 
-        color: var(--bg); 
-        box-shadow: 0 4px 15px rgba(167, 139, 250, 0.3); 
-    }
+    .tabs-nav { display: flex; background: var(--surface2); padding: 5px; border-radius: 18px; margin-bottom: 20px; gap: 4px; overflow-x: auto; scrollbar-width: none; }
+    .tab-btn { flex: 1; min-width: 85px; padding: 12px 8px; border: none; background: none; color: var(--muted); font-weight: 700; cursor: pointer; border-radius: 14px; font-size: 0.65rem; text-transform: uppercase; }
+    .tab-btn.active { background: var(--accent); color: white; box-shadow: 0 4px 15px rgba(255, 0, 69, 0.3); }
 
-    .modal-overlay { 
-        position: fixed; 
-        inset: 0; 
-        background: rgba(0,0,0,0.94); 
-        display: none; 
-        align-items: flex-end; 
-        z-index: 1000; 
-        padding: 10px; 
-        backdrop-filter: blur(5px); 
-        animation: fadeIn 0.3s ease;
-    }
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.94); display: none; align-items: flex-end; z-index: 1000; padding: 10px; backdrop-filter: blur(5px); }
+    .modal-overlay.active { display: flex; }
+    .modal { background: var(--surface); width: 100%; border-radius: 30px; padding: 25px; max-height: 92vh; overflow-y: auto; border: 1px solid var(--border); }
     
-    .modal-overlay.active { 
-        display: flex; 
-    }
-    
-    .modal { 
-        background: var(--surface); 
-        width: 100%; 
-        border-radius: 30px 30px 0 0; 
-        padding: 25px; 
-        max-height: 92vh; 
-        overflow-y: auto; 
-        border: 1px solid var(--border); 
-        border-bottom: none;
-        animation: slideUp 0.3s ease;
-    }
-    
-    input, select { 
-        width: 100%; 
-        background: var(--surface2); 
-        border: 1.5px solid var(--border); 
-        padding: 16px; 
-        border-radius: 16px; 
-        color: white; 
-        margin-bottom: 16px; 
-        font-size: 1rem; 
-        outline: none; 
-        transition: var(--transition);
-        font-family: 'DM Sans', sans-serif;
-    }
-    
-    input:focus, select:focus { 
-        border-color: var(--accent); 
-        box-shadow: 0 0 0 3px var(--accent-soft);
-        background: var(--surface2);
-    }
-    
-    input::placeholder {
-        color: var(--muted);
-    }
-    
-    .btn-main { 
-        width: 100%; 
-        padding: 18px; 
-        border-radius: 18px; 
-        border: none; 
-        font-weight: 800; 
-        cursor: pointer; 
-        background: var(--accent); 
-        color: var(--bg); 
-        font-size: 1rem; 
-        text-transform: uppercase; 
-        font-family: 'Syne'; 
-        transition: var(--transition);
-        position: relative;
-        overflow: hidden;
-    }
-    
-    .btn-main:hover:not(:disabled) {
-        background: var(--accent-hover);
-        transform: translateY(-2px);
-        box-shadow: 0 8px 20px rgba(167, 139, 250, 0.3);
-    }
-    
-    .btn-main:active:not(:disabled) {
-        transform: translateY(0);
-    }
-    
-    .btn-main:disabled { 
-        opacity: 0.5; 
-        cursor: not-allowed; 
-    }
-    
-    .btn-main.loading {
-        pointer-events: none;
-    }
-    
-    .btn-main.loading::after {
-        content: '';
-        position: absolute;
-        width: 20px;
-        height: 20px;
-        top: 50%;
-        right: 20px;
-        transform: translateY(-50%);
-        border: 2px solid var(--bg);
-        border-top-color: transparent;
-        border-radius: 50%;
-        animation: spin 0.6s linear infinite;
-    }
-    
-    @keyframes spin {
-        to { transform: translateY(-50%) rotate(360deg); }
-    }
+    input, select { width: 100%; background: var(--surface2); border: 1px solid var(--border); padding: 18px; border-radius: 16px; color: white; margin-bottom: 18px; font-size: 1rem; outline: none; }
+    .btn-main { width: 100%; padding: 20px; border-radius: 18px; border: none; font-weight: 800; cursor: pointer; background: var(--accent); color: white; font-size: 1rem; text-transform: uppercase; font-family: 'Syne'; }
+    .btn-main:disabled { opacity: 0.4; cursor: not-allowed; }
 
-    .check-item { 
-        display: flex; 
-        align-items: center; 
-        justify-content: space-between; 
-        padding: 16px; 
-        background: var(--surface2); 
-        border-radius: 16px; 
-        margin-bottom: 10px; 
-        transition: var(--transition);
-        border: 1px solid transparent;
-    }
-    
-    .check-item:has(input:checked) {
-        border-color: var(--accent);
-        background: var(--accent-soft);
-    }
-    
-    .check-item input[type="checkbox"] { 
-        width: 22px; 
-        height: 22px; 
-        accent-color: var(--accent); 
-        cursor: pointer;
-    }
+    .check-item { display: flex; align-items: center; justify-content: space-between; padding: 16px; background: var(--surface2); border-radius: 16px; margin-bottom: 10px; }
+    .check-item input[type="checkbox"] { width: 22px; height: 22px; accent-color: var(--accent); }
 
-    .cat-grid { 
-        display: grid; 
-        grid-template-columns: repeat(4, 1fr); 
-        gap: 10px; 
-        margin-bottom: 20px; 
-    }
-    
-    .cat-btn { 
-        padding: 12px; 
-        background: var(--surface2); 
-        border-radius: 12px; 
-        border: 1.5px solid var(--border); 
-        color: var(--muted); 
-        display: flex; 
-        flex-direction: column; 
-        align-items: center; 
-        font-size: 0.7rem; 
-        gap: 5px; 
-        cursor: pointer; 
-        transition: var(--transition);
-    }
-    
-    .cat-btn:hover {
-        border-color: var(--accent);
-        color: var(--accent);
-    }
-    
-    .cat-btn.active { 
-        border-color: var(--accent); 
-        color: var(--accent); 
-        background: var(--accent-soft); 
-        transform: scale(1.05);
-    }
+    .cat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px; }
+    .cat-btn { padding: 12px; background: var(--surface2); border-radius: 12px; border: 1px solid var(--border); color: var(--muted); display: flex; flex-direction: column; align-items: center; font-size: 0.6rem; gap: 5px; cursor: pointer; }
+    .cat-btn.active { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
 
-    .fab { 
-        position: fixed; 
-        bottom: 30px; 
-        right: 25px; 
-        width: 68px; 
-        height: 68px; 
-        background: var(--accent); 
-        color: var(--bg); 
-        border-radius: 50%; 
-        border: none; 
-        font-size: 30px; 
-        box-shadow: 0 12px 30px rgba(167, 139, 250, 0.4); 
-        z-index: 90; 
-        display: flex; 
-        align-items: center; 
-        justify-content: center; 
-        cursor: pointer;
-        transition: var(--transition);
-    }
-    
-    .fab:hover {
-        transform: scale(1.1) translateY(-5px);
-        box-shadow: 0 16px 40px rgba(167, 139, 250, 0.5);
-    }
-    
-    .fab:active {
-        transform: scale(0.95);
-    }
+    .fab { position: fixed; bottom: 30px; right: 25px; width: 68px; height: 68px; background: var(--accent); color: white; border-radius: 50%; border: none; font-size: 30px; box-shadow: 0 12px 30px rgba(255, 0, 69, 0.4); z-index: 90; display: flex; align-items: center; justify-content: center; }
 
-    #screen-loading { 
-        position: fixed; 
-        inset: 0; 
-        background: var(--bg); 
-        z-index: 9999; 
-        display: flex; 
-        flex-direction: column; 
-        justify-content: center; 
-        align-items: center; 
-    }
-    
-    .loader { 
-        width: 45px; 
-        height: 45px; 
-        border: 4px solid var(--surface2); 
-        border-top-color: var(--accent); 
-        border-radius: 50%; 
-        animation: spin 0.8s linear infinite; 
-    }
-
-    /* TOAST NOTIFICATIONS */
-    .toast-container {
-        position: fixed;
-        bottom: 100px;
-        right: 20px;
-        z-index: 2000;
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        max-width: 300px;
-    }
-    
-    .toast {
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-left: 4px solid var(--accent);
-        padding: 14px 16px;
-        border-radius: 12px;
-        color: var(--text);
-        font-size: 0.9rem;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        animation: slideUp 0.3s ease;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-    }
-    
-    .toast.success {
-        border-left-color: var(--green);
-    }
-    
-    .toast.error {
-        border-left-color: var(--red);
-    }
-    
-    .toast.info {
-        border-left-color: var(--accent);
-    }
-    
-    .toast-icon {
-        font-size: 1.2rem;
-        flex-shrink: 0;
-    }
-    
-    /* SKELETON LOADERS */
-    .skeleton {
-        background: linear-gradient(90deg, var(--surface2) 25%, var(--border) 50%, var(--surface2) 75%);
-        background-size: 200% 100%;
-        animation: loading 1.5s infinite;
-        border-radius: 8px;
-    }
-    
-    @keyframes loading {
-        0% { background-position: 200% 0; }
-        100% { background-position: -200% 0; }
-    }
-    
-    .skeleton-card {
-        height: 100px;
-        margin-bottom: 15px;
-    }
-    
-    /* BALANCE ANIMATION */
-    .balance-number {
-        transition: color 0.3s ease;
-        font-weight: 700;
-    }
-    
-    .balance-number.increasing {
-        color: var(--green);
-    }
-    
-    .balance-number.decreasing {
-        color: var(--red);
-    }
-
-    /* RESPONSIVE */
-    @media (max-width: 480px) {
-        .container { padding: 15px; }
-        .card { padding: 16px; margin-bottom: 12px; }
-        .btn-main { padding: 16px; }
-    }
+    #screen-loading { position: fixed; inset: 0; background: var(--bg); z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+    .loader { width: 45px; height: 45px; border: 4px solid var(--surface2); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
 </style>
 
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 </head>
 <body>
 
 <div id="screen-loading"><div class="loader"></div></div>
 
-<div id="toast-container" class="toast-container"></div>
-
-<!-- FIREBASE SCRIPTS - MUST LOAD BEFORE APP JS -->
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
-
 <div id="screen-login" class="screen">
     <div style="flex:1; display:flex; flex-direction:column; justify-content:center; align-items:center; padding:40px; text-align:center;">
         <i class="fa-solid fa-bolt-lightning fa-5x" style="color:var(--accent); margin-bottom:20px;"></i>
         <h1 style="font-family:'Syne'; font-size:3rem; font-weight:800; line-height:0.9;">Divide<br><span style="color:var(--accent)">PRO</span></h1>
-        <p style="color:var(--muted); margin-top:10px; margin-bottom:40px;">Divide gastos de forma inteligente</p>
-        <button class="btn-main" onclick="login()">Ingresar con Google</button>
+        <button class="btn-main" style="margin-top:40px;" onclick="login()">Ingresar con Google</button>
     </div>
 </div>
 
 <div id="screen-main" class="screen">
     <header>
         <div class="user-box"><img id="header-img" src=""><span id="header-name" style="font-weight:800; font-family:'Syne';">...</span></div>
-        <button onclick="logout()" style="background:none; border:none; color:var(--muted); cursor:pointer; transition:var(--transition);" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--muted)'"><i class="fa-solid fa-power-off fa-lg"></i></button>
+        <button onclick="logout()" style="background:none; border:none; color:var(--muted);"><i class="fa-solid fa-power-off"></i></button>
     </header>
     <div class="container">
-        <h2 style="font-family:'Syne'; margin-bottom:25px; font-size:1.8rem;">Mis Eventos</h2>
+        <h2 style="font-family:'Syne'; margin-bottom:25px;">Mis Eventos</h2>
         <div id="event-list"></div>
     </div>
-    <button class="fab" onclick="openModalCreate()" title="Crear nuevo evento"><i class="fa-solid fa-plus"></i></button>
+    <button class="fab" onclick="openModalCreate()"><i class="fa-solid fa-plus"></i></button>
 </div>
 
 <div id="screen-detail" class="screen">
     <header>
-        <button onclick="showScreen('screen-main')" style="background:none; border:none; color:white; cursor:pointer; transition:var(--transition); padding:8px;"><i class="fa-solid fa-arrow-left fa-lg"></i></button>
-        <h3 id="det-title" style="font-family:'Syne'; flex:1; text-align:center; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; padding:0 10px; font-size:1.3rem;">...</h3>
+        <button onclick="showScreen('screen-main')" style="background:none; border:none; color:white;"><i class="fa-solid fa-arrow-left"></i></button>
+        <h3 id="det-title" style="font-family:'Syne'; flex:1; text-align:center; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; padding:0 10px;">...</h3>
         <div style="display:flex; gap:12px;">
-            <button onclick="openModal('modal-manage-participants')" style="background:none; border:none; color:var(--text); cursor:pointer; transition:var(--transition); padding:8px;"><i class="fa-solid fa-users fa-lg"></i></button>
-            <button onclick="shareEvent()" style="background:none; border:none; color:var(--accent); cursor:pointer; transition:var(--transition); padding:8px;"><i class="fa-solid fa-share-nodes fa-lg"></i></button>
+            <button onclick="openModal('modal-manage-participants')" style="background:none; border:none; color:var(--text);"><i class="fa-solid fa-users"></i></button>
+            <button onclick="shareEvent()" style="background:none; border:none; color:var(--accent);"><i class="fa-solid fa-share-nodes"></i></button>
         </div>
     </header>
     <div class="container">
@@ -507,135 +98,70 @@
         </div>
         <div id="tab-area"></div>
     </div>
-    <button class="fab" id="fab-detail" onclick="openExpenseModal()" title="Agregar gasto"><i class="fa-solid fa-receipt fa-lg"></i></button>
+    <button class="fab" id="fab-detail" onclick="openExpenseModal()"><i class="fa-solid fa-receipt"></i></button>
 </div>
 
 <div id="modal-event" class="modal-overlay" onclick="if(event.target==this)closeModal('modal-event')">
     <div class="modal">
-        <h2 id="event-modal-title" style="font-family:'Syne'; margin-bottom:20px; font-size:1.5rem;">Nuevo Evento</h2>
-        <input type="text" id="ev-name" placeholder="Nombre del evento" maxlength="50">
+        <h2 id="event-modal-title" style="font-family:'Syne'; margin-bottom:20px;">Nuevo Evento</h2>
+        <input type="text" id="ev-name" placeholder="Nombre del evento">
         <input type="date" id="ev-date" style="color-scheme: dark;">
         <div id="setup-parts-list" style="margin-bottom:15px; display:flex; flex-wrap:wrap; gap:8px;"></div>
         <div id="setup-parts-input-container">
-            <input type="text" id="ev-part-name" placeholder="Nombre amigo + Enter" maxlength="30" onkeypress="if(event.key==='Enter'){event.preventDefault();addPartToSetup()}">
+            <input type="text" id="ev-part-name" placeholder="Nombre amigo + Enter" onkeypress="if(event.key==='Enter')addPartToSetup()">
         </div>
         <button class="btn-main" id="btn-save-event" onclick="dbSaveEvent()">Guardar Evento</button>
-        <button id="btn-delete-event" onclick="dbDeleteEventDirect()" style="display:none; width:100%; margin-top:20px; background:none; border:none; color:var(--red); font-weight:bold; cursor:pointer; padding:10px; font-size:0.9rem;">ELIMINAR EVENTO</button>
+        <button id="btn-delete-event" onclick="dbDeleteEventDirect()" style="display:none; width:100%; margin-top:20px; background:none; border:none; color:var(--red); font-weight:bold;">ELIMINAR EVENTO</button>
     </div>
 </div>
 
 <div id="modal-add-expense" class="modal-overlay" onclick="if(event.target==this)closeModal('modal-add-expense')">
     <div class="modal">
-        <h2 id="expense-modal-title" style="margin-bottom:20px; font-family:'Syne'; font-size:1.5rem;">Cargar Gasto</h2>
+        <h2 id="expense-modal-title" style="margin-bottom:20px; font-family:'Syne';">Cargar Gasto</h2>
         <div class="cat-grid">
-            <div class="cat-btn" onclick="selectCat('🛒')"><span style="font-size:1.5rem;">🛒</span><span>Súper</span></div>
-            <div class="cat-btn" onclick="selectCat('🍔')"><span style="font-size:1.5rem;">🍔</span><span>Comida</span></div>
-            <div class="cat-btn" onclick="selectCat('🍺')"><span style="font-size:1.5rem;">🍺</span><span>Escabio</span></div>
-            <div class="cat-btn" onclick="selectCat('🏠')"><span style="font-size:1.5rem;">🏠</span><span>Casa</span></div>
+            <div class="cat-btn" onclick="selectCat('🛒')">🛒<br>Súper</div>
+            <div class="cat-btn" onclick="selectCat('🍔')">🍔<br>Comida</div>
+            <div class="cat-btn" onclick="selectCat('🍺')">🍺<br>Escabio</div>
+            <div class="cat-btn" onclick="selectCat('🏠')">🏠<br>Casa</div>
         </div>
-        <input type="text" id="ex-desc" placeholder="¿Qué compraron?" maxlength="60">
-        <input type="number" id="ex-amount" placeholder="Monto total ($)" step="0.01" min="0">
-        <p style="font-size:0.85rem; color:var(--muted); margin-bottom:10px; font-weight:600;">¿Quién pagó?</p>
+        <input type="text" id="ex-desc" placeholder="¿Qué compraron?">
+        <input type="number" id="ex-amount" placeholder="Monto total ($)" step="0.01">
+        <p style="font-size:0.7rem; color:var(--muted); margin-bottom:10px;">¿Quién pagó?</p>
         <select id="ex-payer"></select>
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-            <p style="font-size:0.85rem; color:var(--muted); font-weight:600;">¿Para quiénes?</p>
-            <button onclick="toggleAllChecks()" style="background:none; border:none; color:var(--accent); font-size:0.8rem; font-weight:bold; cursor:pointer; transition:var(--transition);" onmouseover="this.style.color='var(--accent-hover)'" onmouseout="this.style.color='var(--accent)'">TODOS / NINGUNO</button>
+            <p style="font-size:0.7rem; color:var(--muted);">¿Para quiénes?</p>
+            <button onclick="toggleAllChecks()" style="background:none; border:none; color:var(--accent); font-size:0.7rem; font-weight:bold;">TODOS / NINGUNO</button>
         </div>
         <div id="ex-list-checks" style="margin-bottom:30px;"></div>
         <button class="btn-main" id="btn-save-expense" onclick="dbSaveExpense()">Guardar Gasto</button>
-        <button id="btn-delete-expense" onclick="dbDeleteExpense()" style="display:none; width:100%; margin-top:20px; background:none; border:none; color:var(--red); font-weight:bold; cursor:pointer; padding:10px; font-size:0.9rem;">ELIMINAR GASTO</button>
+        <button id="btn-delete-expense" onclick="dbDeleteExpense()" style="display:none; width:100%; margin-top:20px; background:none; border:none; color:var(--red); font-weight:bold;">ELIMINAR GASTO</button>
     </div>
 </div>
 
 <div id="modal-manage-participants" class="modal-overlay" onclick="if(event.target==this)closeModal('modal-manage-participants')">
     <div class="modal">
-        <h2 style="font-family:'Syne'; margin-bottom:20px; font-size:1.5rem;">Participantes</h2>
+        <h2 style="font-family:'Syne'; margin-bottom:20px;">Participantes</h2>
         <div id="manage-parts-list" style="margin-bottom:25px; display:flex; flex-direction:column; gap:10px;"></div>
-        <input type="text" id="add-new-part-name" placeholder="Sumar alguien + Enter..." maxlength="30" onkeypress="if(event.key==='Enter'){event.preventDefault();addNewParticipantDirect()}">
+        <input type="text" id="add-new-part-name" placeholder="Sumar alguien + Enter..." onkeypress="if(event.key==='Enter')addNewParticipantDirect()">
         <button class="btn-main" style="background:var(--surface2); color:var(--muted);" onclick="closeModal('modal-manage-participants')">Cerrar</button>
     </div>
 </div>
 
 <script>
-    // Variables globales
-    let auth, db;
+    const firebaseConfig = {
+      apiKey: "AIzaSyApUtaEOhMGQFMrHIzaypRX_GLx2cace_A",
+      authDomain: "dividirgastosar.firebaseapp.com",
+      projectId: "dividirgastosar",
+      storageBucket: "dividirgastosar.firebasestorage.app",
+      messagingSenderId: "1073347556736",
+      appId: "1:1073347556736:web:d98c2c848cf73c7148bd65"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
     const fmt = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' });
     let currentEvent = null, activeTab = 'gastos', tempParticipants = [], editingExpenseId = null, editingEventId = null, selectedCat = '🛒';
-
-    // Inicializar Firebase cuando esté disponible
-    function initializeFirebase() {
-        if (typeof firebase === 'undefined') {
-            console.warn('Firebase no cargó. Reintentando en 500ms...');
-            setTimeout(initializeFirebase, 500);
-            return;
-        }
-
-        try {
-            const firebaseConfig = {
-              apiKey: "AIzaSyApUtaEOhMGQFMrHIzaypRX_GLx2cace_A",
-              authDomain: "dividirgastosar.firebaseapp.com",
-              projectId: "dividirgastosar",
-              storageBucket: "dividirgastosar.firebasestorage.app",
-              messagingSenderId: "1073347556736",
-              appId: "1:1073347556736:web:d98c2c848cf73c7148bd65"
-            };
-            
-            // Solo inicializar si no está ya inicializado
-            if (!firebase.apps || firebase.apps.length === 0) {
-                firebase.initializeApp(firebaseConfig);
-            }
-            
-            auth = firebase.auth();
-            db = firebase.firestore();
-            
-            console.log('✓ Firebase inicializado correctamente');
-            
-            // Establecer listener de autenticación
-            auth.onAuthStateChanged(user => {
-                if (user) {
-                    document.getElementById('header-name').innerText = user.displayName.split(' ')[0];
-                    document.getElementById('header-img').src = user.photoURL;
-                    showScreen('screen-main');
-                    loadEvents();
-                } else { 
-                    showScreen('screen-login'); 
-                }
-            });
-        } catch (error) {
-            console.error('Error inicializando Firebase:', error.message);
-            showToast('Error al conectar Firebase: ' + error.message, 'error');
-            // Reintentar después de 2 segundos
-            setTimeout(initializeFirebase, 2000);
-        }
-    }
-    
-    // Inicializar cuando el documento esté listo
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initializeFirebase);
-    } else {
-        // DOM ya está listo
-        setTimeout(initializeFirebase, 100);
-    }
-
-    // TOAST NOTIFICATIONS
-    function showToast(message, type = 'info', duration = 3000) {
-        const container = document.getElementById('toast-container');
-        const toast = document.createElement('div');
-        toast.className = `toast ${type}`;
-        
-        let icon = '';
-        if (type === 'success') icon = '<i class="fa-solid fa-check toast-icon"></i>';
-        else if (type === 'error') icon = '<i class="fa-solid fa-exclamation toast-icon"></i>';
-        else icon = '<i class="fa-solid fa-info toast-icon"></i>';
-        
-        toast.innerHTML = `${icon}<span>${message}</span>`;
-        container.appendChild(toast);
-        
-        setTimeout(() => {
-            toast.style.animation = 'fadeOut 0.3s ease forwards';
-            setTimeout(() => toast.remove(), 300);
-        }, duration);
-    }
 
     function showScreen(id) {
         document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -643,41 +169,37 @@
         document.getElementById('screen-loading').style.display = 'none';
     }
 
-    async function login() { 
-        try {
-            await auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
-        } catch (error) {
-            showToast('Error al iniciar sesión', 'error');
-        }
-    }
-    
-    function logout() { 
-        auth.signOut().then(() => location.reload()); 
-    }
+    auth.onAuthStateChanged(user => {
+        if (user) {
+            document.getElementById('header-name').innerText = user.displayName.split(' ')[0];
+            document.getElementById('header-img').src = user.photoURL;
+            showScreen('screen-main');
+            loadEvents();
+        } else { showScreen('screen-login'); }
+    });
+
+    async function login() { await auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()); }
+    function logout() { auth.signOut().then(() => location.reload()); }
 
     function loadEvents() {
         db.collection('events').where('participantsIds', 'array-contains', auth.currentUser.uid)
         .onSnapshot(snap => {
             const list = document.getElementById('event-list');
-            if (snap.empty) {
-                list.innerHTML = '<p style="text-align:center; padding:40px; opacity:0.5;">Sin eventos.</p>';
-            } else {
-                list.innerHTML = snap.docs.map(doc => {
-                    const d = doc.data();
-                    return `
-                    <div class="card" onclick="openEvent('${doc.id}')">
-                        <div style="display:flex; justify-content:space-between; align-items:flex-start;">
-                            <div>
-                                <h4 style="font-family:'Syne'; color:white; font-size:1.1rem;">${d.name}</h4>
-                                <p style="color:var(--muted); font-size:0.85rem; margin-top:4px;"><i class="fa-regular fa-calendar" style="margin-right:4px"></i>${d.date ? d.date.split('-').reverse().join('/') : 'Sin fecha'}</p>
-                                <p style="color:var(--muted); font-size:0.85rem; margin-top:2px;"><i class="fa-solid fa-users" style="margin-right:4px"></i>${d.participants?.length || 0} personas</p>
-                            </div>
-                            <button onclick="event.stopPropagation(); openEditEvent('${doc.id}', ${JSON.stringify(d).replace(/'/g, "&apos;")})" style="background:none; border:none; color:var(--muted); padding:5px 10px; font-size:1.2rem; cursor:pointer; transition:var(--transition);" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--muted)'"><i class="fa-solid fa-ellipsis-vertical"></i></button>
-                            </div>
+            list.innerHTML = snap.empty ? '<p style="text-align:center; padding:40px; opacity:0.5;">Sin eventos.</p>' : 
+            snap.docs.map(doc => {
+                const d = doc.data();
+                const eventDataStr = JSON.stringify(d).replace(/'/g, "&apos;");
+                return `
+                <div class="card" onclick="openEvent('${doc.id}')">
+                    <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                        <div>
+                            <h4 style="font-family:'Syne'; color:white; font-size:1.1rem;">${d.name}</h4>
+                            <p style="color:var(--muted); font-size:0.75rem; margin-top:4px;"><i class="fa-regular fa-calendar" style="margin-right:4px"></i>${d.date ? d.date.split('-').reverse().join('/') : 'Sin fecha'}</p>
                         </div>
-                    </div>`;
-                }).join('');
-            }
+                        <button onclick="event.stopPropagation(); openEditEvent('${doc.id}', ${eventDataStr})" style="background:none; border:none; color:var(--muted); padding:5px 10px; font-size:1.2rem;"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+                    </div>
+                </div>`;
+            }).join('');
         });
     }
 
@@ -707,61 +229,37 @@
     function addPartToSetup() {
         const inp = document.getElementById('ev-part-name');
         if(!inp.value.trim()) return;
-        const name = inp.value.trim();
-        if (tempParticipants.some(p => p.name.toLowerCase() === name.toLowerCase())) {
-            showToast('Este participante ya está agregado', 'info');
-            return;
-        }
-        tempParticipants.push({id: 't_' + Date.now(), name: name});
+        tempParticipants.push({id: 't_' + Date.now(), name: inp.value.trim()});
         inp.value = '';
         renderSetupParts();
     }
 
     function renderSetupParts() {
         document.getElementById('setup-parts-list').innerHTML = tempParticipants.map((p, i) => `
-            <div style="background:var(--accent-soft); color:var(--accent); padding:8px 12px; border-radius:12px; font-weight:700; font-size:0.85rem; display:flex; gap:8px; align-items:center; transition:var(--transition);">
-                ${p.name} ${i > 0 ? `<i class="fa-solid fa-xmark" style="cursor:pointer;" onclick="tempParticipants.splice(${i},1);renderSetupParts()"></i>` : ''}
+            <div style="background:var(--accent-soft); color:var(--accent); padding:8px 12px; border-radius:12px; font-weight:700; font-size:0.8rem; display:flex; gap:8px; align-items:center;">
+                ${p.name} ${i > 0 ? `<i class="fa-solid fa-xmark" onclick="tempParticipants.splice(${i},1);renderSetupParts()"></i>` : ''}
             </div>
         `).join('');
     }
 
     async function dbSaveEvent() {
         const name = document.getElementById('ev-name').value, date = document.getElementById('ev-date').value;
-        if(!name) {
-            showToast('Poné un nombre che!', 'error');
-            return;
+        if(!name) return alert("Poné un nombre che!");
+        if(editingEventId) {
+            await db.collection('events').doc(editingEventId).update({ name, date });
+        } else {
+            await db.collection('events').add({
+                name, date, participantsIds: tempParticipants.map(p => p.id), participants: tempParticipants, expenses: [],
+                logs: [{u: auth.currentUser.displayName, a: "creó el evento", d: Date.now()}]
+            });
         }
-        const btn = document.getElementById('btn-save-event');
-        btn.classList.add('loading');
-        try {
-            if(editingEventId) {
-                await db.collection('events').doc(editingEventId).update({ name, date });
-                showToast('Evento actualizado', 'success');
-            } else {
-                await db.collection('events').add({
-                    name, date, participantsIds: tempParticipants.map(p => p.id), participants: tempParticipants, expenses: [],
-                    logs: [{u: auth.currentUser.displayName, a: "creó el evento", d: Date.now()}]
-                });
-                showToast('Evento creado', 'success');
-            }
-            closeModal('modal-event');
-        } catch (error) {
-            showToast('Error al guardar', 'error');
-        } finally {
-            btn.classList.remove('loading');
-        }
+        closeModal('modal-event');
     }
 
     async function dbDeleteEventDirect() {
         if(confirm("¿Eliminar este evento para siempre?")) {
-            try {
-                await db.collection('events').doc(editingEventId).delete();
-                closeModal('modal-event');
-                showToast('Evento eliminado', 'success');
-                showScreen('screen-main');
-            } catch (error) {
-                showToast('Error al eliminar', 'error');
-            }
+            await db.collection('events').doc(editingEventId).delete();
+            closeModal('modal-event');
         }
     }
 
@@ -778,28 +276,20 @@
 
     async function removeParticipant(id) {
         if(!confirm("Si eliminás a este participante, todos los gastos donde participó se borrarán para no romper los saldos. ¿Seguro?")) return;
-        try {
-            const newParts = currentEvent.participants.filter(p => p.id !== id);
-            const newIds = currentEvent.participantsIds.filter(pid => pid !== id);
-            const newExpenses = currentEvent.expenses.filter(e => e.payerId !== id && !e.includedIds.includes(id));
-            await db.collection('events').doc(currentEvent.id).update({ 
-                participants: newParts, 
-                participantsIds: newIds,
-                expenses: newExpenses,
-                logs: firebase.firestore.FieldValue.arrayUnion({u: "Sistema", a: "eliminó a un participante y sus gastos", d: Date.now()})
-            });
-            showToast('Participante eliminado', 'success');
-        } catch (error) {
-            showToast('Error al eliminar', 'error');
-        }
+        const newParts = currentEvent.participants.filter(p => p.id !== id);
+        const newIds = currentEvent.participantsIds.filter(pid => pid !== id);
+        const newExpenses = currentEvent.expenses.filter(e => e.payerId !== id && !e.includedIds.includes(id));
+        await db.collection('events').doc(currentEvent.id).update({ 
+            participants: newParts, 
+            participantsIds: newIds,
+            expenses: newExpenses,
+            logs: firebase.firestore.FieldValue.arrayUnion({u: "Sistema", a: "eliminó a un participante y sus gastos", d: Date.now()})
+        });
     }
 
     function selectCat(cat) {
         selectedCat = cat;
-        document.querySelectorAll('.cat-btn').forEach(b => {
-            const isCat = b.innerText.includes(cat.charAt(0));
-            b.classList.toggle('active', isCat);
-        });
+        document.querySelectorAll('.cat-btn').forEach(b => b.classList.toggle('active', b.innerText.includes(cat)));
     }
 
     function toggleAllChecks() {
@@ -817,99 +307,47 @@
         selectCat(expense ? expense.cat || '🛒' : '🛒');
         document.getElementById('ex-payer').innerHTML = currentEvent.participants.map(p => `<option value="${p.id}" ${expense && expense.payerId === p.id ? 'selected' : ''}>${p.name}</option>`).join('');
         document.getElementById('ex-list-checks').innerHTML = currentEvent.participants.map(p => `
-            <div class="check-item">
-                <label style="flex:1; cursor:pointer; display:flex; align-items:center; gap:12px;">
-                    <input type="checkbox" value="${p.id}" class="ex-check" ${!expense || expense.includedIds.includes(p.id) ? 'checked' : ''}>
-                    <span>${p.name}</span>
-                </label>
-            </div>
+            <div class="check-item"><span>${p.name}</span><input type="checkbox" value="${p.id}" class="ex-check" ${!expense || expense.includedIds.includes(p.id) ? 'checked' : ''}></div>
         `).join('');
         openModal('modal-add-expense');
     }
 
     async function dbSaveExpense() {
         const desc = document.getElementById('ex-desc').value, amount = parseFloat(document.getElementById('ex-amount').value);
-        if(!desc || isNaN(amount) || amount <= 0) {
-            showToast('Monto o descripción inválida', 'error');
-            return;
-        }
+        if(!desc || isNaN(amount) || amount <= 0) return alert("Monto o descripción inválida");
         const included = Array.from(document.querySelectorAll('.ex-check:checked')).map(c => c.value);
-        if(included.length === 0) {
-            showToast('¿Quiénes participan del gasto?', 'error');
-            return;
-        }
+        if(included.length === 0) return alert("¿Quiénes participan del gasto?");
         
         const payerId = document.getElementById('ex-payer').value;
-        const btn = document.getElementById('btn-save-expense');
-        btn.classList.add('loading');
-        
-        try {
-            let newExpenses = [...currentEvent.expenses];
-            const expData = { 
-                id: editingExpenseId || Date.now(), desc, amount: Number(amount.toFixed(2)), cat: selectedCat,
-                payerId, includedIds: included, payerName: currentEvent.participants.find(p=>p.id===payerId).name, d: Date.now() 
-            };
-            if(editingExpenseId) newExpenses = newExpenses.map(e => e.id === editingExpenseId ? expData : e);
-            else newExpenses.push(expData);
-            
-            await db.collection('events').doc(currentEvent.id).update({ 
-                expenses: newExpenses,
-                logs: firebase.firestore.FieldValue.arrayUnion({u: auth.currentUser.displayName, a: editingExpenseId ? "editó un gasto" : "agregó un gasto", d: Date.now()})
-            });
-            
-            showToast(editingExpenseId ? 'Gasto actualizado' : 'Gasto agregado', 'success');
-            closeModal('modal-add-expense');
-        } catch (error) {
-            showToast('Error al guardar', 'error');
-        } finally {
-            btn.classList.remove('loading');
-        }
-    }
-
-    async function dbDeleteExpense() {
-        if(confirm("¿Eliminar este gasto?")) {
-            try {
-                const newExpenses = currentEvent.expenses.filter(e => e.id !== editingExpenseId);
-                await db.collection('events').doc(currentEvent.id).update({ 
-                    expenses: newExpenses,
-                    logs: firebase.firestore.FieldValue.arrayUnion({u: auth.currentUser.displayName, a: "eliminó un gasto", d: Date.now()})
-                });
-                showToast('Gasto eliminado', 'success');
-                closeModal('modal-add-expense');
-            } catch (error) {
-                showToast('Error al eliminar', 'error');
-            }
-        }
+        let newExpenses = [...currentEvent.expenses];
+        const expData = { 
+            id: editingExpenseId || Date.now(), desc, amount: Number(amount.toFixed(2)), cat: selectedCat,
+            payerId, includedIds: included, payerName: currentEvent.participants.find(p=>p.id===payerId).name, d: Date.now() 
+        };
+        if(editingExpenseId) newExpenses = newExpenses.map(e => e.id === editingExpenseId ? expData : e);
+        else newExpenses.push(expData);
+        closeModal('modal-add-expense');
+        await db.collection('events').doc(currentEvent.id).update({ expenses: newExpenses });
     }
 
     function renderTab() {
         const area = document.getElementById('tab-area');
         if(activeTab === 'gastos') {
             area.innerHTML = currentEvent.expenses.slice().reverse().map(e => `
-                <div class="card" onclick='openExpenseModal(${JSON.stringify(e).replace(/'/g, "&apos;")})' style="border-left:4px solid var(--accent); cursor:pointer;">
+                <div class="card" onclick='openExpenseModal(${JSON.stringify(e).replace(/'/g, "&apos;")})' style="border-left:4px solid var(--accent)">
                     <div style="display:flex; justify-content:space-between; align-items:center;">
                         <div>
-                            <span style="font-size:1.3rem; margin-right:8px;">${e.cat || '🛒'}</span>
+                            <span style="font-size:1.2rem; margin-right:8px;">${e.cat || '🛒'}</span>
                             <b style="font-size:1rem;">${e.desc}</b>
                         </div>
-                        <b style="color:var(--accent); font-size:1.1rem;">${fmt.format(e.amount)}</b>
+                        <b style="color:var(--accent)">${fmt.format(e.amount)}</b>
                     </div>
-                    <p style="opacity:0.6; font-size:0.8rem; margin-top:8px;">Pagó <b>${e.payerName}</b> • Para ${e.includedIds.length} persona${e.includedIds.length !== 1 ? 's' : ''}</p>
+                    <p style="opacity:0.6; font-size:0.75rem; margin-top:5px;">Pagó ${e.payerName} • Para ${e.includedIds.length} personas</p>
                 </div>`).join('') || '<p style="text-align:center; opacity:0.5; padding:20px;">Sin gastos aún.</p>';
         } else if(activeTab === 'saldos') {
             const bal = calculateBalances();
-            area.innerHTML = currentEvent.participants.map(p => {
-                const balance = bal[p.id];
-                let statusClass = '';
-                if (balance >= 0.01) statusClass = 'increasing';
-                else if (balance <= -0.01) statusClass = 'decreasing';
-                
-                return `
-                <div class="card" style="display:flex; justify-content:space-between; align-items:center;">
-                    <span style="font-weight:600;">${p.name}</span>
-                    <b class="balance-number ${statusClass}" style="color:${balance >= 0.01 ? 'var(--green)' : balance <= -0.01 ? 'var(--red)' : 'var(--muted)'}; font-size:1.1rem;">${fmt.format(balance)}</b>
-                </div>`
-            }).join('');
+            area.innerHTML = currentEvent.participants.map(p => `
+                <div class="card" style="display:flex; justify-content:space-between;"><span>${p.name}</span><b style="color:${bal[p.id] >= 0.01 ? 'var(--green)' : bal[p.id] <= -0.01 ? 'var(--red)' : 'var(--muted)'}">${fmt.format(bal[p.id])}</b></div>`).join('');
         } else if(activeTab === 'transfer') {
             const bal = calculateBalances();
             let deudores = [], acreedores = [];
@@ -927,9 +365,9 @@
                     }
                 });
             });
-            area.innerHTML = trans.map(t => `<div class="card" style="border-left:4px solid var(--green); background:var(--accent-soft); border-color:var(--green);">${t}</div>`).join('') || '<p style="text-align:center; padding:20px;">¡Todo saldado!</p>';
+            area.innerHTML = trans.map(t => `<div class="card" style="border-left:4px solid var(--green)">${t}</div>`).join('') || '<p style="text-align:center; padding:20px;">¡Todo saldado!</p>';
         } else {
-            area.innerHTML = currentEvent.logs.slice().reverse().map(l => `<div style="padding:14px; border-bottom:1px solid var(--border); font-size:0.85rem; opacity:0.8;"><b style="color:var(--accent);">${l.u}</b> ${l.a}</div>`).join('');
+            area.innerHTML = currentEvent.logs.slice().reverse().map(l => `<div style="padding:12px; border-bottom:1px solid var(--border); font-size:0.8rem; opacity:0.7;"><b>${l.u}</b> ${l.a}</div>`).join('');
         }
     }
 
@@ -947,9 +385,9 @@
     function renderManageParticipants() {
         const list = document.getElementById('manage-parts-list');
         list.innerHTML = currentEvent.participants.map(p => `
-            <div style="display:flex; justify-content:space-between; align-items:center; background:var(--surface2); padding:15px; border-radius:15px; border:1px solid var(--border); transition:var(--transition);">
+            <div style="display:flex; justify-content:space-between; align-items:center; background:var(--surface2); padding:15px; border-radius:15px;">
                 <span style="font-weight:600;">${p.name}</span>
-                ${p.id !== auth.currentUser.uid ? `<button onclick="removeParticipant('${p.id}')" style="background:none; border:none; color:var(--red); padding:5px; cursor:pointer; transition:var(--transition);" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'"><i class="fa-solid fa-trash-can"></i></button>` : '<small style="opacity:0.4; font-weight:600;">Tú</small>'}
+                ${p.id !== auth.currentUser.uid ? `<button onclick="removeParticipant('${p.id}')" style="background:none; border:none; color:var(--red); padding:5px;"><i class="fa-solid fa-trash-can"></i></button>` : '<small style="opacity:0.4">Tú</small>'}
             </div>
         `).join('');
     }
@@ -957,24 +395,12 @@
     async function addNewParticipantDirect() {
         const inp = document.getElementById('add-new-part-name');
         if(!inp.value.trim()) return;
-        const name = inp.value.trim();
-        if (currentEvent.participants.some(p => p.name.toLowerCase() === name.toLowerCase())) {
-            showToast('Este participante ya existe', 'info');
-            inp.value = '';
-            return;
-        }
-        const newPart = {id: 't_' + Date.now(), name: name};
-        try {
-            await db.collection('events').doc(currentEvent.id).update({
-                participants: firebase.firestore.FieldValue.arrayUnion(newPart),
-                participantsIds: firebase.firestore.FieldValue.arrayUnion(newPart.id),
-                logs: firebase.firestore.FieldValue.arrayUnion({u: auth.currentUser.displayName, a: `agregó a ${name}`, d: Date.now()})
-            });
-            inp.value = '';
-            showToast(`${name} agregado`, 'success');
-        } catch (error) {
-            showToast('Error al agregar', 'error');
-        }
+        const newPart = {id: 't_' + Date.now(), name: inp.value.trim()};
+        await db.collection('events').doc(currentEvent.id).update({
+            participants: firebase.firestore.FieldValue.arrayUnion(newPart),
+            participantsIds: firebase.firestore.FieldValue.arrayUnion(newPart.id)
+        });
+        inp.value = '';
     }
 
     function switchTab(t, btn) {
@@ -986,17 +412,11 @@
 
     function shareEvent() {
         const url = window.location.origin + window.location.pathname + "?join=" + currentEvent.id;
-        if(navigator.share) {
-            navigator.share({title: 'Sumate a ' + currentEvent.name, url}).catch(() => {});
-        } else {
-            prompt("Copiá este link:", url);
-        }
+        if(navigator.share) navigator.share({title: 'Sumate a ' + currentEvent.name, url});
+        else prompt("Copiá este link:", url);
     }
 
-    function openModal(id) { 
-        document.getElementById(id).classList.add('active'); 
-    }
-    
+    function openModal(id) { document.getElementById(id).classList.add('active'); }
     function closeModal(id) { 
         document.getElementById(id).classList.remove('active');
     }
