@@ -3,52 +3,213 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>DivideGastos Pro | vMaster 4.2</title>
+<title>DivideGastos Pro | Premium Purple</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
     :root {
-        --bg: #0d0f14; --surface: #161920; --surface2: #1e2230; --border: #2a2f40;
-        --accent: #ff0045; --accent-soft: rgba(255, 0, 69, 0.15);
-        --green: #1de9b6; --red: #ff6584; --text: #e8eaf0; --muted: #7a7f99; --radius: 20px;
+        /* Premium Purple Palette */
+        --bg: #09090b;
+        --surface: #121218;
+        --surface2: #1c1c26;
+        --border: #2d2d3d;
+        --accent: #8b5cf6; 
+        --accent-gradient: linear-gradient(135deg, #8b5cf6 0%, #d946ef 100%);
+        --accent-soft: rgba(139, 92, 246, 0.15);
+        --green: #10b981;
+        --red: #f43f5e;
+        --text: #f8fafc;
+        --muted: #94a3b8;
+        --radius: 24px;
+        --shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     }
+
     * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
+    
+    body { 
+        font-family: 'Plus Jakarta Sans', sans-serif; 
+        background: var(--bg); 
+        color: var(--text); 
+        min-height: 100vh; 
+        overflow-x: hidden;
+        background-image: radial-gradient(circle at top right, rgba(139, 92, 246, 0.08), transparent 400px);
+    }
     
     .screen { display: none; min-height: 100vh; flex-direction: column; }
-    .screen.active { display: flex; animation: fadeIn 0.3s ease; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-
-    header { padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; background: var(--surface); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; height: 75px; }
-    .user-box { display: flex; align-items: center; gap: 12px; }
-    .user-box img { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--accent); object-fit: cover; }
-
-    .container { padding: 20px; max-width: 600px; margin: 0 auto; width: 100%; }
-    .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-bottom: 15px; position: relative; cursor: pointer; }
+    .screen.active { display: flex; animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
     
-    .tabs-nav { display: flex; background: var(--surface2); padding: 5px; border-radius: 18px; margin-bottom: 20px; gap: 4px; overflow-x: auto; scrollbar-width: none; }
-    .tab-btn { flex: 1; min-width: 85px; padding: 12px 8px; border: none; background: none; color: var(--muted); font-weight: 700; cursor: pointer; border-radius: 14px; font-size: 0.65rem; text-transform: uppercase; }
-    .tab-btn.active { background: var(--accent); color: white; box-shadow: 0 4px 15px rgba(255, 0, 69, 0.3); }
+    @keyframes slideUp { 
+        from { opacity: 0; transform: translateY(20px); } 
+        to { opacity: 1; transform: translateY(0); } 
+    }
 
-    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.94); display: none; align-items: flex-end; z-index: 1000; padding: 10px; backdrop-filter: blur(5px); }
+    header { 
+        padding: 0 24px; 
+        display: flex; 
+        justify-content: space-between; 
+        align-items: center; 
+        background: rgba(18, 18, 24, 0.8);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border); 
+        position: sticky; 
+        top: 0; 
+        z-index: 100; 
+        height: 80px; 
+    }
+
+    .user-box { display: flex; align-items: center; gap: 14px; }
+    .user-box img { 
+        width: 44px; 
+        height: 44px; 
+        border-radius: 14px;
+        border: 2px solid var(--accent); 
+        object-fit: cover; 
+    }
+
+    .container { padding: 24px; max-width: 600px; margin: 0 auto; width: 100%; }
+    
+    .card { 
+        background: var(--surface); 
+        border: 1px solid var(--border); 
+        border-radius: var(--radius); 
+        padding: 20px; 
+        margin-bottom: 16px;
+        transition: all 0.3s ease;
+        box-shadow: var(--shadow);
+    }
+    .card:active { transform: scale(0.98); background: var(--surface2); }
+    
+    .tabs-nav { 
+        display: flex; 
+        background: var(--surface2); 
+        padding: 6px;
+        border-radius: 20px; 
+        margin-bottom: 24px; 
+        gap: 6px;
+        overflow-x: auto;
+        scrollbar-width: none;
+    }
+    .tab-btn { 
+        flex: 1; 
+        padding: 12px 6px; 
+        border: none; 
+        background: none; 
+        color: var(--muted); 
+        font-weight: 700; 
+        cursor: pointer; 
+        border-radius: 16px; 
+        font-size: 0.7rem; 
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        transition: all 0.3s;
+        white-space: nowrap;
+    }
+    .tab-btn.active { 
+        background: var(--accent-gradient); 
+        color: white; 
+        box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+    }
+
+    .modal-overlay { 
+        position: fixed; 
+        inset: 0; 
+        background: rgba(0,0,0,0.85); 
+        display: none; 
+        align-items: flex-end; 
+        z-index: 1000; 
+        padding: 12px;
+        backdrop-filter: blur(8px); 
+    }
     .modal-overlay.active { display: flex; }
-    .modal { background: var(--surface); width: 100%; border-radius: 30px; padding: 25px; max-height: 92vh; overflow-y: auto; border: 1px solid var(--border); }
+    .modal { 
+        background: var(--surface); 
+        width: 100%;
+        border-radius: 32px; 
+        padding: 30px; 
+        max-height: 90vh; 
+        overflow-y: auto; 
+        border: 1px solid var(--border);
+        box-shadow: 0 -10px 40px rgba(0,0,0,0.5);
+    }
     
-    input, select { width: 100%; background: var(--surface2); border: 1px solid var(--border); padding: 18px; border-radius: 16px; color: white; margin-bottom: 18px; font-size: 1rem; outline: none; }
-    .btn-main { width: 100%; padding: 20px; border-radius: 18px; border: none; font-weight: 800; cursor: pointer; background: var(--accent); color: white; font-size: 1rem; text-transform: uppercase; font-family: 'Syne'; }
-    .btn-main:disabled { opacity: 0.4; cursor: not-allowed; }
+    input, select { 
+        width: 100%; 
+        background: var(--surface2); 
+        border: 1px solid var(--border);
+        padding: 18px; 
+        border-radius: 18px; 
+        color: white; 
+        margin-bottom: 18px; 
+        font-size: 1rem; 
+        outline: none; 
+        transition: border 0.3s;
+    }
+    input:focus { border-color: var(--accent); }
 
-    .check-item { display: flex; align-items: center; justify-content: space-between; padding: 16px; background: var(--surface2); border-radius: 16px; margin-bottom: 10px; }
-    .check-item input[type="checkbox"] { width: 22px; height: 22px; accent-color: var(--accent); }
+    .btn-main { 
+        width: 100%;
+        padding: 20px; 
+        border-radius: 20px; 
+        border: none; 
+        font-weight: 800; 
+        cursor: pointer; 
+        background: var(--accent-gradient); 
+        color: white; 
+        font-size: 1.1rem; 
+        text-transform: uppercase; 
+        font-family: 'Outfit';
+        box-shadow: 0 8px 20px rgba(139, 92, 246, 0.3);
+    }
+    .btn-main:active { transform: scale(0.97); }
 
-    .cat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px; }
-    .cat-btn { padding: 12px; background: var(--surface2); border-radius: 12px; border: 1px solid var(--border); color: var(--muted); display: flex; flex-direction: column; align-items: center; font-size: 0.6rem; gap: 5px; cursor: pointer; }
-    .cat-btn.active { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+    .cat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
+    .cat-btn { 
+        padding: 14px; 
+        background: var(--surface2); 
+        border-radius: 18px; 
+        border: 1px solid var(--border); 
+        color: var(--muted); 
+        display: flex;
+        flex-direction: column; 
+        align-items: center; 
+        font-size: 0.7rem; 
+        gap: 8px; 
+        cursor: pointer;
+    }
+    .cat-btn.active { 
+        border-color: var(--accent); 
+        color: white;
+        background: var(--accent-soft); 
+    }
 
-    .fab { position: fixed; bottom: 30px; right: 25px; width: 68px; height: 68px; background: var(--accent); color: white; border-radius: 50%; border: none; font-size: 30px; box-shadow: 0 12px 30px rgba(255, 0, 69, 0.4); z-index: 90; display: flex; align-items: center; justify-content: center; }
+    .fab { 
+        position: fixed; 
+        bottom: 30px; 
+        right: 25px; 
+        width: 72px; 
+        height: 72px; 
+        background: var(--accent-gradient);
+        color: white; 
+        border-radius: 22px; 
+        border: none; 
+        font-size: 32px; 
+        box-shadow: 0 15px 35px rgba(139, 92, 246, 0.4); 
+        z-index: 90; 
+        display: flex;
+        align-items: center; 
+        justify-content: center; 
+        transform: rotate(45deg);
+    }
+    .fab i { transform: rotate(-45deg); }
 
-    #screen-loading { position: fixed; inset: 0; background: var(--bg); z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-    .loader { width: 45px; height: 45px; border: 4px solid var(--surface2); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; }
+    .loader { 
+        width: 50px; 
+        height: 50px; 
+        border: 4px solid var(--surface2);
+        border-top-color: var(--accent); 
+        border-radius: 50%; 
+        animation: spin 0.8s linear infinite; 
+    }
     @keyframes spin { to { transform: rotate(360deg); } }
 </style>
 
@@ -58,23 +219,33 @@
 </head>
 <body>
 
-<div id="screen-loading"><div class="loader"></div></div>
+<div id="screen-loading" style="position:fixed; inset:0; background:var(--bg); z-index:9999; display:flex; justify-content:center; align-items:center;">
+    <div class="loader"></div>
+</div>
 
 <div id="screen-login" class="screen">
     <div style="flex:1; display:flex; flex-direction:column; justify-content:center; align-items:center; padding:40px; text-align:center;">
-        <i class="fa-solid fa-bolt-lightning fa-5x" style="color:var(--accent); margin-bottom:20px;"></i>
-        <h1 style="font-family:'Syne'; font-size:3rem; font-weight:800; line-height:0.9;">Divide<br><span style="color:var(--accent)">PRO</span></h1>
-        <button class="btn-main" style="margin-top:40px;" onclick="login()">Ingresar con Google</button>
+        <div style="width:100px; height:100px; background:var(--accent-gradient); border-radius:30px; display:flex; align-items:center; justify-content:center; margin-bottom:30px; transform:rotate(10deg); box-shadow:0 20px 40px rgba(139,92,246,0.3);">
+            <i class="fa-solid fa-crown fa-3x" style="color:white; transform:rotate(-10deg);"></i>
+        </div>
+        <h1 style="font-family:'Outfit'; font-size:3.5rem; font-weight:800; line-height:0.9; letter-spacing:-2px;">Divide<br><span style="color:var(--accent)">PREMIUM</span></h1>
+        <p style="color:var(--muted); margin-top:15px; font-size:1.1rem;">Gestión de gastos de alto nivel.</p>
+        <button class="btn-main" style="margin-top:50px;" onclick="login()">
+            <i class="fa-brands fa-google" style="margin-right:10px;"></i> Ingresar con Google
+        </button>
     </div>
 </div>
 
 <div id="screen-main" class="screen">
     <header>
-        <div class="user-box"><img id="header-img" src=""><span id="header-name" style="font-weight:800; font-family:'Syne';">...</span></div>
-        <button onclick="logout()" style="background:none; border:none; color:var(--muted);"><i class="fa-solid fa-power-off"></i></button>
+        <div class="user-box">
+            <img id="header-img" src="">
+            <span id="header-name" style="font-weight:800; font-family:'Outfit'; font-size:1.1rem;">...</span>
+        </div>
+        <button onclick="logout()" style="background:var(--surface2); border:none; color:var(--muted); width:40px; height:40px; border-radius:12px;"><i class="fa-solid fa-power-off"></i></button>
     </header>
     <div class="container">
-        <h2 style="font-family:'Syne'; margin-bottom:25px;">Mis Eventos</h2>
+        <h2 style="font-family:'Outfit'; margin-bottom:25px; font-size:1.8rem;">Mis Eventos</h2>
         <div id="event-list"></div>
     </div>
     <button class="fab" onclick="openModalCreate()"><i class="fa-solid fa-plus"></i></button>
@@ -82,18 +253,18 @@
 
 <div id="screen-detail" class="screen">
     <header>
-        <button onclick="showScreen('screen-main')" style="background:none; border:none; color:white;"><i class="fa-solid fa-arrow-left"></i></button>
-        <h3 id="det-title" style="font-family:'Syne'; flex:1; text-align:center; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; padding:0 10px;">...</h3>
-        <div style="display:flex; gap:12px;">
-            <button onclick="openModal('modal-manage-participants')" style="background:none; border:none; color:var(--text);"><i class="fa-solid fa-users"></i></button>
-            <button onclick="shareEvent()" style="background:none; border:none; color:var(--accent);"><i class="fa-solid fa-share-nodes"></i></button>
+        <button onclick="showScreen('screen-main')" style="background:var(--surface2); border:none; color:white; width:40px; height:40px; border-radius:12px;"><i class="fa-solid fa-chevron-left"></i></button>
+        <h3 id="det-title" style="font-family:'Outfit'; flex:1; text-align:center; font-size:1.2rem; padding:0 15px; overflow:hidden; white-space:nowrap; text-overflow:ellipsis;">...</h3>
+        <div style="display:flex; gap:10px;">
+            <button onclick="openModal('modal-manage-participants')" style="background:none; border:none; color:var(--text); font-size:1.2rem;"><i class="fa-solid fa-user-plus"></i></button>
+            <button onclick="shareEvent()" style="background:none; border:none; color:var(--accent); font-size:1.2rem;"><i class="fa-solid fa-paper-plane"></i></button>
         </div>
     </header>
     <div class="container">
         <div class="tabs-nav">
             <button class="tab-btn active" onclick="switchTab('gastos', this)">Gastos</button>
             <button class="tab-btn" onclick="switchTab('saldos', this)">Saldos</button>
-            <button class="tab-btn" onclick="switchTab('transfer', this)">Pagar</button>
+            <button class="tab-btn" onclick="switchTab('transfer', this)">Cuentas</button>
             <button class="tab-btn" onclick="switchTab('historial', this)">Log</button>
         </div>
         <div id="tab-area"></div>
@@ -103,51 +274,52 @@
 
 <div id="modal-event" class="modal-overlay" onclick="if(event.target==this)closeModal('modal-event')">
     <div class="modal">
-        <h2 id="event-modal-title" style="font-family:'Syne'; margin-bottom:20px;">Nuevo Evento</h2>
+        <h2 id="event-modal-title" style="font-family:'Outfit'; margin-bottom:25px; font-size:1.8rem;">Nuevo Evento</h2>
         <input type="text" id="ev-name" placeholder="Nombre del evento">
         <input type="date" id="ev-date" style="color-scheme: dark;">
-        <div id="setup-parts-list" style="margin-bottom:15px; display:flex; flex-wrap:wrap; gap:8px;"></div>
+        <div id="setup-parts-list" style="margin-bottom:20px; display:flex; flex-wrap:wrap; gap:10px;"></div>
         <div id="setup-parts-input-container">
             <input type="text" id="ev-part-name" placeholder="Nombre amigo + Enter" onkeypress="if(event.key==='Enter')addPartToSetup()">
         </div>
-        <button class="btn-main" id="btn-save-event" onclick="dbSaveEvent()">Guardar Evento</button>
-        <button id="btn-delete-event" onclick="dbDeleteEventDirect()" style="display:none; width:100%; margin-top:20px; background:none; border:none; color:var(--red); font-weight:bold;">ELIMINAR EVENTO</button>
+        <button class="btn-main" id="btn-save-event" onclick="dbSaveEvent()">Confirmar Evento</button>
+        <button id="btn-delete-event" onclick="dbDeleteEventDirect()" style="display:none; width:100%; margin-top:25px; background:none; border:none; color:var(--red); font-weight:700; letter-spacing:1px;">ELIMINAR EVENTO</button>
     </div>
 </div>
 
 <div id="modal-add-expense" class="modal-overlay" onclick="if(event.target==this)closeModal('modal-add-expense')">
     <div class="modal">
-        <h2 id="expense-modal-title" style="margin-bottom:20px; font-family:'Syne';">Cargar Gasto</h2>
+        <h2 id="expense-modal-title" style="margin-bottom:25px; font-family:'Outfit';">Registrar Gasto</h2>
         <div class="cat-grid">
             <div class="cat-btn" onclick="selectCat('🛒')">🛒<br>Súper</div>
             <div class="cat-btn" onclick="selectCat('🍔')">🍔<br>Comida</div>
-            <div class="cat-btn" onclick="selectCat('🍺')">🍺<br>Escabio</div>
+            <div class="cat-btn" onclick="selectCat('🍺')">🍺<br>Drinks</div>
             <div class="cat-btn" onclick="selectCat('🏠')">🏠<br>Casa</div>
         </div>
-        <input type="text" id="ex-desc" placeholder="¿Qué compraron?">
+        <input type="text" id="ex-desc" placeholder="¿Qué se compró?">
         <input type="number" id="ex-amount" placeholder="Monto total ($)" step="0.01">
-        <p style="font-size:0.7rem; color:var(--muted); margin-bottom:10px;">¿Quién pagó?</p>
+        <p style="font-size:0.8rem; color:var(--muted); margin-bottom:10px; font-weight:600;">¿Quién pagó?</p>
         <select id="ex-payer"></select>
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-            <p style="font-size:0.7rem; color:var(--muted);">¿Para quiénes?</p>
-            <button onclick="toggleAllChecks()" style="background:none; border:none; color:var(--accent); font-size:0.7rem; font-weight:bold;">TODOS / NINGUNO</button>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+            <p style="font-size:0.8rem; color:var(--muted); font-weight:600;">Participantes</p>
+            <button onclick="toggleAllChecks()" style="background:none; border:none; color:var(--accent); font-size:0.75rem; font-weight:800;">MARCAR TODOS</button>
         </div>
         <div id="ex-list-checks" style="margin-bottom:30px;"></div>
         <button class="btn-main" id="btn-save-expense" onclick="dbSaveExpense()">Guardar Gasto</button>
-        <button id="btn-delete-expense" onclick="dbDeleteExpense()" style="display:none; width:100%; margin-top:20px; background:none; border:none; color:var(--red); font-weight:bold;">ELIMINAR GASTO</button>
+        <button id="btn-delete-expense" onclick="dbDeleteExpense()" style="display:none; width:100%; margin-top:25px; background:none; border:none; color:var(--red); font-weight:700;">ELIMINAR GASTO</button>
     </div>
 </div>
 
 <div id="modal-manage-participants" class="modal-overlay" onclick="if(event.target==this)closeModal('modal-manage-participants')">
     <div class="modal">
-        <h2 style="font-family:'Syne'; margin-bottom:20px;">Participantes</h2>
-        <div id="manage-parts-list" style="margin-bottom:25px; display:flex; flex-direction:column; gap:10px;"></div>
-        <input type="text" id="add-new-part-name" placeholder="Sumar alguien + Enter..." onkeypress="if(event.key==='Enter')addNewParticipantDirect()">
-        <button class="btn-main" style="background:var(--surface2); color:var(--muted);" onclick="closeModal('modal-manage-participants')">Cerrar</button>
+        <h2 style="font-family:'Outfit'; margin-bottom:25px;">Integrantes</h2>
+        <div id="manage-parts-list" style="margin-bottom:25px; display:flex; flex-direction:column; gap:12px;"></div>
+        <input type="text" id="add-new-part-name" placeholder="Nuevo integrante + Enter..." onkeypress="if(event.key==='Enter')addNewParticipantDirect()">
+        <button class="btn-main" style="background:var(--surface2); box-shadow:none; color:var(--muted);" onclick="closeModal('modal-manage-participants')">Cerrar</button>
     </div>
 </div>
 
 <script>
+    // Configuración Firebase [cite: 54]
     const firebaseConfig = {
       apiKey: "AIzaSyApUtaEOhMGQFMrHIzaypRX_GLx2cace_A",
       authDomain: "dividirgastosar.firebaseapp.com",
@@ -185,18 +357,18 @@
         db.collection('events').where('participantsIds', 'array-contains', auth.currentUser.uid)
         .onSnapshot(snap => {
             const list = document.getElementById('event-list');
-            list.innerHTML = snap.empty ? '<p style="text-align:center; padding:40px; opacity:0.5;">Sin eventos.</p>' : 
+            list.innerHTML = snap.empty ? '<p style="text-align:center; padding:40px; opacity:0.5;">Sin eventos activos.</p>' : 
             snap.docs.map(doc => {
                 const d = doc.data();
                 const eventDataStr = JSON.stringify(d).replace(/'/g, "&apos;");
                 return `
                 <div class="card" onclick="openEvent('${doc.id}')">
-                    <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
                         <div>
-                            <h4 style="font-family:'Syne'; color:white; font-size:1.1rem;">${d.name}</h4>
-                            <p style="color:var(--muted); font-size:0.75rem; margin-top:4px;"><i class="fa-regular fa-calendar" style="margin-right:4px"></i>${d.date ? d.date.split('-').reverse().join('/') : 'Sin fecha'}</p>
+                            <h4 style="font-family:'Outfit'; color:white; font-size:1.2rem;">${d.name}</h4>
+                            <p style="color:var(--muted); font-size:0.8rem; margin-top:6px;"><i class="fa-regular fa-calendar-days" style="margin-right:6px"></i>${d.date ? d.date.split('-').reverse().join('/') : 'Sin fecha'}</p>
                         </div>
-                        <button onclick="event.stopPropagation(); openEditEvent('${doc.id}', ${eventDataStr})" style="background:none; border:none; color:var(--muted); padding:5px 10px; font-size:1.2rem;"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+                        <button onclick="event.stopPropagation(); openEditEvent('${doc.id}', ${eventDataStr})" style="background:var(--surface2); border:none; color:var(--muted); width:35px; height:35px; border-radius:10px;"><i class="fa-solid fa-ellipsis"></i></button>
                     </div>
                 </div>`;
             }).join('');
@@ -236,15 +408,15 @@
 
     function renderSetupParts() {
         document.getElementById('setup-parts-list').innerHTML = tempParticipants.map((p, i) => `
-            <div style="background:var(--accent-soft); color:var(--accent); padding:8px 12px; border-radius:12px; font-weight:700; font-size:0.8rem; display:flex; gap:8px; align-items:center;">
-                ${p.name} ${i > 0 ? `<i class="fa-solid fa-xmark" onclick="tempParticipants.splice(${i},1);renderSetupParts()"></i>` : ''}
+            <div style="background:var(--accent-soft); color:var(--accent); padding:10px 15px; border-radius:14px; font-weight:700; font-size:0.85rem; display:flex; gap:10px; align-items:center; border: 1px solid rgba(139,92,246,0.3);">
+                ${p.name} ${i > 0 ? `<i class="fa-solid fa-circle-xmark" onclick="tempParticipants.splice(${i},1);renderSetupParts()"></i>` : ''}
             </div>
         `).join('');
     }
 
     async function dbSaveEvent() {
         const name = document.getElementById('ev-name').value, date = document.getElementById('ev-date').value;
-        if(!name) return alert("Poné un nombre che!");
+        if(!name) return alert("¡Dale un nombre al evento!");
         if(editingEventId) {
             await db.collection('events').doc(editingEventId).update({ name, date });
         } else {
@@ -257,7 +429,7 @@
     }
 
     async function dbDeleteEventDirect() {
-        if(confirm("¿Eliminar este evento para siempre?")) {
+        if(confirm("¿Eliminar este evento permanentemente?")) {
             await db.collection('events').doc(editingEventId).delete();
             closeModal('modal-event');
         }
@@ -275,7 +447,7 @@
     }
 
     async function removeParticipant(id) {
-        if(!confirm("Si eliminás a este participante, todos los gastos donde participó se borrarán para no romper los saldos. ¿Seguro?")) return;
+        if(!confirm("Se borrarán los gastos de este integrante para no romper saldos. ¿Seguro?")) return;
         const newParts = currentEvent.participants.filter(p => p.id !== id);
         const newIds = currentEvent.participantsIds.filter(pid => pid !== id);
         const newExpenses = currentEvent.expenses.filter(e => e.payerId !== id && !e.includedIds.includes(id));
@@ -283,7 +455,7 @@
             participants: newParts, 
             participantsIds: newIds,
             expenses: newExpenses,
-            logs: firebase.firestore.FieldValue.arrayUnion({u: "Sistema", a: "eliminó a un participante y sus gastos", d: Date.now()})
+            logs: firebase.firestore.FieldValue.arrayUnion({u: "Sistema", a: "removió un integrante", d: Date.now()})
         });
     }
 
@@ -300,21 +472,24 @@
 
     function openExpenseModal(expense = null) {
         editingExpenseId = expense ? expense.id : null;
-        document.getElementById('expense-modal-title').innerText = expense ? "Editar Gasto" : "Cargar Gasto";
+        document.getElementById('expense-modal-title').innerText = expense ? "Editar Gasto" : "Nuevo Gasto";
         document.getElementById('btn-delete-expense').style.display = expense ? "block" : "none";
         document.getElementById('ex-desc').value = expense ? expense.desc : "";
         document.getElementById('ex-amount').value = expense ? expense.amount : "";
         selectCat(expense ? expense.cat || '🛒' : '🛒');
         document.getElementById('ex-payer').innerHTML = currentEvent.participants.map(p => `<option value="${p.id}" ${expense && expense.payerId === p.id ? 'selected' : ''}>${p.name}</option>`).join('');
         document.getElementById('ex-list-checks').innerHTML = currentEvent.participants.map(p => `
-            <div class="check-item"><span>${p.name}</span><input type="checkbox" value="${p.id}" class="ex-check" ${!expense || expense.includedIds.includes(p.id) ? 'checked' : ''}></div>
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:16px; background:var(--surface2); border-radius:16px; margin-bottom:10px;">
+                <span style="font-weight:600;">${p.name}</span>
+                <input type="checkbox" value="${p.id}" class="ex-check" style="width:22px; height:22px; accent-color:var(--accent); margin:0;" ${!expense || expense.includedIds.includes(p.id) ? 'checked' : ''}>
+            </div>
         `).join('');
         openModal('modal-add-expense');
     }
 
     async function dbSaveExpense() {
         const desc = document.getElementById('ex-desc').value, amount = parseFloat(document.getElementById('ex-amount').value);
-        if(!desc || isNaN(amount) || amount <= 0) return alert("Monto o descripción inválida");
+        if(!desc || isNaN(amount) || amount <= 0) return alert("Descripción o monto inválidos");
         const included = Array.from(document.querySelectorAll('.ex-check:checked')).map(c => c.value);
         if(included.length === 0) return alert("¿Quiénes participan del gasto?");
         
@@ -330,24 +505,36 @@
         await db.collection('events').doc(currentEvent.id).update({ expenses: newExpenses });
     }
 
+    async function dbDeleteExpense() {
+        if(!confirm("¿Borrar este gasto?")) return;
+        const newExpenses = currentEvent.expenses.filter(e => e.id !== editingExpenseId);
+        closeModal('modal-add-expense');
+        await db.collection('events').doc(currentEvent.id).update({ expenses: newExpenses });
+    }
+
     function renderTab() {
         const area = document.getElementById('tab-area');
         if(activeTab === 'gastos') {
             area.innerHTML = currentEvent.expenses.slice().reverse().map(e => `
-                <div class="card" onclick='openExpenseModal(${JSON.stringify(e).replace(/'/g, "&apos;")})' style="border-left:4px solid var(--accent)">
+                <div class="card" onclick='openExpenseModal(${JSON.stringify(e).replace(/'/g, "&apos;")})' style="border-left:5px solid var(--accent)">
                     <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <div>
-                            <span style="font-size:1.2rem; margin-right:8px;">${e.cat || '🛒'}</span>
-                            <b style="font-size:1rem;">${e.desc}</b>
+                        <div style="display:flex; align-items:center; gap:12px;">
+                            <div style="font-size:1.5rem; background:var(--surface2); width:50px; height:50px; display:flex; align-items:center; justify-content:center; border-radius:15px;">${e.cat || '🛒'}</div>
+                            <div>
+                                <b style="font-size:1.1rem; display:block;">${e.desc}</b>
+                                <span style="opacity:0.6; font-size:0.75rem;">Pagó ${e.payerName}</span>
+                            </div>
                         </div>
-                        <b style="color:var(--accent)">${fmt.format(e.amount)}</b>
+                        <b style="color:var(--accent); font-size:1.1rem;">${fmt.format(e.amount)}</b>
                     </div>
-                    <p style="opacity:0.6; font-size:0.75rem; margin-top:5px;">Pagó ${e.payerName} • Para ${e.includedIds.length} personas</p>
-                </div>`).join('') || '<p style="text-align:center; opacity:0.5; padding:20px;">Sin gastos aún.</p>';
+                </div>`).join('') || '<p style="text-align:center; opacity:0.5; padding:40px;">No hay gastos.</p>';
         } else if(activeTab === 'saldos') {
             const bal = calculateBalances();
             area.innerHTML = currentEvent.participants.map(p => `
-                <div class="card" style="display:flex; justify-content:space-between;"><span>${p.name}</span><b style="color:${bal[p.id] >= 0.01 ? 'var(--green)' : bal[p.id] <= -0.01 ? 'var(--red)' : 'var(--muted)'}">${fmt.format(bal[p.id])}</b></div>`).join('');
+                <div class="card" style="display:flex; justify-content:space-between; align-items:center;">
+                    <span style="font-weight:700; font-size:1.1rem;">${p.name}</span>
+                    <b style="font-size:1.1rem; color:${bal[p.id] >= 0.01 ? 'var(--green)' : bal[p.id] <= -0.01 ? 'var(--red)' : 'var(--muted)'}">${fmt.format(bal[p.id])}</b>
+                </div>`).join('');
         } else if(activeTab === 'transfer') {
             const bal = calculateBalances();
             let deudores = [], acreedores = [];
@@ -360,14 +547,14 @@
                 acreedores.forEach(a => {
                     if(d.amt > 0.01 && a.amt > 0.01) {
                         let move = Math.min(d.amt, a.amt);
-                        trans.push(`<b>${currentEvent.participants.find(p=>p.id===d.id).name}</b> le paga <b>${fmt.format(move)}</b> a <b>${currentEvent.participants.find(p=>p.id===a.id).name}</b>`);
+                        trans.push(`<b>${currentEvent.participants.find(p=>p.id===d.id).name}</b> paga <br><span style="color:var(--green); font-size:1.2rem;">${fmt.format(move)}</span><br> a <b>${currentEvent.participants.find(p=>p.id===a.id).name}</b>`);
                         d.amt -= move; a.amt -= move;
                     }
                 });
             });
-            area.innerHTML = trans.map(t => `<div class="card" style="border-left:4px solid var(--green)">${t}</div>`).join('') || '<p style="text-align:center; padding:20px;">¡Todo saldado!</p>';
+            area.innerHTML = trans.map(t => `<div class="card" style="border-left:5px solid var(--green); line-height:1.6;">${t}</div>`).join('') || '<div class="card" style="text-align:center; color:var(--green); font-weight:800;">✨ ¡CUENTAS SALDADAS! ✨</div>';
         } else {
-            area.innerHTML = currentEvent.logs.slice().reverse().map(l => `<div style="padding:12px; border-bottom:1px solid var(--border); font-size:0.8rem; opacity:0.7;"><b>${l.u}</b> ${l.a}</div>`).join('');
+            area.innerHTML = currentEvent.logs.slice().reverse().map(l => `<div style="padding:15px; border-bottom:1px solid var(--border); font-size:0.85rem; color:var(--muted);"><b>${l.u}</b> ${l.a}</div>`).join('');
         }
     }
 
@@ -385,9 +572,9 @@
     function renderManageParticipants() {
         const list = document.getElementById('manage-parts-list');
         list.innerHTML = currentEvent.participants.map(p => `
-            <div style="display:flex; justify-content:space-between; align-items:center; background:var(--surface2); padding:15px; border-radius:15px;">
-                <span style="font-weight:600;">${p.name}</span>
-                ${p.id !== auth.currentUser.uid ? `<button onclick="removeParticipant('${p.id}')" style="background:none; border:none; color:var(--red); padding:5px;"><i class="fa-solid fa-trash-can"></i></button>` : '<small style="opacity:0.4">Tú</small>'}
+            <div style="display:flex; justify-content:space-between; align-items:center; background:var(--surface2); padding:18px; border-radius:20px; border:1px solid var(--border);">
+                <span style="font-weight:700;">${p.name}</span>
+                ${p.id !== auth.currentUser.uid ? `<button onclick="removeParticipant('${p.id}')" style="background:rgba(244,63,94,0.1); border:none; color:var(--red); width:35px; height:35px; border-radius:10px;"><i class="fa-solid fa-trash"></i></button>` : '<small style="color:var(--accent); font-weight:800; text-transform:uppercase; font-size:0.6rem; letter-spacing:1px;">Tú</small>'}
             </div>
         `).join('');
     }
@@ -412,14 +599,12 @@
 
     function shareEvent() {
         const url = window.location.origin + window.location.pathname + "?join=" + currentEvent.id;
-        if(navigator.share) navigator.share({title: 'Sumate a ' + currentEvent.name, url});
-        else prompt("Copiá este link:", url);
+        if(navigator.share) navigator.share({title: 'Invitación a ' + currentEvent.name, url});
+        else prompt("Copia este link:", url);
     }
 
     function openModal(id) { document.getElementById(id).classList.add('active'); }
-    function closeModal(id) { 
-        document.getElementById(id).classList.remove('active');
-    }
+    function closeModal(id) { document.getElementById(id).classList.remove('active'); }
 </script>
 </body>
 </html>
