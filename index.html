@@ -3,219 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>DivideGastos Pro | v5.3 Premium</title>
+    <title>DivideGastos Pro | v5.4 Premium Ultra</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 
     <style>
-        /* 2.1 Variables y Reset */
         :root {
-            --bg: #09090b;
-            --surface: #121218;
-            --surface2: #1c1c26;
-            --border: #2d2d3d;
-            --accent: #8b5cf6; 
-            --accent-gradient: linear-gradient(135deg, #8b5cf6 0%, #d946ef 100%);
-            --accent-soft: rgba(139, 92, 246, 0.15);
-            --green: #10b981;
-            --red: #f43f5e;
-            --text: #f8fafc;
-            --muted: #94a3b8;
-            --radius: 24px;
-            --shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            --bg: #09090b; --surface: #121218; --surface2: #1c1c26; --border: #2d2d3d;
+            --accent: #8b5cf6; --accent-gradient: linear-gradient(135deg, #8b5cf6 0%, #d946ef 100%);
+            --accent-soft: rgba(139, 92, 246, 0.15); --green: #10b981; --red: #f43f5e;
+            --text: #f8fafc; --muted: #94a3b8; --radius: 24px; --shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
-
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        
         body { 
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background: var(--bg); 
-            color: var(--text); 
-            min-height: 100vh; 
-            overflow-x: hidden;
+            font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); 
+            min-height: 100vh; overflow-x: hidden;
             background-image: radial-gradient(circle at top right, rgba(139, 92, 246, 0.08), transparent 400px);
         }
-        
-        /* 2.2 Sistema de Navegación y Animaciones */
         .screen { display: none; min-height: 100vh; flex-direction: column; }
         .screen.active { display: flex; animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
         @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
         header { 
-            padding: 0 24px; 
-            display: flex;
-            justify-content: space-between; 
-            align-items: center; 
-            background: rgba(18, 18, 24, 0.8);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--border); 
-            position: sticky; 
-            top: 0;
-            z-index: 100; 
-            height: 80px; 
+            padding: 0 24px; display: flex; justify-content: space-between; align-items: center; 
+            background: rgba(18, 18, 24, 0.8); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); 
+            position: sticky; top: 0; z-index: 100; height: 80px; 
         }
-
         .user-box { display: flex; align-items: center; gap: 14px; }
-        .user-box img { 
-            width: 44px; 
-            height: 44px;
-            border-radius: 14px;
-            border: 2px solid var(--accent); 
-            object-fit: cover; 
-        }
-
+        .user-box img { width: 44px; height: 44px; border-radius: 14px; border: 2px solid var(--accent); object-fit: cover; }
         .container { padding: 24px; max-width: 600px; margin: 0 auto; width: 100%; }
-        
-        /* 2.3 Componentes (Cards, Modales e Inputs) */
         .card { 
-            background: var(--surface);
-            border: 1px solid var(--border); 
-            border-radius: var(--radius); 
-            padding: 20px; 
-            margin-bottom: 16px;
-            position: relative;
-            transition: all 0.3s ease;
-            box-shadow: var(--shadow);
+            background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); 
+            padding: 20px; margin-bottom: 16px; position: relative; transition: all 0.3s ease; box-shadow: var(--shadow);
         }
-        .card:active { transform: scale(0.98); }
-        
         .dropdown-menu { 
-            position: absolute;
-            top: 60px; 
-            right: 20px; 
-            background: var(--surface2); 
-            border: 1px solid var(--border); 
-            border-radius: 18px; 
-            width: 200px; 
-            display: none; 
-            flex-direction: column; 
-            z-index: 1000;
-            overflow: hidden; 
-            box-shadow: 0 15px 35px rgba(0,0,0,0.8);
-            animation: menuFade 0.2s ease;
+            position: absolute; top: 60px; right: 20px; background: var(--surface2); border: 1px solid var(--border); 
+            border-radius: 18px; width: 200px; display: none; flex-direction: column; z-index: 1000; overflow: hidden; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.8); animation: menuFade 0.2s ease;
         }
-        @keyframes menuFade { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-        
         .dropdown-item { 
-            padding: 16px;
-            color: white; 
-            display: flex; 
-            align-items: center; 
-            gap: 12px; 
-            font-size: 0.95rem; 
-            font-weight: 600; 
-            cursor: pointer; 
-            border: none; 
-            background: none; 
-            width: 100%;
-            text-align: left;
+            padding: 16px; color: white; display: flex; align-items: center; gap: 12px; font-size: 0.95rem; 
+            font-weight: 600; cursor: pointer; border: none; background: none; width: 100%; text-align: left;
             border-bottom: 1px solid rgba(255,255,255,0.05);
         }
-        .dropdown-item:active { background: var(--accent-soft); }
         .dropdown-item.danger { color: var(--red); }
-
         .modal-overlay { 
-            position: fixed;
-            inset: 0; 
-            background: rgba(0,0,0,0.85); 
-            display: none; 
-            align-items: flex-end; 
-            z-index: 2000; 
-            padding: 12px;
-            backdrop-filter: blur(8px);
+            position: fixed; inset: 0; background: rgba(0,0,0,0.85); display: none; align-items: flex-end; 
+            z-index: 2000; padding: 12px; backdrop-filter: blur(8px);
         }
         .modal-overlay.active { display: flex; }
         .modal { 
-            background: var(--surface);
-            width: 100%;
-            border-radius: 32px; 
-            padding: 30px; 
-            max-height: 90vh; 
-            overflow-y: auto; 
-            border: 1px solid var(--border);
-            box-shadow: 0 -10px 40px rgba(0,0,0,0.5);
+            background: var(--surface); width: 100%; border-radius: 32px; padding: 30px; max-height: 90vh; 
+            overflow-y: auto; border: 1px solid var(--border); box-shadow: 0 -10px 40px rgba(0,0,0,0.5);
         }
-        
         input, select { 
-            width: 100%;
-            background: var(--surface2); 
-            border: 1px solid var(--border);
-            padding: 18px; 
-            border-radius: 18px; 
-            color: white; 
-            margin-bottom: 18px; 
-            font-size: 1rem; 
-            outline: none;
+            width: 100%; background: var(--surface2); border: 1px solid var(--border); padding: 18px; 
+            border-radius: 18px; color: white; margin-bottom: 18px; font-size: 1rem; outline: none;
         }
-
         .btn-main { 
-            width: 100%;
-            padding: 20px; 
-            border-radius: 20px;
-            border: none; 
-            font-weight: 800; 
-            cursor: pointer; 
-            background: var(--accent-gradient); 
-            color: white; 
-            font-size: 1.1rem; 
-            text-transform: uppercase; 
-            font-family: 'Outfit';
+            width: 100%; padding: 20px; border-radius: 20px; border: none; font-weight: 800; cursor: pointer; 
+            background: var(--accent-gradient); color: white; font-size: 1.1rem; text-transform: uppercase; font-family: 'Outfit';
         }
-
-        /* 2.4 Elementos Especiales (FAB, Loader, Tabs) */
-        .tabs-nav { 
-            display: flex;
-            background: var(--surface2); 
-            padding: 6px;
-            border-radius: 20px; 
-            margin-bottom: 24px; 
-            gap: 6px;
-            overflow-x: auto;
-            scrollbar-width: none;
-        }
+        .tabs-nav { display: flex; background: var(--surface2); padding: 6px; border-radius: 20px; margin-bottom: 24px; gap: 6px; }
         .tab-btn { 
-            flex: 1; 
-            padding: 12px 10px;
-            border: none; 
-            background: none; 
-            color: var(--muted); 
-            font-weight: 700; 
-            cursor: pointer; 
-            border-radius: 16px; 
-            font-size: 0.75rem; 
-            text-transform: uppercase;
-            white-space: nowrap;
+            flex: 1; padding: 12px 10px; border: none; background: none; color: var(--muted); font-weight: 700; 
+            cursor: pointer; border-radius: 16px; font-size: 0.75rem; text-transform: uppercase;
         }
         .tab-btn.active { background: var(--accent-gradient); color: white; }
-
         .fab { 
-            position: fixed; 
-            bottom: 30px; 
-            right: 25px;
-            width: 72px; 
-            height: 72px; 
-            background: var(--accent-gradient);
-            color: white; 
-            border-radius: 22px; 
-            border: none; 
-            font-size: 32px;
-            box-shadow: 0 15px 35px rgba(139, 92, 246, 0.4); 
-            z-index: 100; 
-            display: flex;
-            align-items: center; 
-            justify-content: center; 
-            transform: rotate(45deg);
+            position: fixed; bottom: 30px; right: 25px; width: 72px; height: 72px; background: var(--accent-gradient);
+            color: white; border-radius: 22px; border: none; font-size: 32px; z-index: 100; display: flex;
+            align-items: center; justify-content: center; transform: rotate(45deg); box-shadow: 0 15px 35px rgba(139, 92, 246, 0.4); 
         }
         .fab i { transform: rotate(-45deg); }
-
-        .loader { 
-            width: 50px;
-            height: 50px; 
-            border: 4px solid var(--surface2);
-            border-top-color: var(--accent); 
-            border-radius: 50%; 
-            animation: spin 0.8s linear infinite;
-        }
+        .loader { width: 50px; height: 50px; border: 4px solid var(--surface2); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 
@@ -231,11 +91,11 @@
 
     <div id="screen-login" class="screen">
         <div style="flex:1; display:flex; flex-direction:column; justify-content:center; align-items:center; padding:40px; text-align:center;">
-            <div style="width:100px; height:100px; background:var(--accent-gradient); border-radius:30px; display:flex; align-items:center; justify-content:center; margin-bottom:30px; transform:rotate(10deg); box-shadow:0 20px 40px rgba(139,92,246,0.3);">
+            <div style="width:100px; height:100px; background:var(--accent-gradient); border-radius:30px; display:flex; align-items:center; justify-content:center; margin-bottom:30px; transform:rotate(10deg);">
                 <i class="fa-solid fa-crown fa-3x" style="color:white; transform:rotate(-10deg);"></i>
             </div>
             <h1 style="font-family:'Outfit'; font-size:3.5rem; font-weight:800; line-height:0.9; letter-spacing:-2px;">Divide<br><span style="color:var(--accent)">PREMIUM</span></h1>
-            <p style="color:var(--muted); margin-top:15px;">v5.3 Ultra Stable</p>
+            <p style="color:var(--muted); margin-top:15px;">v5.4 Ultra Colaborativo</p>
             <button class="btn-main" style="margin-top:50px;" onclick="login()">
                 <i class="fa-brands fa-google" style="margin-right:10px;"></i> Ingresar con Google
             </button>
@@ -281,15 +141,13 @@
     <div id="modal-event" class="modal-overlay" onclick="if(event.target==this)closeModal('modal-event')">
         <div class="modal">
             <h2 id="event-modal-title" style="font-family:'Outfit'; margin-bottom:25px; font-size:1.8rem;">Nuevo Evento</h2>
-            <label style="font-size:0.75rem; color:var(--muted); font-weight:800; margin-left:5px;">NOMBRE DEL EVENTO</label>
             <input type="text" id="ev-name" placeholder="Ej: Asado del Viernes">
-            <label style="font-size:0.75rem; color:var(--muted); font-weight:800; margin-left:5px;">FECHA (OPCIONAL)</label>
             <input type="date" id="ev-date" style="color-scheme: dark;">
-            <label style="font-size:0.75rem; color:var(--muted); font-weight:800; margin-left:5px;">PARTICIPANTES</label>
+            <label style="font-size:0.75rem; color:var(--muted); font-weight:800;">PARTICIPANTES INICIALES</label>
             <div id="setup-parts-list" style="margin-top:10px; margin-bottom:20px; display:flex; flex-direction:column; gap:10px;"></div>
             <div class="input-group" style="display:flex; gap:10px; margin-bottom:20px;">
-                <input type="text" id="ev-part-name" placeholder="Nombre del amigo..." style="margin-bottom:0; flex:1;" onkeypress="if(event.key==='Enter')addPartToSetup()">
-                <button style="background:var(--accent-gradient); color:white; border:none; width:60px; height:58px; border-radius:18px; font-size:1.4rem;" onclick="addPartToSetup()"><i class="fa-solid fa-plus"></i></button>
+                <input type="text" id="ev-part-name" placeholder="Nombre..." style="margin-bottom:0; flex:1;" onkeypress="if(event.key==='Enter')addPartToSetup()">
+                <button style="background:var(--accent-gradient); color:white; border:none; width:60px; height:58px; border-radius:18px;" onclick="addPartToSetup()"><i class="fa-solid fa-plus"></i></button>
             </div>
             <button class="btn-main" onclick="dbSaveEvent()">Guardar Evento</button>
         </div>
@@ -333,7 +191,6 @@
     </div>
 
     <script>
-        /* 4.1 Configuración de Firebase */
         const firebaseConfig = {
             apiKey: "AIzaSyApUtaEOhMGQFMrHIzaypRX_GLx2cace_A",
             authDomain: "dividirgastosar.firebaseapp.com",
@@ -346,15 +203,12 @@
         const auth = firebase.auth();
         const db = firebase.firestore();
 
-        /* VARIABLES GLOBALES */
         const fmt = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' });
         let currentEvent = null, activeTab = 'gastos', tempParticipants = [], editingEventId = null, editingExpenseId = null;
 
-        /* 4.2 Sistema de Autenticación (LOGIN FORZADO) */
         async function login() { 
             try {
                 const provider = new firebase.auth.GoogleAuthProvider();
-                // Subcapítulo 4.2.1: Parámetro para forzar selección de cuenta
                 provider.setCustomParameters({ prompt: 'select_account' });
                 await auth.signInWithPopup(provider); 
             } catch (e) { alert("Error: " + e.message); }
@@ -362,16 +216,39 @@
 
         function logout() { auth.signOut().then(() => location.reload()); }
 
-        auth.onAuthStateChanged(user => {
+        auth.onAuthStateChanged(async user => {
             if (user) {
                 document.getElementById('header-name').innerText = user.displayName.split(' ')[0];
                 document.getElementById('header-img').src = user.photoURL;
+                
+                // Lógica de Unión vía Link
+                const urlParams = new URLSearchParams(window.location.search);
+                const joinId = urlParams.get('join');
+                if (joinId) {
+                    await autoJoinEvent(joinId, user);
+                    window.history.replaceState({}, document.title, window.location.pathname);
+                }
+
                 showScreen('screen-main');
                 loadEvents();
             } else { showScreen('screen-login'); }
         });
 
-        /* 4.3 Gestión de Eventos */
+        async function autoJoinEvent(eventId, user) {
+            const eventRef = db.collection('events').doc(eventId);
+            const doc = await eventRef.get();
+            if (doc.exists) {
+                const data = doc.data();
+                if (!data.participantsIds.includes(user.uid)) {
+                    await eventRef.update({
+                        participants: firebase.firestore.FieldValue.arrayUnion({ id: user.uid, name: user.displayName }),
+                        participantsIds: firebase.firestore.FieldValue.arrayUnion(user.uid),
+                        logs: firebase.firestore.FieldValue.arrayUnion({u: user.displayName, a: "se unió vía link", d: Date.now()})
+                    });
+                }
+            }
+        }
+
         function loadEvents() {
             db.collection('events').where('participantsIds', 'array-contains', auth.currentUser.uid)
             .onSnapshot(snap => {
@@ -424,14 +301,30 @@
             closeModal('modal-event');
         }
 
-        /* 4.4 Gestión de Gastos */
+        function confirmDeleteEvent(id, name) {
+            db.collection('events').doc(id).get().then(doc => {
+                const data = doc.data();
+                if (data.participantsIds[0] !== auth.currentUser.uid) {
+                    alert("⚠️ Solo el creador puede eliminar este evento.");
+                    return;
+                }
+                document.getElementById('confirm-msg').innerText = `¿Eliminar "${name}"? Esta acción es permanente.`;
+                document.getElementById('confirm-btn-action').onclick = async () => {
+                    await db.collection('events').doc(id).delete();
+                    closeModal('modal-confirm');
+                };
+                openModal('modal-confirm');
+            });
+        }
+
+        /* Gestión de Gastos */
         async function dbSaveExpense() {
             const desc = document.getElementById('ex-desc').value;
             const amount = parseFloat(document.getElementById('ex-amount').value);
             if(!desc || isNaN(amount)) return alert("Completa los datos");
 
             const included = Array.from(document.querySelectorAll('.ex-check:checked')).map(c => c.value);
-            if(included.length === 0) return alert("Selecciona al menos un participante");
+            if(included.length === 0) return alert("Selecciona participantes");
 
             const payerId = document.getElementById('ex-payer').value;
             const payerName = currentEvent.participants.find(p => p.id === payerId).name;
@@ -439,17 +332,13 @@
             let newExpenses = [...currentEvent.expenses];
             const data = { id: editingExpenseId || Date.now(), desc, amount, payerId, payerName, includedIds: included, d: Date.now() };
             
-            if(editingExpenseId) {
-                newExpenses = newExpenses.map(e => e.id === editingExpenseId ? data : e);
-            } else {
-                newExpenses.push(data);
-            }
+            if(editingExpenseId) newExpenses = newExpenses.map(e => e.id === editingExpenseId ? data : e);
+            else newExpenses.push(data);
 
             await db.collection('events').doc(currentEvent.id).update({ expenses: newExpenses });
             closeModal('modal-add-expense');
         }
 
-        /* 4.5 Motor de Cálculos (Saldos y Transferencias) */
         function calculateBalances() {
             let b = {};
             currentEvent.participants.forEach(p => b[p.id] = 0);
@@ -482,11 +371,10 @@
             return res;
         }
 
-        /* 4.6 Utilidades y Navegación */
+        /* UI Helpers */
         function showScreen(id) {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-            const target = document.getElementById(id);
-            if(target) target.classList.add('active');
+            document.getElementById(id).classList.add('active');
             document.getElementById('screen-loading').style.display = 'none';
         }
 
@@ -499,14 +387,7 @@
             document.querySelectorAll('.dropdown-menu').forEach(m => m.style.display = 'none');
             if(!alreadyOpen) {
                 menu.style.display = 'flex';
-                setTimeout(() => {
-                    window.onclick = function(e) {
-                        if (!e.target.closest('.dropdown-menu')) {
-                            document.querySelectorAll('.dropdown-menu').forEach(m => m.style.display = 'none');
-                            window.onclick = null;
-                        }
-                    };
-                }, 100);
+                setTimeout(() => window.onclick = (e) => { if (!e.target.closest('.dropdown-menu')) { document.querySelectorAll('.dropdown-menu').forEach(m => m.style.display = 'none'); window.onclick = null; } }, 100);
             }
         }
 
@@ -517,7 +398,6 @@
             renderTab();
         }
 
-        /* FUNCIONES DE RENDERIZADO (Simplificadas para el código final) */
         function renderTab() {
             const area = document.getElementById('tab-area');
             area.innerHTML = "";
@@ -538,6 +418,8 @@
             } else if(activeTab === 'transfer') {
                 const tr = getOptimalTransfers();
                 area.innerHTML = tr.length ? tr.map(t => `<div class="card" style="border-left:4px solid var(--green);"><p><b>${t.from}</b> debe pagar <span style="color:var(--green); font-weight:800;">${fmt.format(t.amount)}</span> a <b>${t.to}</b></p></div>`).join('') : `<div class="card" style="text-align:center; color:var(--green);">✨ ¡CUENTAS AL DÍA!</div>`;
+            } else if(activeTab === 'historial') {
+                area.innerHTML = currentEvent.logs.slice().reverse().map(l => `<div style="font-size:0.85rem; padding:10px; border-bottom:1px solid var(--border); color:var(--muted);"><b>${l.u}</b> ${l.a} <small>${new Date(l.d).toLocaleTimeString()}</small></div>`).join('');
             }
         }
 
@@ -561,8 +443,7 @@
         }
 
         function renderSetupParts() {
-            const list = document.getElementById('setup-parts-list');
-            list.innerHTML = tempParticipants.map((p, i) => `
+            document.getElementById('setup-parts-list').innerHTML = tempParticipants.map((p, i) => `
                 <div style="display:flex; justify-content:space-between; align-items:center; background:var(--surface2); padding:16px; border-radius:18px; border:1px solid var(--border);">
                     <span style="font-weight:700;">${p.name}</span>
                     ${p.id !== auth.currentUser.uid ? `<button onclick="tempParticipants.splice(${i},1);renderSetupParts()" style="background:none; border:none; color:var(--red); font-size:1.2rem;"><i class="fa-solid fa-circle-xmark"></i></button>` : `<small style="color:var(--accent)">Tú</small>`}
@@ -573,8 +454,7 @@
             const inp = document.getElementById('ev-part-name');
             if(!inp.value.trim()) return;
             tempParticipants.push({id: 't_' + Date.now(), name: inp.value.trim()});
-            inp.value = '';
-            renderSetupParts();
+            inp.value = ''; renderSetupParts();
         }
 
         function openExpenseModal(expense = null) {
@@ -582,10 +462,8 @@
             document.getElementById('expense-modal-title').innerText = expense ? "Editar Gasto" : "Nuevo Gasto";
             document.getElementById('ex-desc').value = expense ? expense.desc : "";
             document.getElementById('ex-amount').value = expense ? expense.amount : "";
-            const payerSelect = document.getElementById('ex-payer');
-            payerSelect.innerHTML = currentEvent.participants.map(p => `<option value="${p.id}" ${expense && expense.payerId === p.id ? 'selected' : ''}>${p.name}</option>`).join('');
-            const checkList = document.getElementById('ex-list-checks');
-            checkList.innerHTML = currentEvent.participants.map(p => `
+            document.getElementById('ex-payer').innerHTML = currentEvent.participants.map(p => `<option value="${p.id}" ${expense && expense.payerId === p.id ? 'selected' : ''}>${p.name}</option>`).join('');
+            document.getElementById('ex-list-checks').innerHTML = currentEvent.participants.map(p => `
                 <div style="display:flex; justify-content:space-between; align-items:center; padding:16px; background:var(--surface2); border-radius:16px; margin-bottom:8px;">
                     <span style="font-weight:600;">${p.name}</span>
                     <input type="checkbox" value="${p.id}" class="ex-check" style="width:22px; height:22px;" ${!expense || expense.includedIds.includes(p.id) ? 'checked' : ''}>
@@ -595,8 +473,31 @@
 
         function shareEvent() {
             const url = window.location.origin + window.location.pathname + "?join=" + currentEvent.id;
-            if(navigator.share) navigator.share({title: currentEvent.name, url});
+            if(navigator.share) navigator.share({title: "Unite a " + currentEvent.name, url});
             else prompt("Copia este link:", url);
+        }
+
+        function startEditEvent(id) {
+            db.collection('events').doc(id).get().then(doc => {
+                const d = doc.data();
+                editingEventId = id;
+                document.getElementById('ev-name').value = d.name;
+                document.getElementById('ev-date').value = d.date;
+                tempParticipants = d.participants;
+                renderSetupParts();
+                openModal('modal-event');
+            });
+        }
+
+        async function addNewParticipantDirect() {
+            const name = document.getElementById('add-new-part-name').value;
+            if(!name.trim()) return;
+            const newP = { id: 't_' + Date.now(), name: name.trim() };
+            await db.collection('events').doc(currentEvent.id).update({
+                participants: firebase.firestore.FieldValue.arrayUnion(newP),
+                participantsIds: firebase.firestore.FieldValue.arrayUnion(newP.id)
+            });
+            document.getElementById('add-new-part-name').value = "";
         }
     </script>
 </body>
